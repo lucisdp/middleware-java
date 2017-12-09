@@ -1,7 +1,9 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
-import linalg.Vector;
+import linalg.IMatrix;
+import linalg.IVector;
+import linalg.OjalgoMatrix;
 
 abstract class RandomWalk{
     private int chainLength, sampleSize;
@@ -31,41 +33,44 @@ abstract class RandomWalk{
         this.sampleSize = sampleSize;
     }
 
-    public double[][] sampleChain(ConvexBody convexBody, Vector initialPoint){
+    public IMatrix sampleChain(ConvexBody convexBody, IVector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
+        IVector sample = initialPoint;
 
         double[][] chain = new double[chainLength+1][(int) initialPoint.getDim()];
         chain[0] = initialPoint.toArray();
 
-        for (int i=1; i <= chainLength; i++)
-            chain[i] = step(convexBody, new Vector(chain[i-1]));
+        for (int i=1; i <= chainLength; i++) {
+            sample = step(convexBody, sample);
+            chain[i] = sample.toArray();
+        }
 
-        return chain;
+        return new OjalgoMatrix(chain);
     }
 
-    public double[][] sampleUniform(ConvexBody convexBody, Vector initialPoint){
+    public IMatrix sampleUniform(ConvexBody convexBody, IVector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
 
         double[][] sample = new double[sampleSize][(int) initialPoint.getDim()];
 
         for (int i=0; i < sampleSize; i++)
-            sample[i] = sampleSinglePoint(convexBody, initialPoint);
+            sample[i] = sampleSinglePoint(convexBody, initialPoint).toArray();
 
-        return sample;
+        return new OjalgoMatrix(sample);
     }
 
-    private double[] sampleSinglePoint(ConvexBody convexBody, Vector initialPoint){
-        double[] sample = new double[(int) initialPoint.getDim()];
+    private IVector sampleSinglePoint(ConvexBody convexBody, IVector initialPoint){
+        IVector sample = initialPoint;
 
         for (int i=0; i < chainLength; i++)
-            sample = step(convexBody, new Vector(sample));
+            sample = step(convexBody, initialPoint);
 
         return sample;
     }
 
-    abstract double[] step(ConvexBody convexBody, Vector point);
+    abstract IVector step(ConvexBody convexBody, IVector point);
 
-    private void checkInitialPoint(ConvexBody convexBody, Vector initialPoint){
+    private void checkInitialPoint(ConvexBody convexBody, IVector initialPoint){
         convexBody.checkDim(initialPoint);
 
         if (!convexBody.isInside(initialPoint))

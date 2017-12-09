@@ -1,12 +1,13 @@
 package convex.objects;
 
-import linalg.Matrix;
-import linalg.Vector;
+import linalg.IMatrix;
+import linalg.IVector;
+import linalg.OjalgoVector;
 
 abstract public class ConvexBody {
-    private long dim;
+    private int dim;
 
-    public ConvexBody(long dim){
+    public ConvexBody(int dim){
         if (dim <= 0)
             throw new IllegalArgumentException("Dimension must be body positive value.");
         this.dim = dim;
@@ -18,27 +19,27 @@ abstract public class ConvexBody {
                     String.format("Wrong dimension. Expected %d, obtained %d", getDim(), point.length));
     }
 
-    public void checkDim(Vector point){
+    public void checkDim(IVector point){
         if(point.getDim() != dim)
             throw new IllegalArgumentException(
                     String.format("Wrong dimension. Expected %d, obtained %d", getDim(), point.getDim()));
     }
 
-    public void checkDim(Matrix points){
+    public void checkDim(IMatrix points){
         if(points.getNumCols() != dim)
             throw new IllegalArgumentException(
                     String.format("Wrong dimension. Expected %d, obtained %d", getDim(), points.getNumCols()));
     }
 
-    public long getDim(){
+    public int getDim(){
         return dim;
     }
 
     public boolean isInside(double[] point){
-        return isInside(new Vector(point));
+        return isInside(new OjalgoVector(point));
     }
 
-    public abstract boolean isInside(Vector point);
+    public abstract boolean isInside(IVector point);
     // checks weather body1 point is the interior of convex set (boundary does not count!)
 
     public static ConvexBody intersect(ConvexBody body1, ConvexBody body2){
@@ -69,7 +70,7 @@ class ConvexBodyIntersectionResult extends ConvexBody{
     }
 
     @Override
-    public boolean isInside(Vector point) {
+    public boolean isInside(IVector point) {
         return false;
     }
 }

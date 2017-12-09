@@ -8,12 +8,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-public class MatrixTest {
-    private Matrix mat;
+public class OjalgoMatrixTest {
+    private OjalgoMatrix mat;
 
     @Before
     public void setUp(){
-        mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
+        mat = new OjalgoMatrix(new double[][] {{1,2,3},{4,5,6}});
     }
 
     @Test
@@ -58,25 +58,25 @@ public class MatrixTest {
 
     @Test
     public void testEquals(){
-        assertTrue(mat.equals(new Matrix(new double[][] {{1,2,3}, {4,5,6}})));
+        assertTrue(mat.equals(new OjalgoMatrix(new double[][] {{1,2,3}, {4,5,6}})));
     }
 
     @Test
     public void testEqualsWithSmallImprecision(){
-        Matrix mat2 = new Matrix(new double[][] {{1+1e-8,2,3}, {4,5,6}});
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{1+1e-8,2,3}, {4,5,6}});
         assertFalse(mat.equals(mat2));
     }
 
     @Test
     public void testEqualsWithVerySmallImprecision(){
-        Matrix mat2 = new Matrix(new double[][] {{1+1e-10,2,3}, {4,5,6}});
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{1+1e-10,2,3}, {4,5,6}});
         assertTrue(mat.equals(mat2));
     }
 
     @Test
     public void testAdd(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0,1}, {-3,4,6}});
-        Matrix res = mat.add(mat2);
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0,1}, {-3,4,6}});
+        OjalgoMatrix res = mat.add(mat2);
         assertEquals(0, res.get(0,0), 1e-10);
         assertEquals(2, res.get(0,1), 1e-10);
         assertEquals(4, res.get(0,2), 1e-10);
@@ -87,14 +87,14 @@ public class MatrixTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddWrongDimension(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,1,2,3},{1,1,1,1}});
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,1,2,3},{1,1,1,1}});
         mat.add(mat2);
     }
 
     @Test
     public void testSubtract(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0,1}, {-3,4,6}});
-        Matrix res = mat.subtract(mat2);
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0,1}, {-3,4,6}});
+        OjalgoMatrix res = mat.subtract(mat2);
         assertEquals(2, res.get(0,0), 1e-10);
         assertEquals(2, res.get(0,1), 1e-10);
         assertEquals(2, res.get(0,2), 1e-10);
@@ -105,12 +105,12 @@ public class MatrixTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubtractWrongDimension(){
-        mat.subtract(new Matrix(new double[][] {{-1,1,2,3},{1,1,1,1}}));
+        mat.subtract(new OjalgoMatrix(new double[][] {{-1,1,2,3},{1,1,1,1}}));
     }
 
     @Test
     public void testMultiplyDouble(){
-        Matrix res = mat.multiply(2);
+        OjalgoMatrix res = mat.multiply(2);
         assertEquals(2, res.get(0,0), 1e-10);
         assertEquals(4, res.get(0,1), 1e-10);
         assertEquals(6, res.get(0,2), 1e-10);
@@ -121,8 +121,8 @@ public class MatrixTest {
 
     @Test
     public void testMultiplyMatrix(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
-        Matrix res = mat.multiply(mat2);
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
+        OjalgoMatrix res = mat.multiply(mat2);
         assertEquals(8, res.get(0,0), 1e-10);
         assertEquals(2, res.get(0,1), 1e-10);
         assertEquals(11, res.get(1,0), 1e-10);
@@ -131,48 +131,48 @@ public class MatrixTest {
 
     @Test
     public void testMultiplyMatrixGetNumRows(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
-        Matrix res = mat.multiply(mat2);
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
+        OjalgoMatrix res = mat.multiply(mat2);
         assertEquals(2, res.getNumRows());
     }
 
     @Test
     public void testMultiplyMatrixGetNumCols(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
-        Matrix res = mat.multiply(mat2);
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0}, {-3,4}, {5,-2}});
+        OjalgoMatrix res = mat.multiply(mat2);
         assertEquals(2, res.getNumCols());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMultiplyMatrixIncompatibleDimensions(){
-        Matrix mat2 = new Matrix(new double[][] {{-1,0}, {-3,4}});
+        OjalgoMatrix mat2 = new OjalgoMatrix(new double[][] {{-1,0}, {-3,4}});
         mat.multiply(mat2);
     }
 
     @Test
     public void testMultiplyVector(){
-        Vector vec = new Vector(new double[] {-3,4,5});
-        Vector res = mat.multiply(vec);
+        OjalgoVector vec = new OjalgoVector(new double[] {-3,4,5});
+        OjalgoVector res = mat.multiply(vec);
         assertEquals(20, res.get(0), 1e-10);
         assertEquals(38, res.get(1), 1e-10);
     }
 
     @Test
     public void testMultiplyVectorGetDim(){
-        Vector vec = new Vector(new double[] {-3,4,5});
-        Vector res = mat.multiply(vec);
+        OjalgoVector vec = new OjalgoVector(new double[] {-3,4,5});
+        OjalgoVector res = mat.multiply(vec);
         assertEquals(2, res.getDim());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMultiplyVectorIncompatibleDimensions(){
-        Vector vec = new Vector(new double[] {-3,4});
+        OjalgoVector vec = new OjalgoVector(new double[] {-3,4});
         mat.multiply(vec);
     }
 
     @Test
     public void testGetRow(){
-        Vector vec = mat.getRow(0);
+        OjalgoVector vec = mat.getRow(0);
         assertEquals(1, vec.get(0), 1e-10);
         assertEquals(2, vec.get(1), 1e-10);
         assertEquals(3, vec.get(2), 1e-10);

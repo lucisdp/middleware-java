@@ -1,11 +1,12 @@
 package convex.objects;
 
-import linalg.Vector;
+import linalg.IVector;
+import linalg.OjalgoVector;
 
 class Box extends ConvexBody {
-    private Vector low, high;
+    private IVector low, high;
 
-    public Box(Vector low, Vector high){
+    public Box(IVector low, IVector high){
         super(low.getDim());
         this.low = low;
         this.high = high;
@@ -13,10 +14,10 @@ class Box extends ConvexBody {
     }
 
     public Box(double[] low, double[] high){
-        this(new Vector(low), new Vector(high));
+        this(new OjalgoVector(low), new OjalgoVector(high));
     }
 
-    public Box(Vector center, double length){
+    public Box(OjalgoVector center, double length){
         super(center.getDim());
 
         if (length <= 0)
@@ -27,13 +28,13 @@ class Box extends ConvexBody {
     }
 
     public Box(double[] center, double length){
-        this(new Vector(center), length);
+        this(new OjalgoVector(center), length);
     }
 
     public Box(int dim){
         super(dim);
-        low = new Vector(dim, -1);
-        high = new Vector(dim, 1);
+        low = new OjalgoVector(dim, -1);
+        high = new OjalgoVector(dim, 1);
     }
 
     private void validateAttributes(){
@@ -44,18 +45,17 @@ class Box extends ConvexBody {
             throw new IllegalArgumentException("Low must be strictly smaller than high!");
     }
 
-    public Vector getLow() {
+    public IVector getLow() {
         return low;
     }
 
-    public Vector getHigh() {
+    public IVector getHigh() {
         return high;
     }
 
     @Override
-    public boolean isInside(Vector point) {
+    public boolean isInside(IVector point) {
         checkDim(point);
-
         return low.isSmallerThan(point) && point.isSmallerThan(high);
     }
 }

@@ -1,6 +1,6 @@
 package convex.objects;
 
-import linalg.Vector;
+import linalg.OjalgoVector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,29 +8,29 @@ import static org.junit.Assert.*;
 
 
 public class EllipsoidTest {
-    Vector center, axisLengths;
+    OjalgoVector center, axisLengths;
     Ellipsoid elp;
 
     @Before
     public void setUp(){
-        center = new Vector(new double[] {1,2,3});
-        axisLengths = new Vector(new double[] {4,5,6});
+        center = new OjalgoVector(new double[] {1,2,3});
+        axisLengths = new OjalgoVector(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testWrongDimensions() throws Exception {
-        new Ellipsoid(center, new Vector(new double[] {1,2}));
+        new Ellipsoid(center, new OjalgoVector(new double[] {1,2}));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNegativeAxisLength() throws Exception {
-        new Ellipsoid(center, new Vector(new double[] {-1,2,3}));
+        new Ellipsoid(center, new OjalgoVector(new double[] {-1,2,3}));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testZeroAxisLength() throws Exception {
-        new Ellipsoid(center, new Vector(new double[] {0,2,3}));
+        new Ellipsoid(center, new OjalgoVector(new double[] {0,2,3}));
     }
 
     @Test(expected=IllegalArgumentException.class)

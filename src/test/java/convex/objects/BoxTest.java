@@ -1,6 +1,6 @@
 package convex.objects;
 
-import linalg.Vector;
+import linalg.OjalgoVector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,25 +8,25 @@ import static org.junit.Assert.*;
 
 
 public class BoxTest {
-    Vector low, high;
+    OjalgoVector low, high;
     Box box;
 
     @Before
     public void setUp(){
-        low = new Vector(new double[] {1,2,3});
-        high =  new Vector(new double[] {4,5,6});
+        low = new OjalgoVector(new double[] {1,2,3});
+        high =  new OjalgoVector(new double[] {4,5,6});
         box = new Box(low, high);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testWrongDimensions() throws Exception {
-        high = new Vector (new double[] {2,3});
+        high = new OjalgoVector(new double[] {2,3});
         new Box(low, high);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNegativeAxisLength() throws Exception {
-        high = new Vector(new double[] {0,4,5});
+        high = new OjalgoVector(new double[] {0,4,5});
         Box box = new Box(low, high);
         System.out.println(low);
         System.out.println(high);
@@ -35,13 +35,13 @@ public class BoxTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testZeroAxisLength() throws Exception {
-        high = new Vector(new double[] {2,2,5});
+        high = new OjalgoVector(new double[] {2,2,5});
         new Box(low, high);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNegativeLength() throws Exception {
-        new Box(new Vector(new double[] {1,2,3}), -1);
+        new Box(new OjalgoVector(new double[] {1,2,3}), -1);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -56,7 +56,7 @@ public class BoxTest {
 
     @Test
     public void testGetHighWithCenterConstructor() throws Exception {
-        box = new Box(new Vector(new double[] {1,2,3}), 2);
+        box = new Box(new OjalgoVector(new double[] {1,2,3}), 2);
         assertArrayEquals(new double[] {2,3,4}, box.getHigh().toArray(), 1e-10);
     }
 
@@ -91,7 +91,7 @@ public class BoxTest {
 
     @Test
     public void testGetDimWithRadiusConstructor() throws Exception {
-        box = new Box(new Vector(new double[] {1,2,3}), 4);
+        box = new Box(new OjalgoVector(new double[] {1,2,3}), 4);
         assertEquals(3, box.getDim());
     }
 
@@ -103,37 +103,37 @@ public class BoxTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIsInsideWrongDimension() throws Exception{
-        box.isInside(new Vector(new double[] {1,2}));
+        box.isInside(new OjalgoVector(new double[] {1,2}));
     }
 
     @Test
     public void testIsInsideOnInterior() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {2,3,4})));
+        assertTrue(box.isInside(new OjalgoVector(new double[] {2,3,4})));
     }
 
     @Test
     public void testIsInsideOnBoundary() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {1,3,4})));
+        assertFalse(box.isInside(new OjalgoVector(new double[] {1,3,4})));
     }
 
     @Test
     public void testIsInsideNearEdge() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {3.99999,4.99999,5.99999})));
+        assertTrue(box.isInside(new OjalgoVector(new double[] {3.99999,4.99999,5.99999})));
     }
 
     @Test
     public void testIsInsideOnExterior() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {5,6,7})));
+        assertFalse(box.isInside(new OjalgoVector(new double[] {5,6,7})));
     }
 
     @Test
     public void testIsInsideOnInteriorCloseToBoundary() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {1.0000001,3,4})));
+        assertTrue(box.isInside(new OjalgoVector(new double[] {1.0000001,3,4})));
     }
 
     @Test
     public void testIsInsideOnExteriorCloseToBoundary() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {0.99999999,3,4})));
+        assertFalse(box.isInside(new OjalgoVector(new double[] {0.99999999,3,4})));
     }
 
 

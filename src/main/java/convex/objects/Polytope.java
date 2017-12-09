@@ -1,18 +1,20 @@
 package convex.objects;
 
 
-import linalg.Matrix;
-import linalg.Vector;
+import linalg.IMatrix;
+import linalg.IVector;
+import linalg.OjalgoMatrix;
+import linalg.OjalgoVector;
 
 class Polytope extends ConvexBody {
     /*
     * A Polyhedral Cone is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
     * and a vector b, a Polyhedral Cone is defined as the set of x satisfying Ax <= b.
     * */
-    private Matrix A;
-    private Vector b;
+    private IMatrix A;
+    private IVector b;
 
-    public Polytope(Matrix A, Vector b){
+    public Polytope(IMatrix A, IVector b){
         super(A.getNumCols());
         if(A.getNumRows() != b.getDim()){
             throw new IllegalArgumentException("A and b have incompatible dimensions.");
@@ -23,14 +25,14 @@ class Polytope extends ConvexBody {
     }
 
     public Polytope(double[][] A, double[] b){
-        this(new Matrix(A), new Vector(b));
+        this(new OjalgoMatrix(A), new OjalgoVector(b));
     }
 
-    public Matrix getMatrix(){
+    public IMatrix getMatrix(){
         return A;
     }
 
-    public Vector getVector(){
+    public IVector getVector(){
         return b;
     }
 
@@ -39,8 +41,8 @@ class Polytope extends ConvexBody {
     }
 
     @Override
-    public boolean isInside(Vector point){
-        Vector prod = A.multiply(point);
+    public boolean isInside(IVector point){
+        IVector prod = A.multiply(point);
         return prod.isSmallerThan(b);
     }
 }
@@ -52,8 +54,8 @@ class PolyhedralCone extends Polytope{
     * b is zero.
     * */
 
-    public PolyhedralCone(Matrix A){
-        super(A, new Vector(A.getNumRows(), 0));
+    public PolyhedralCone(IMatrix A){
+        super(A, new OjalgoVector(A.getNumRows(), 0));
     }
-    public PolyhedralCone(double[][] A){ this(new Matrix(A)); }
+    public PolyhedralCone(double[][] A){ this(new OjalgoMatrix(A)); }
 }
