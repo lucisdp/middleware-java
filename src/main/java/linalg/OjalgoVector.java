@@ -4,7 +4,7 @@ import org.ojalgo.matrix.PrimitiveMatrix;
 import org.ojalgo.type.context.NumberContext;
 
 
-public class OjalgoVector extends SimpleVector{
+public class OjalgoVector implements IVector {
     PrimitiveMatrix ojalgoVector;
 
     public OjalgoVector(double[] values){
@@ -28,24 +28,24 @@ public class OjalgoVector extends SimpleVector{
         return ojalgoVector.get(index);
     }
 
-    public OjalgoVector add(double val){
+    public IVector add(double val){
         return new OjalgoVector(ojalgoVector.add(val));
     }
-    public OjalgoVector add(IVector vec){ return new OjalgoVector(ojalgoVector.add(checkInput(vec).ojalgoVector)); }
+    public IVector add(IVector vec){ return new OjalgoVector(ojalgoVector.add(checkInput(vec).ojalgoVector)); }
 
-    public OjalgoVector subtract(double val){
+    public IVector subtract(double val){
         return new OjalgoVector(ojalgoVector.add(-val));
     }
-    public OjalgoVector subtract(IVector vec){ return new OjalgoVector(ojalgoVector.subtract(checkInput(vec).ojalgoVector)); }
+    public IVector subtract(IVector vec){ return new OjalgoVector(ojalgoVector.subtract(checkInput(vec).ojalgoVector)); }
 
-    public OjalgoVector multiply(double val){
+    public IVector multiply(double val){
         return new OjalgoVector(ojalgoVector.multiply(val));
     }
 
-    public OjalgoVector divide(double val){
+    public IVector divide(double val){
         return new OjalgoVector(ojalgoVector.divide(val));
     }
-    public OjalgoVector divide(IVector vec){ return new OjalgoVector(ojalgoVector.divideElements(checkInput(vec).ojalgoVector)); }
+    public IVector divide(IVector vec){ return new OjalgoVector(ojalgoVector.divideElements(checkInput(vec).ojalgoVector)); }
 
     public double dot(IVector vec){ return this.ojalgoVector.dot(checkInput(vec).ojalgoVector); }
 
@@ -54,4 +54,39 @@ public class OjalgoVector extends SimpleVector{
     }
 
     public boolean equals(IVector vec){ return ojalgoVector.equals(checkInput(vec).ojalgoVector, new NumberContext(10,10)); }
+
+    public IVector copy(){
+        return new OjalgoVector(this.ojalgoVector.toRawCopy1D());
+    }
+
+    @Override
+    public IVector makeVector(double[] values) {
+        return new OjalgoVector(values);
+    }
+
+    public IVector makeVector(OjalgoVector vec) {
+        return vec.copy();
+    }
+
+    public double[] toArray(){
+        double[] res = new double[getDim()];
+        for (int i=0; i < getDim(); i++)
+            res[i] = this.get(i);
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append('{');
+        for (int i=0; i < getDim(); i++) {
+            builder.append(this.get(i));
+            builder.append(',');
+            builder.append(' ');
+        }
+        builder.deleteCharAt(builder.length()-1);
+        builder.deleteCharAt(builder.length()-1);
+        builder.append('}');
+        return builder.toString();
+    }
 }

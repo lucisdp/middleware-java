@@ -5,7 +5,7 @@ public interface IVector {
 
     default void checkDim(IVector vec){
         if (this.getDim() != vec.getDim())
-            throw new IllegalArgumentException("Wrong input dimension.");
+            throw new ArrayIndexOutOfBoundsException("Vectors have incompatible dimensions!");
     }
 
     double get(int index);
@@ -23,17 +23,91 @@ public interface IVector {
 
     double dot(IVector vec);
 
-    boolean equals(IVector val);
-    boolean isSmallerThan(double val);
-    boolean isSmallerThan(IVector vec);
-    boolean isSmallerOrEqualThan(double val);
-    boolean isSmallerOrEqualThan(IVector vec);
-    boolean isLargerThan(double val);
-    boolean isLargerThan(IVector vec);
-    boolean isLargerOrEqualThan(double val);
-    boolean isLargerOrEqualThan(IVector vec);
+    default boolean equals(IVector vec){
+        checkDim(vec);
+        for (int i=0; i < vec.getDim(); i++){
+            if (Math.abs(this.get(i) - vec.get(i)) > 1e-10)
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isSmallerThan(double val){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) >= val)
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isSmallerThan(IVector vec){
+        checkDim(vec);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) >= vec.get(i))
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isSmallerOrEqualThan(double val){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) > val)
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isSmallerOrEqualThan(IVector vec){
+        checkDim(vec);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) > vec.get(i))
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isLargerThan(double val){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) <= val)
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isLargerThan(IVector vec){
+        checkDim(vec);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) <= vec.get(i))
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isLargerOrEqualThan(double val){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) < val)
+                return false;
+        }
+        return true;
+    }
+
+    default boolean isLargerOrEqualThan(IVector vec){
+        checkDim(vec);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) < vec.get(i))
+                return false;
+        }
+        return true;
+    }
 
     double norm();
 
     double[] toArray();
+
+    IVector copy();
+
+    IVector makeVector(double[] values);
+    default IVector makeVector(IVector vec){
+        return makeVector(vec.toArray());
+    }
 }

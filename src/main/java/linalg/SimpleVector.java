@@ -1,102 +1,106 @@
 package linalg;
 
 
-abstract class SimpleVector implements IVector{
+import java.util.Arrays;
+
+class SimpleVector implements IVector {
+    double[] values;
+
+    private SimpleVector(double[] values){
+        this.values = values;
+    }
+
+    @Override
+    public int getDim() {
+        return this.values.length;
+    }
+
+    @Override
+    public double get(int index) {
+        return values[index];
+    }
+
+    @Override
+    public IVector add(double val) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) + val;
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector add(IVector vec) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) + vec.get(i);
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector subtract(double val) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) - val;
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector subtract(IVector vec) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) - vec.get(i);
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector multiply(double val) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) * val;
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector divide(double val) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) / val;
+        return makeVector(res);
+    }
+
+    @Override
+    public IVector divide(IVector vec) {
+        double[] res = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            res[i] = this.get(i) / vec.get(i);
+        return makeVector(res);
+    }
+
     public double dot(IVector vec){
-        checkDim(vec);
         double sum = 0.0;
-
-        for (int i=0; i < getDim(); i++){
+        for (int i=0; i < getDim(); i++)
             sum += this.get(i) * vec.get(i);
-        }
         return sum;
-    }
-
-    public boolean equals(IVector vec){
-        checkDim(vec);
-        for (int i=0; i < getDim(); i++){
-            if (Math.abs(this.get(i) - vec.get(i)) > 1e-10)
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isSmallerThan(double val){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) >= val)
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isSmallerThan(IVector vec){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) >= vec.get(i))
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isSmallerOrEqualThan(double val){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) > val)
-                return false;
-        }
-        return true;
-    }
-    public boolean isSmallerOrEqualThan(IVector vec){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) > vec.get(i))
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isLargerThan(double val){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) <= val)
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isLargerThan(IVector vec){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) <=vec.get(i))
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isLargerOrEqualThan(double val){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) < val)
-                return false;
-        }
-        return true;
-    }
-
-    public boolean isLargerOrEqualThan(IVector vec){
-        for (int i=0; i < getDim(); i++){
-            if (this.get(i) < vec.get(i))
-                return false;
-        }
-        return true;
     }
 
     public double norm(){
         double sum = 0.0;
-        for (int i=0; i < getDim(); i++){
+        for (int i=0; i < getDim(); i++)
             sum += this.get(i) * this.get(i);
-        }
         return Math.sqrt(sum);
     }
 
     public double[] toArray(){
-        double[] res = new double[(int) getDim()];
-        for (int i=0; i < getDim(); i++)
-            res[i] = this.get(i);
-        return res;
+        return Arrays.copyOf(values, getDim());
+    }
+
+    @Override
+    public IVector copy() {
+        return makeVector(toArray());
+    }
+
+    public IVector makeVector(double[] values) {
+        return new SimpleVector(values);
     }
 
     @Override

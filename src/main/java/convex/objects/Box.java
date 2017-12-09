@@ -17,7 +17,7 @@ class Box extends ConvexBody {
         this(new OjalgoVector(low), new OjalgoVector(high));
     }
 
-    public Box(OjalgoVector center, double length){
+    public Box(IVector center, double length){
         super(center.getDim());
 
         if (length <= 0)
