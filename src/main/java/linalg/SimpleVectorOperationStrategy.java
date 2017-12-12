@@ -1,11 +1,11 @@
-package linalg2;
+package linalg;
 
 public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
-    private double[] fromVector(Vector vector){
+    static double[] fromVector(Vector vector){
         return vector.getValues();
     }
 
-    private Vector toVector(double[] simpleVector){
+    static Vector toVector(double[] simpleVector){
         return new Vector(simpleVector);
     }
 
@@ -125,5 +125,109 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
     @Override
     public double norm(Vector vector) {
         return Math.sqrt(this.dot(vector, vector));
+    }
+
+    public boolean equals(Vector leftVector, Vector rightVector){
+        int dim = leftVector.getDim();
+        double[] simpleLeftVector = fromVector(leftVector);
+        double[] simpleRightVector = fromVector(rightVector);
+
+        for (int i=0; i < dim; i++){
+            if (Math.abs(simpleLeftVector[i] - simpleRightVector[i]) > 1e-10)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isSmallerThan(Vector vector, double val){
+        int dim = vector.getDim();
+        double[] simpleVector = fromVector(vector);
+
+        for (int i=0; i < dim; i++){
+            if (simpleVector[i] >= val)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isSmallerThan(Vector leftVector, Vector rightVector){
+         int dim = leftVector.getDim();
+         double[] simpleLeftVector = fromVector(leftVector);
+         double[] simpleRightVector = fromVector(rightVector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleLeftVector[i] >= simpleRightVector[i])
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isSmallerOrEqualThan(Vector vector, double val){
+         int dim = vector.getDim();
+         double[] simpleVector = fromVector(vector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleVector[i] > val)
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector){
+         int dim = leftVector.getDim();
+         double[] simpleLeftVector = fromVector(leftVector);
+         double[] simpleRightVector = fromVector(rightVector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleLeftVector[i] > simpleRightVector[i])
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isLargerThan(Vector vector, double val){
+         int dim = vector.getDim();
+         double[] simpleVector = fromVector(vector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleVector[i] <= val)
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isLargerThan(Vector leftVector, Vector rightVector){
+         int dim = leftVector.getDim();
+         double[] simpleLeftVector = fromVector(leftVector);
+         double[] simpleRightVector = fromVector(rightVector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleLeftVector[i] <= simpleRightVector[i])
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isLargerOrEqualThan(Vector vector, double val){
+         int dim = vector.getDim();
+         double[] simpleVector = fromVector(vector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleVector[i] < val)
+                 return false;
+         }
+         return true;
+    }
+
+    public boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector){
+         int dim = leftVector.getDim();
+         double[] simpleLeftVector = fromVector(leftVector);
+         double[] simpleRightVector = fromVector(rightVector);
+
+         for (int i=0; i < dim; i++){
+             if (simpleLeftVector[i] < simpleRightVector[i])
+                 return false;
+         }
+         return true;
     }
 }

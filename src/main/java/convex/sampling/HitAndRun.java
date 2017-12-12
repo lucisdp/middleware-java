@@ -1,16 +1,15 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
-import linalg.IVector;
-import linalg.OjalgoVector;
+import linalg.Vector;
 
 public class HitAndRun extends RandomWalk{
     public HitAndRun(int chainLength, int sampleSize){
         super(chainLength, sampleSize);
     }
 
-    OjalgoVector step(ConvexBody convexBody, IVector point){
+    Vector step(ConvexBody convexBody, Vector point){
         // TODO: add sampleRandomDirection and lineIntersection method to ConvexBody objects
-        return new OjalgoVector(convexBody.getDim(), 0);
+        return new Vector(convexBody.getDim(), 0);
     }
 }

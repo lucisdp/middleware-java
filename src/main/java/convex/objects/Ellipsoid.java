@@ -1,14 +1,13 @@
 package convex.objects;
 
-import linalg.IVector;
-import linalg.OjalgoVector;
+import linalg.Vector;
 
 
 class Ellipsoid extends ConvexBody {
-    private IVector center;
-    private IVector halfAxisLengths;
+    private Vector center;
+    private Vector halfAxisLengths;
 
-    public Ellipsoid(IVector center, IVector halfAxisLengths){
+    public Ellipsoid(Vector center, Vector halfAxisLengths){
         super(center.getDim());
         this.center = center;
         this.halfAxisLengths = halfAxisLengths;
@@ -17,42 +16,42 @@ class Ellipsoid extends ConvexBody {
     }
 
     public Ellipsoid(double[] center, double[] halfAxisLengths){
-        this(new OjalgoVector(center), new OjalgoVector(halfAxisLengths));
+        this(new Vector(center), new Vector(halfAxisLengths));
     }
 
-    public Ellipsoid(IVector center, double radius){
+    public Ellipsoid(Vector center, double radius){
         super(center.getDim());
         this.center = center;
 
         if (radius <= 0)
             throw new IllegalArgumentException("Radius parameter must be positive.");
 
-        this.halfAxisLengths = new OjalgoVector((int) this.center.getDim(), radius);
+        this.halfAxisLengths = new Vector((int) this.center.getDim(), radius);
     }
 
     public Ellipsoid(double[] center, double radius){
-        this(new OjalgoVector(center), radius);
+        this(new Vector(center), radius);
     }
 
     public Ellipsoid(int dim){
-        this(new OjalgoVector(new double[dim]), 1);
+        this(new Vector(new double[dim]), 1);
     }
 
-    public IVector getCenter() {
+    public Vector getCenter() {
         return center;
     }
 
-    public IVector getHalfAxisLengths() {
+    public Vector getHalfAxisLengths() {
         return halfAxisLengths;
     }
 
     @Override
-    public boolean isInside(IVector point) {
+    public boolean isInside(Vector point) {
         checkDim(point);
         return point.subtract(center).divide(halfAxisLengths).norm() < 1;
     }
 
-    private void checkLengthsArePositive(IVector point){
+    private void checkLengthsArePositive(Vector point){
         if (!point.isLargerThan(0))
             throw new IllegalArgumentException("Half-axis must consist of positive values.");
 

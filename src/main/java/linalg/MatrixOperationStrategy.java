@@ -1,4 +1,4 @@
-package linalg2;
+package linalg;
 
 import exceptions.LinearAlgebraClassNotFound;
 
@@ -19,6 +19,8 @@ public interface MatrixOperationStrategy {
     Matrix subtract(Matrix leftMatrix, Matrix rightMatrix);
 
     Matrix multiply(Matrix matrix, double value);
+    Vector multiply(Matrix matrix, Vector vector);
+    Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix);
     Matrix multiply(Matrix leftMatrix, Matrix rightMatrix);
 
     Matrix divide(Matrix matrix, double value);

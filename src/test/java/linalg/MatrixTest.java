@@ -1,4 +1,4 @@
-package linalg2;
+package linalg;
 
 import exceptions.IncompatibleDimensionsException;
 import exceptions.LinearAlgebraClassNotFound;
@@ -100,7 +100,13 @@ public class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testMultiplyElementOfWrongDimension(){ mat.multiplyElement(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testMultiplyByVectorOfWrongDimension(){ mat.multiply(new Vector(new double[] {-1,1,2,3})); }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(new Matrix(new double[][] {{-1,1}, {1,2}})); }
 
     @Test
     public void testMultiplyByValue(){
@@ -110,8 +116,21 @@ public class MatrixTest {
     }
 
     @Test
+    public void testMultiplyByVector(){
+        Vector res = mat.multiply(new Vector(new double[] {-1,0,1}));
+        assertArrayEquals(new double[] {2, 2}, res.getValues(), 1e-10);
+    }
+
+    @Test
     public void testMultiplyByMatrix(){
-        Matrix res = mat.multiply(mat2);
+        Matrix res = mat.multiply(new Matrix(new double[][] {{-1,1}, {1,2}, {4,5}}));
+        assertArrayEquals(new double[] {13,20}, res.getValues()[0], 1e-10);
+        assertArrayEquals(new double[] {25,44}, res.getValues()[1], 1e-10);
+    }
+
+    @Test
+    public void testMultiplyElement(){
+        Matrix res = mat.multiplyElement(mat2);
         assertArrayEquals(new double[] {-1,0,3}, res.getValues()[0], 1e-10);
         assertArrayEquals(new double[] {8,25,-48}, res.getValues()[1], 1e-10);
     }

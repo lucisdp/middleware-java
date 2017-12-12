@@ -1,6 +1,6 @@
 package convex.objects;
 
-import linalg.OjalgoVector;
+import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,29 +8,30 @@ import static org.junit.Assert.*;
 
 
 public class EllipsoidTest {
-    OjalgoVector center, axisLengths;
+    Vector center, axisLengths;
     Ellipsoid elp;
 
     @Before
     public void setUp(){
-        center = new OjalgoVector(new double[] {1,2,3});
-        axisLengths = new OjalgoVector(new double[] {4,5,6});
+        Vector.setVectorOperationStrategy("ojalgo");
+        center = new Vector(new double[] {1,2,3});
+        axisLengths = new Vector(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testWrongDimensions() throws Exception {
-        new Ellipsoid(center, new OjalgoVector(new double[] {1,2}));
+        new Ellipsoid(center, new Vector(new double[] {1,2}));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNegativeAxisLength() throws Exception {
-        new Ellipsoid(center, new OjalgoVector(new double[] {-1,2,3}));
+        new Ellipsoid(center, new Vector(new double[] {-1,2,3}));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testZeroAxisLength() throws Exception {
-        new Ellipsoid(center, new OjalgoVector(new double[] {0,2,3}));
+        new Ellipsoid(center, new Vector(new double[] {0,2,3}));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -46,36 +47,36 @@ public class EllipsoidTest {
     @Test
     public void testGetCenter() throws Exception {
         Ellipsoid elp = new Ellipsoid(center, axisLengths);
-        assertArrayEquals(center.toArray(), elp.getCenter().toArray(), 1e-10);
+        assertArrayEquals(center.getValues(), elp.getCenter().getValues(), 1e-10);
     }
 
     @Test
     public void testGetCenterWithRadiusConstructor() throws Exception {
         elp = new Ellipsoid(center, 4);
-        assertArrayEquals(center.toArray(), elp.getCenter().toArray(), 1e-10);
+        assertArrayEquals(center.getValues(), elp.getCenter().getValues(), 1e-10);
     }
 
     @Test
     public void testGetCenterWithDimConstructor() throws Exception {
         elp = new Ellipsoid(3);
-        assertArrayEquals(new double[] {0,0,0}, elp.getCenter().toArray(), 1e-10);
+        assertArrayEquals(new double[] {0,0,0}, elp.getCenter().getValues(), 1e-10);
     }
 
     @Test
     public void testGetAxisLength() throws Exception {
-        assertArrayEquals(axisLengths.toArray(), elp.getHalfAxisLengths().toArray(), 1e-10);
+        assertArrayEquals(axisLengths.getValues(), elp.getHalfAxisLengths().getValues(), 1e-10);
     }
 
     @Test
     public void testGetAxisLengthWithRadiusConstructor() throws Exception {
         elp = new Ellipsoid(center, 4);
-        assertArrayEquals(new double[] {4,4,4}, elp.getHalfAxisLengths().toArray(), 1e-10);
+        assertArrayEquals(new double[] {4,4,4}, elp.getHalfAxisLengths().getValues(), 1e-10);
     }
 
     @Test
     public void testGetAxisLengthWithDimConstructor() throws Exception {
         elp = new Ellipsoid(3);
-        assertArrayEquals(new double[] {1,1,1}, elp.getHalfAxisLengths().toArray(), 1e-10);
+        assertArrayEquals(new double[] {1,1,1}, elp.getHalfAxisLengths().getValues(), 1e-10);
     }
 
     @Test

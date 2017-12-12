@@ -1,4 +1,4 @@
-package linalg2;
+package linalg;
 
 import exceptions.LinearAlgebraClassNotFound;
 
@@ -27,4 +27,14 @@ public interface VectorOperationStrategy {
     double dot(Vector leftVector, Vector rightVector);
 
     double norm(Vector vector);
+
+    boolean equals(Vector leftVector, Vector rightVector);
+    boolean isSmallerThan(Vector vector, double val);
+    boolean isSmallerThan(Vector leftVector, Vector rightVector);
+    boolean isSmallerOrEqualThan(Vector vector, double val);
+    boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector);
+    boolean isLargerThan(Vector vector, double val);
+    boolean isLargerThan(Vector leftVector, Vector rightVector);
+    boolean isLargerOrEqualThan(Vector vector, double val);
+    boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector);
 }

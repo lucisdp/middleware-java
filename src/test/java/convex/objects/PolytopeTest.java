@@ -1,5 +1,7 @@
 package convex.objects;
 
+import linalg.Matrix;
+import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,6 +17,8 @@ public class PolytopeTest{
     @Before
     public void setUp() throws Exception
     {
+        Vector.setVectorOperationStrategy("simple");
+        Matrix.setMatrixOperationStrategy("simple");
         A = new double[][] {{1,0,0},{0,1,0},{0,0,1}};
         b = new double[] {-1,0,1};
         pol = new Polytope(A,b);
@@ -29,18 +33,18 @@ public class PolytopeTest{
 
     @Test
     public void testGetMatrix(){
-        assertTrue(Arrays.deepEquals(pol.getMatrix().toArray(), A));
+        assertTrue(Arrays.deepEquals(pol.getMatrix().getValues(), A));
     }
 
     @Test
     public void testGetVector(){
-        assertTrue(Arrays.equals(pol.getVector().toArray(), b));
+        assertTrue(Arrays.equals(pol.getVector().getValues(), b));
     }
 
     @Test
     public void testGetVectorPolyhedralCone(){
         pol = new PolyhedralCone(A);
-        assertArrayEquals(new double[] {0,0,0}, pol.getVector().toArray(), 1e-10);
+        assertArrayEquals(new double[] {0,0,0}, pol.getVector().getValues(), 1e-10);
     }
 
     @Test

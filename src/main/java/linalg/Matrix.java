@@ -1,4 +1,4 @@
-package linalg2;
+package linalg;
 
 import exceptions.FoundNegativeDimensionException;
 import exceptions.IncompatibleDimensionsException;
@@ -49,48 +49,68 @@ public class Matrix {
         Matrix.opStrategy = MatrixOperationStrategy.getStrategy(strategyName);
     }
 
-    private void checkDim(Matrix Matrix){
-        if (this.getRows() != Matrix.getRows())
-            throw new IncompatibleDimensionsException(this.getRows(), Matrix.getRows());
+    private void checkDim(Matrix matrix){
+        if (this.getRows() != matrix.getRows())
+            throw new IncompatibleDimensionsException(this.getRows(), matrix.getRows());
 
-        if (this.getCols() != Matrix.getCols())
-            throw new IncompatibleDimensionsException(this.getCols(), Matrix.getCols());
+        if (this.getCols() != matrix.getCols())
+            throw new IncompatibleDimensionsException(this.getCols(), matrix.getCols());
+    }
+
+    private void checkVectorDim(Vector vector){
+        if (this.getCols() != vector.getDim())
+            throw new IncompatibleDimensionsException(this.getRows(), vector.getDim());
+    }
+
+    private void checkMatrixMultDim(Matrix matrix){
+        if (this.getCols() != matrix.getRows())
+            throw new IncompatibleDimensionsException(this.getCols(), matrix.getRows());
     }
 
     public Matrix add(double val){
         return opStrategy.add(this, val);
     }
 
-    public Matrix add(Matrix Matrix){
-        checkDim(Matrix);
-        return opStrategy.add(this, Matrix);
+    public Matrix add(Matrix matrix){
+        checkDim(matrix);
+        return opStrategy.add(this, matrix);
     }
 
     public Matrix subtract(double val){
         return opStrategy.subtract(this, val);
     }
 
-    public Matrix subtract(Matrix Matrix){
-        checkDim(Matrix);
-        return opStrategy.subtract(this, Matrix);
+    public Matrix subtract(Matrix matrix){
+        checkDim(matrix);
+        return opStrategy.subtract(this, matrix);
     }
 
     public Matrix multiply(double val){
         return opStrategy.multiply(this, val);
     }
 
-    public Matrix multiply(Matrix Matrix){
-        checkDim(Matrix);
-        return opStrategy.multiply(this, Matrix);
+    public Vector multiply(Vector vector){
+        checkVectorDim(vector);
+        return opStrategy.multiply(this, vector);
+    }
+
+    public Matrix multiply(Matrix matrix){
+        checkMatrixMultDim(matrix);
+        return opStrategy.multiply(this, matrix);
+    }
+
+    public Matrix multiplyElement(Matrix matrix){
+        checkDim(matrix);
+        return opStrategy.multiplyElement(this, matrix);
     }
 
     public Matrix divide(double val){
         return opStrategy.divide(this, val);
     }
 
-    public Matrix divide(Matrix Matrix){
-        checkDim(Matrix);
-        return opStrategy.divide(this, Matrix);
+    public Matrix divide(Matrix matrix){
+        checkDim(matrix);
+        return opStrategy.divide(this, matrix);
     }
 
     @Override

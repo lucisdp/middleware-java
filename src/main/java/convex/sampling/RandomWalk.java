@@ -1,9 +1,8 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
-import linalg.IMatrix;
-import linalg.IVector;
-import linalg.OjalgoMatrix;
+import linalg.Matrix;
+import linalg.Vector;
 
 abstract class RandomWalk{
     private int chainLength, sampleSize;
@@ -33,34 +32,34 @@ abstract class RandomWalk{
         this.sampleSize = sampleSize;
     }
 
-    public IMatrix sampleChain(ConvexBody convexBody, IVector initialPoint){
+    public Matrix sampleChain(ConvexBody convexBody, Vector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
-        IVector sample = initialPoint;
+        Vector sample = initialPoint;
 
         double[][] chain = new double[chainLength+1][(int) initialPoint.getDim()];
-        chain[0] = initialPoint.toArray();
+        chain[0] = initialPoint.getValues();
 
         for (int i=1; i <= chainLength; i++) {
             sample = step(convexBody, sample);
-            chain[i] = sample.toArray();
+            chain[i] = sample.getValues();
         }
 
-        return new OjalgoMatrix(chain);
+        return new Matrix(chain);
     }
 
-    public IMatrix sampleUniform(ConvexBody convexBody, IVector initialPoint){
+    public Matrix sampleUniform(ConvexBody convexBody, Vector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
 
         double[][] sample = new double[sampleSize][(int) initialPoint.getDim()];
 
         for (int i=0; i < sampleSize; i++)
-            sample[i] = sampleSinglePoint(convexBody, initialPoint).toArray();
+            sample[i] = sampleSinglePoint(convexBody, initialPoint).getValues();
 
-        return new OjalgoMatrix(sample);
+        return new Matrix(sample);
     }
 
-    private IVector sampleSinglePoint(ConvexBody convexBody, IVector initialPoint){
-        IVector sample = initialPoint;
+    private Vector sampleSinglePoint(ConvexBody convexBody, Vector initialPoint){
+        Vector sample = initialPoint;
 
         for (int i=0; i < chainLength; i++)
             sample = step(convexBody, initialPoint);
@@ -68,9 +67,9 @@ abstract class RandomWalk{
         return sample;
     }
 
-    abstract IVector step(ConvexBody convexBody, IVector point);
+    abstract Vector step(ConvexBody convexBody, Vector point);
 
-    private void checkInitialPoint(ConvexBody convexBody, IVector initialPoint){
+    private void checkInitialPoint(ConvexBody convexBody, Vector initialPoint){
         convexBody.checkDim(initialPoint);
 
         if (!convexBody.isInside(initialPoint))

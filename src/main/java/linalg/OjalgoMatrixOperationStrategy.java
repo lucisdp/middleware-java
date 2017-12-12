@@ -1,4 +1,4 @@
-package linalg2;
+package linalg;
 
 import org.ojalgo.matrix.PrimitiveMatrix;
 
@@ -52,7 +52,21 @@ public class OjalgoMatrixOperationStrategy implements MatrixOperationStrategy {
     }
 
     @Override
+    public Vector multiply(Matrix matrix, Vector vector){
+        PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
+        PrimitiveMatrix ojalgoVector = OjalgoVectorOperationStrategy.fromVector(vector);
+        return OjalgoVectorOperationStrategy.toVector(ojalgoMatrix.multiply(ojalgoVector));
+    }
+
+    @Override
     public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix){
+        PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
+        PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
+        return toMatrix(leftOjalgoMatrix.multiply(rightOjalgoMatrix));
+    }
+
+    @Override
+    public Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix){
         PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.multiplyElements(rightOjalgoMatrix));
