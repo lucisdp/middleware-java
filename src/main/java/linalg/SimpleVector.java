@@ -3,6 +3,7 @@ package linalg;
 
 import java.util.Arrays;
 
+
 class SimpleVector implements IVector {
     double[] values;
 

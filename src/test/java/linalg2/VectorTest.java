@@ -1,0 +1,128 @@
+package linalg2;
+
+import exceptions.IncompatibleDimensionsException;
+import exceptions.LinearAlgebraClassNotFound;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+public class VectorTest {
+    Vector vec, vec2;
+
+    @Before
+    public void setUp(){
+        Vector.setVectorOperationStrategy("simple");
+        vec = new Vector(new double[] {1,2,3});
+        vec2 = new Vector(new double[] {-1,0,1});
+    }
+
+    @Test(expected = LinearAlgebraClassNotFound.class)
+    public void testSetUnknownStrategy(){
+        Vector.setVectorOperationStrategy("unknown");
+    }
+
+    @Test
+    public void testSetSimpleStrategy() throws ClassNotFoundException{
+        Vector.setVectorOperationStrategy("simple");
+    }
+
+    @Test
+    public void testSetOjalgoStrategy() throws ClassNotFoundException{
+        Vector.setVectorOperationStrategy("ojalgo");
+    }
+
+    @Test
+    public void testGetDim(){
+        assertEquals(3, vec.getDim());
+    }
+
+    @Test
+    public void testGetValues(){
+        assertArrayEquals(new double[] {1,2,3}, vec.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testFillConstructor(){
+        assertArrayEquals(new double[] {1,1,1}, (new Vector(3, 1)).getValues(), 1e-10);
+    }
+
+    @Test
+    public void testDimConstructor(){
+        assertArrayEquals(new double[] {0,0,0}, (new Vector(3)).getValues(), 1e-10);
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testAddVectorOfWrongDimension(){
+        vec.add(new Vector(new double[] {-1,1,2,3}));
+    }
+
+    @Test
+    public void testAddValue(){
+        Vector res = vec.add(5);
+        assertArrayEquals(new double[] {6,7,8}, res.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testAddVector(){
+        Vector res = vec2.add(vec);
+        assertArrayEquals(new double[] {0,2,4}, res.getValues(), 1e-10);
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testSubtractVectorOfWrongDimension(){ vec.subtract(new Vector(new double[] {-1,1,2,3})); }
+
+    @Test
+    public void testSubtractValue(){
+        Vector res = vec.subtract(5);
+        assertArrayEquals(new double[] {-4,-3,-2}, res.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testSubtractVector(){
+        Vector res = vec.subtract(vec2);
+        assertArrayEquals(new double[] {2,2,2}, res.getValues(), 1e-10);
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(new Vector(new double[] {1,2,3,4})); }
+
+    @Test
+    public void testMultiplyByValue(){
+        Vector res = vec.multiply(2);
+        assertArrayEquals(new double[] {2,4,6}, res.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testMultiplyByVector(){
+        Vector res = vec.multiply(vec2);
+        assertArrayEquals(new double[] {-1,0,3}, res.getValues(), 1e-10);
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testDivideByVectorOfWrongDimension(){ vec.divide(new Vector(new double[] {1,2,3,4})); }
+
+
+    @Test
+    public void testDivideByValue(){
+        Vector res = vec.divide(2);
+        assertArrayEquals(new double[] {0.5,1.0,1.5}, res.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testDivideByVector(){
+        vec2 = new Vector(new double[] {-1,2,4});
+        Vector res = vec.divide(vec2);
+        assertArrayEquals(new double[] {-1,1,0.75}, res.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testNorm(){ assertEquals( Math.sqrt(1+4+9), vec.norm(), 1e-10); }
+
+    @Test
+    public void testDot(){ assertEquals(2, vec.dot(vec2), 1e-10); }
+
+    @Test
+    public void testToString(){ assertEquals("{1.0, 2.0, 3.0}", vec.toString());}
+}
