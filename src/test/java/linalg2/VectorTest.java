@@ -13,7 +13,7 @@ public class VectorTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("simple");
+        Vector.setVectorOperationStrategy("ojalgo");
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
     }

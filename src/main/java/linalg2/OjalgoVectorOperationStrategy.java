@@ -2,14 +2,14 @@ package linalg2;
 
 import org.ojalgo.matrix.PrimitiveMatrix;
 
-public class OjalgoOperationStrategy implements VectorOperationStrategy {
+public class OjalgoVectorOperationStrategy implements VectorOperationStrategy {
 
     private PrimitiveMatrix fromVector(Vector vector){
         return PrimitiveMatrix.FACTORY.columns(vector.getValues());
     }
 
     private Vector toVector(PrimitiveMatrix ojalgoVector){
-        int dim = (int) ojalgoVector.countColumns();
+        int dim = (int) ojalgoVector.countRows();
 
         double[] res = new double[dim];
         for (int i=0; i < dim; i++)

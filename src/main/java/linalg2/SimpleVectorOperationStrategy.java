@@ -1,6 +1,6 @@
 package linalg2;
 
-public class SimpleOperationStrategy implements VectorOperationStrategy {
+public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
     private double[] fromVector(Vector vector){
         return vector.getValues();
     }

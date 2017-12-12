@@ -5,9 +5,9 @@ import exceptions.LinearAlgebraClassNotFound;
 public interface VectorOperationStrategy {
     static VectorOperationStrategy getStrategy(String strategyName){
         if (strategyName.equalsIgnoreCase("simple"))
-            return new SimpleOperationStrategy();
+            return new SimpleVectorOperationStrategy();
         else if (strategyName.equalsIgnoreCase("ojalgo"))
-            return new OjalgoOperationStrategy();
+            return new OjalgoVectorOperationStrategy();
         else
             throw new LinearAlgebraClassNotFound(strategyName);
     }
