@@ -6,8 +6,7 @@ import utils.Sampler;
 
 
 public class Line {
-    private Vector center;
-    private Vector direction;
+    private Vector center, direction;
 
     public Line(Vector center, Vector direction) {
         if (center.getDim() != direction.getDim())

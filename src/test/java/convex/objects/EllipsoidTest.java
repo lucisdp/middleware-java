@@ -1,5 +1,6 @@
 package convex.objects;
 
+import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ public class EllipsoidTest {
         elp = new Ellipsoid(center, axisLengths);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected= IncompatibleDimensionsException.class)
     public void testWrongDimensions() throws Exception {
         new Ellipsoid(center, new Vector(new double[] {1,2}));
     }
@@ -99,7 +100,7 @@ public class EllipsoidTest {
         assertEquals(3, elp.getDim());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IncompatibleDimensionsException.class)
     public void testIsInsideWrongDimension() throws Exception{
         elp.isInside(new double[] {0,0});
     }

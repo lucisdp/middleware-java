@@ -1,6 +1,7 @@
 package convex.objects;
 
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class BoxTest {
         box = new Box(low, high);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IncompatibleDimensionsException.class)
     public void testWrongDimensions() throws Exception {
         high = new Vector(new double[] {2,3});
         new Box(low, high);
@@ -46,7 +47,7 @@ public class BoxTest {
         new Box(new Vector(new double[] {1,2,3}), -1);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected= NegativeDimensionException.class)
     public void testNegativeDim() throws Exception {
         new Box(-1);
     }

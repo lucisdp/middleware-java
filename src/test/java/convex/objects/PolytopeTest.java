@@ -88,4 +88,9 @@ public class PolytopeTest{
         double[] point = {-1 + 1e-6, 0 + 1e-6, 1 + 1e-6};
         assertFalse(pol.isInside(point));
     }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testIsInsideWrongDimension(){
+        pol.isInside(new double[] {1,2});
+    }
 }
