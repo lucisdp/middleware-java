@@ -9,7 +9,9 @@ public class HitAndRun extends RandomWalk{
     }
 
     Vector step(ConvexBody convexBody, Vector point){
-        // TODO: add sampleRandomDirection and lineIntersection method to ConvexBody objects
+        Line randomLine = Line.sample(point);
+        // LineSegment segment = intersection(randomLine, convexBody)
+        // return segment.sample();
         return new Vector(convexBody.getDim(), 0);
     }
 }

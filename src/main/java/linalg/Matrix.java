@@ -1,6 +1,6 @@
 package linalg;
 
-import exceptions.FoundNegativeDimensionException;
+import exceptions.NegativeDimensionException;
 import exceptions.IncompatibleDimensionsException;
 
 import java.util.Arrays;
@@ -19,10 +19,10 @@ public class Matrix {
 
     public Matrix(int rows, int cols, double fill){
         if (rows <= 0)
-            throw new FoundNegativeDimensionException(rows);
+            throw new NegativeDimensionException(rows);
 
         if (cols <= 0)
-            throw new FoundNegativeDimensionException(cols);
+            throw new NegativeDimensionException(cols);
         
         this.values = new double[rows][cols];
         for (int i=0; i< rows; i++)

@@ -1,6 +1,6 @@
 package linalg;
 
-import exceptions.FoundNegativeDimensionException;
+import exceptions.NegativeDimensionException;
 import exceptions.IncompatibleDimensionsException;
 
 import java.util.Arrays;
@@ -17,7 +17,7 @@ public class Vector {
 
     public Vector(int dim, double fill){
         if (dim <= 0)
-            throw new FoundNegativeDimensionException(dim);
+            throw new NegativeDimensionException(dim);
 
         this.dim = dim;
         this.values = new double[dim];
@@ -89,6 +89,7 @@ public class Vector {
     public double norm(){
         return opStrategy.norm(this);
     }
+    //public Vector normalize() {return opStrategy.divide(this, norm()); }
 
     public boolean equals(Vector vector){
         checkDim(vector);

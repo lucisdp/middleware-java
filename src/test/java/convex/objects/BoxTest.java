@@ -137,7 +137,4 @@ public class BoxTest {
     public void testIsInsideOnExteriorCloseToBoundary() throws Exception{
         assertFalse(box.isInside(new Vector(new double[] {0.99999999,3,4})));
     }
-
-
-
 }

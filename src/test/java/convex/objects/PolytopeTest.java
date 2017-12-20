@@ -1,5 +1,6 @@
 package convex.objects;
 
+import exceptions.IncompatibleDimensionsException;
 import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
@@ -17,15 +18,15 @@ public class PolytopeTest{
     @Before
     public void setUp() throws Exception
     {
-        Vector.setVectorOperationStrategy("simple");
-        Matrix.setMatrixOperationStrategy("simple");
+        Vector.setVectorOperationStrategy("ojalgo");
+        Matrix.setMatrixOperationStrategy("ojalgo");
         A = new double[][] {{1,0,0},{0,1,0},{0,0,1}};
         b = new double[] {-1,0,1};
         pol = new Polytope(A,b);
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongDimension(){
         b = new double[] {-1,0};
         new Polytope(A,b);

@@ -1,21 +1,24 @@
 package convex.objects;
 
 
+import exceptions.IncompatibleDimensionsException;
 import linalg.Matrix;
 import linalg.Vector;
 
+
 class Polytope extends ConvexBody {
     /*
-    * A Polyhedral Cone is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
-    * and a vector b, a Polyhedral Cone is defined as the set of x satisfying Ax <= b.
+    * A Polytope is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
+    * and a vector b, it is defined as the set of all points x satisfying Ax <= b.
     * */
+
     private Matrix A;
     private Vector b;
 
     public Polytope(Matrix A, Vector b){
         super(A.getCols());
         if(A.getRows() != b.getDim()){
-            throw new IllegalArgumentException("A and b have incompatible dimensions.");
+            throw new IncompatibleDimensionsException(A.getRows(), b.getDim());
         }
 
         this.A = A;
@@ -40,8 +43,7 @@ class Polytope extends ConvexBody {
 
     @Override
     public boolean isInside(Vector point){
-        Vector prod = A.multiply(point);
-        return prod.isSmallerThan(b);
+        return A.multiply(point).isSmallerThan(b);
     }
 }
 

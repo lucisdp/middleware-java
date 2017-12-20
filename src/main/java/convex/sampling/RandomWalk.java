@@ -32,11 +32,11 @@ abstract class RandomWalk{
         this.sampleSize = sampleSize;
     }
 
-    public Matrix sampleChain(ConvexBody convexBody, Vector initialPoint){
+    public Matrix chain(ConvexBody convexBody, Vector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
         Vector sample = initialPoint;
 
-        double[][] chain = new double[chainLength+1][(int) initialPoint.getDim()];
+        double[][] chain = new double[chainLength+1][initialPoint.getDim()];
         chain[0] = initialPoint.getValues();
 
         for (int i=1; i <= chainLength; i++) {
@@ -47,10 +47,10 @@ abstract class RandomWalk{
         return new Matrix(chain);
     }
 
-    public Matrix sampleUniform(ConvexBody convexBody, Vector initialPoint){
+    public Matrix uniform(ConvexBody convexBody, Vector initialPoint){
         checkInitialPoint(convexBody, initialPoint);
 
-        double[][] sample = new double[sampleSize][(int) initialPoint.getDim()];
+        double[][] sample = new double[sampleSize][initialPoint.getDim()];
 
         for (int i=0; i < sampleSize; i++)
             sample[i] = sampleSinglePoint(convexBody, initialPoint).getValues();
