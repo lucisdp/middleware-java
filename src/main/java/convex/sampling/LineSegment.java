@@ -1,5 +1,6 @@
 package convex.sampling;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.UnboundedSegmentException;
 import linalg.Vector;
 import utils.Sampler;
@@ -12,7 +13,7 @@ public class LineSegment {
 
     public LineSegment(Line line, double lower, double upper) {
         if (lower >= upper)
-            throw new IllegalArgumentException("Lower bound must be smaller than upper bound!");
+            throw new IncompatibleBoundsException();
         this.line = line;
         this.lower = lower;
         this.upper = upper;

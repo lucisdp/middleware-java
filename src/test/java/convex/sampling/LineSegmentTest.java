@@ -1,5 +1,6 @@
 package convex.sampling;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.UnboundedSegmentException;
 import linalg.Vector;
 import org.junit.Before;
@@ -15,12 +16,12 @@ public class LineSegmentTest {
         segment = new LineSegment(line, -2, 3);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IncompatibleBoundsException.class)
     public void testEqualBoundsException() throws Exception {
         new LineSegment(line, 0, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IncompatibleBoundsException.class)
     public void testIncompatibleBoundsException() throws Exception {
         new LineSegment(line, 10, 0);
     }

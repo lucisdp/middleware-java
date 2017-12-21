@@ -37,10 +37,6 @@ class Polytope extends ConvexBody {
         return b;
     }
 
-    public long numConstrains(){
-        return b.getDim();
-    }
-
     @Override
     public boolean isInside(Vector point){
         return A.multiply(point).isSmallerThan(b);

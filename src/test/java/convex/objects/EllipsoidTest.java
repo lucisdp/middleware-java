@@ -1,6 +1,7 @@
 package convex.objects;
 
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeLengthException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,17 +26,17 @@ public class EllipsoidTest {
         new Ellipsoid(center, new Vector(new double[] {1,2}));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected= NegativeLengthException.class)
     public void testNegativeAxisLength() throws Exception {
         new Ellipsoid(center, new Vector(new double[] {-1,2,3}));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NegativeLengthException.class)
     public void testZeroAxisLength() throws Exception {
         new Ellipsoid(center, new Vector(new double[] {0,2,3}));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NegativeLengthException.class)
     public void testNegativeRadius() throws Exception {
         new Ellipsoid(center, -1);
     }

@@ -1,5 +1,7 @@
 package convex.objects;
 
+import exceptions.IncompatibleBoundsException;
+import exceptions.NegativeLengthException;
 import linalg.Vector;
 
 class Box extends ConvexBody {
@@ -20,7 +22,7 @@ class Box extends ConvexBody {
         super(center.getDim());
 
         if (length <= 0)
-            throw new IllegalArgumentException("Length must be positive.");
+            throw new NegativeLengthException("Side-length");
 
         low = center.subtract(0.5*length);
         high = center.add(0.5*length);
@@ -41,7 +43,7 @@ class Box extends ConvexBody {
         checkDim(high);
 
         if(!low.isSmallerThan(high))
-            throw new IllegalArgumentException("Low must be strictly smaller than high!");
+            throw new IncompatibleBoundsException();
     }
 
     public Vector getLow() {

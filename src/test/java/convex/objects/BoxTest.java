@@ -1,7 +1,9 @@
 package convex.objects;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
+import exceptions.NegativeLengthException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +29,7 @@ public class BoxTest {
         new Box(low, high);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected= IncompatibleBoundsException.class)
     public void testNegativeAxisLength() throws Exception {
         high = new Vector(new double[] {0,4,5});
         Box box = new Box(low, high);
@@ -36,13 +38,13 @@ public class BoxTest {
         System.out.println(low.isSmallerOrEqualThan(high));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IncompatibleBoundsException.class)
     public void testZeroAxisLength() throws Exception {
         high = new Vector(new double[] {2,2,5});
         new Box(low, high);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NegativeLengthException.class)
     public void testNegativeLength() throws Exception {
         new Box(new Vector(new double[] {1,2,3}), -1);
     }

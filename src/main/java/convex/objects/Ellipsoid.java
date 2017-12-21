@@ -1,5 +1,6 @@
 package convex.objects;
 
+import exceptions.NegativeLengthException;
 import linalg.Vector;
 
 
@@ -24,7 +25,7 @@ class Ellipsoid extends ConvexBody {
         this.center = center;
 
         if (radius <= 0)
-            throw new IllegalArgumentException("Radius parameter must be positive.");
+            throw new NegativeLengthException("Radius");
 
         this.halfAxisLengths = new Vector((int) this.center.getDim(), radius);
     }
@@ -53,7 +54,7 @@ class Ellipsoid extends ConvexBody {
 
     private void checkLengthsArePositive(Vector point){
         if (!point.isLargerThan(0))
-            throw new IllegalArgumentException("Half-axis must consist of positive values.");
+            throw new NegativeLengthException("Half-axis");
 
     }
 }
