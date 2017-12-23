@@ -127,6 +127,18 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
         return Math.sqrt(this.dot(vector, vector));
     }
 
+    @Override
+    public boolean equals(Vector vector, double val) {
+        double[] simpleVector = fromVector(vector);
+
+        for (int i=0; i < vector.getDim(); i++){
+            if (Math.abs(simpleVector[i] - val) > 1e-10)
+                return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean equals(Vector leftVector, Vector rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
@@ -139,6 +151,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
         return true;
     }
 
+    @Override
     public boolean isSmallerThan(Vector vector, double val){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
@@ -150,6 +163,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
         return true;
     }
 
+    @Override
     public boolean isSmallerThan(Vector leftVector, Vector rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
@@ -162,6 +176,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isSmallerOrEqualThan(Vector vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
@@ -173,6 +188,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
@@ -185,6 +201,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isLargerThan(Vector vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
@@ -196,6 +213,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isLargerThan(Vector leftVector, Vector rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
@@ -208,6 +226,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isLargerOrEqualThan(Vector vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
@@ -219,6 +238,7 @@ public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
          return true;
     }
 
+    @Override
     public boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);

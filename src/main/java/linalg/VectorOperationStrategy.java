@@ -29,6 +29,7 @@ public interface VectorOperationStrategy {
     double norm(Vector vector);
 
     boolean equals(Vector leftVector, Vector rightVector);
+    boolean equals(Vector vector, double val);
     boolean isSmallerThan(Vector vector, double val);
     boolean isSmallerThan(Vector leftVector, Vector rightVector);
     boolean isSmallerOrEqualThan(Vector vector, double val);

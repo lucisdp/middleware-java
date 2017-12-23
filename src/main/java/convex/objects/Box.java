@@ -1,5 +1,8 @@
 package convex.objects;
 
+import convex.sampling.Line;
+import convex.sampling.LineSegment;
+import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleBoundsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
@@ -57,5 +60,33 @@ class Box extends ConvexBody {
     @Override
     public boolean isInside(Vector point) {
         return low.isSmallerThan(point) && point.isSmallerThan(high);
+    }
+
+    @Override
+    public LineSegment intersect(Line line) {
+        checkDim(line);
+
+        Vector normalizedLow = low.subtract(line.getCenter()).divide(line.getDirection());
+        Vector normalizedHigh = high.subtract(line.getCenter()).divide(line.getDirection());
+
+        double lowerBound = Double.NEGATIVE_INFINITY;
+        double upperBound = Double.POSITIVE_INFINITY;
+
+        for(int i=0; i < getDim(); i++){
+            if(line.getDirection().get(i) > 0){
+                lowerBound = Math.max(lowerBound, normalizedLow.get(i));
+                upperBound = Math.min(upperBound, normalizedHigh.get(i));
+            }
+
+            else if(line.getDirection().get(i) < 0){
+                lowerBound = Math.max(lowerBound, normalizedHigh.get(i));
+                upperBound = Math.min(upperBound, normalizedLow.get(i));
+            }
+
+            else if(low.get(i) >= line.getCenter().get(i) || high.get(i) <= line.getCenter().get(i) || lowerBound >= upperBound)
+                throw new EmptyIntersectionException();
+        }
+
+        return new LineSegment(line, lowerBound, upperBound);
     }
 }

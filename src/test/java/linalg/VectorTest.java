@@ -12,7 +12,7 @@ public class VectorTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("simple");
+        Vector.setVectorOperationStrategy("ojalgo");
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
     }
@@ -120,7 +120,18 @@ public class VectorTest {
     public void testNorm(){ assertEquals( Math.sqrt(1+4+9), vec.norm(), 1e-10); }
 
     @Test
+    public void testSqNorm(){ assertEquals( 14, vec.sqNorm(), 1e-10); }
+
+    @Test
     public void testDot(){ assertEquals(2, vec.dot(vec2), 1e-10); }
+
+    @Test
+    public void testEqualsVal(){
+        Vector vec = new Vector(3);
+        assertTrue(vec.equals(0));
+        assertTrue(vec.equals(1e-11));
+        assertFalse(vec.equals(1e-9));
+    }
 
     @Test
     public void testEquals(){

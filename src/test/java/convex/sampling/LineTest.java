@@ -23,8 +23,13 @@ public class LineTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testWrongDimension() throws Exception {
+    public void testWrongDimension() {
         new Line(center, new Vector(new double[] {1,2}));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testZeroDirection() {
+        new Line(center, new Vector(new double[] {0,0,0}));
     }
 
     @Test

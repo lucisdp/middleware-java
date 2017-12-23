@@ -19,7 +19,15 @@ public class LineSegment {
         this.upper = upper;
     }
 
-    private boolean isUnbounded(){
+    public double getLower() {
+        return lower;
+    }
+
+    public double getUpper() {
+        return upper;
+    }
+
+    public boolean isUnbounded(){
         return upper == Double.POSITIVE_INFINITY || lower == Double.NEGATIVE_INFINITY;
     }
 

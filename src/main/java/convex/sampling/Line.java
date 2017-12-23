@@ -11,6 +11,8 @@ public class Line {
     public Line(Vector center, Vector direction) {
         if (center.getDim() != direction.getDim())
             throw new IncompatibleDimensionsException(center.getDim(), direction.getDim());
+        if (direction.equals(0.0))
+            throw new IllegalArgumentException("Direction cannot be zero vector.");
         this.center = center;
         this.direction = direction;
     }
@@ -33,6 +35,6 @@ public class Line {
 
     public static Line sample(Vector point){
         Vector randomDirection = Sampler.sampleGaussian(point.getDim());
-        return new Line(point, randomDirection);  // randomDirection.normalize()  ??
+        return new Line(point, randomDirection);
     }
 }

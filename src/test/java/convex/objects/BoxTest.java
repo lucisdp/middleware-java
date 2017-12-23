@@ -1,9 +1,8 @@
 package convex.objects;
 
-import exceptions.IncompatibleBoundsException;
-import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
-import exceptions.NegativeLengthException;
+import convex.sampling.Line;
+import convex.sampling.LineSegment;
+import exceptions.*;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class BoxTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("ojalgo");
+        Vector.setVectorOperationStrategy("simple");
         low = new Vector(new double[] {1,2,3});
         high =  new Vector(new double[] {4,5,6});
         box = new Box(low, high);
@@ -139,5 +138,53 @@ public class BoxTest {
     @Test
     public void testIsInsideOnExteriorCloseToBoundary() throws Exception{
         assertFalse(box.isInside(new Vector(new double[] {0.99999999,3,4})));
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testIntersectionWithWrongDimension(){
+        Line line = new Line(new Vector(new double[] {3,2}), new Vector(new double[] {0,1}));
+        box.intersect(line);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnInterior(){
+        Line line = new Line(new Vector(new double[] {2.5, 3.5, 4.5}), new Vector(new double[] {0,0,1}));
+        LineSegment segment = box.intersect(line);
+        assertEquals(-1.5, segment.getLower(), 1e-10);
+        assertEquals(1.5, segment.getUpper(), 1e-10);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnBoundary(){
+        Line line = new Line(new Vector(new double[] {2.5, 3.5, 3}), new Vector(new double[] {0,0,1}));
+        LineSegment segment = box.intersect(line);
+        assertEquals(0, segment.getLower(), 1e-10);
+        assertEquals(3, segment.getUpper(), 1e-10);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnExterior(){
+        Line line = new Line(new Vector(new double[] {2.5, 3.5, 0}), new Vector(new double[] {0,0,1}));
+        LineSegment segment = box.intersect(line);
+        assertEquals(3, segment.getLower(), 1e-10);
+        assertEquals(6, segment.getUpper(), 1e-10);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testTangentIntersectionWithCenterOnBoundary(){
+        Line line = new Line(new Vector(new double[] {3,2,3}), new Vector(new double[] {0,0,1}));
+        box.intersect(line);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testTangentIntersectionWithCenterNotOnBoundary(){
+        Line line = new Line(new Vector(new double[] {0,2,3}), new Vector(new double[] {0,0,1}));
+        box.intersect(line);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testNoIntersection(){
+        Line line = new Line(new Vector(new double[] {0,0,0}), new Vector(new double[] {0,0,1}));
+        box.intersect(line);
     }
 }

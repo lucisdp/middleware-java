@@ -1,5 +1,8 @@
 package convex.objects;
 
+import convex.sampling.Line;
+import convex.sampling.LineSegment;
+import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
@@ -48,7 +51,6 @@ public class EllipsoidTest {
 
     @Test
     public void testGetCenter() throws Exception {
-        Ellipsoid elp = new Ellipsoid(center, axisLengths);
         assertArrayEquals(center.getValues(), elp.getCenter().getValues(), 1e-10);
     }
 
@@ -131,4 +133,51 @@ public class EllipsoidTest {
         assertFalse(elp.isInside(new double[] {5.00000001,2,3}));
     }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testWrongLineDimension(){
+        Line line = new Line(new Vector(new double[] {5,2}), new Vector(new double[] {0,1}));
+        elp.intersect(line);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnInterior(){
+        Line line = new Line(center, new Vector(new double[] {1,0,0}));
+        LineSegment segment = elp.intersect(line);
+        assertEquals(-4, segment.getLower(), 1e-10);
+        assertEquals(4, segment.getUpper(), 1e-10);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnBoundary(){
+        Line line = new Line(new Vector(new double[] {-3,2,3}), new Vector(new double[] {1,0,0}));
+        LineSegment segment = elp.intersect(line);
+        assertEquals(0, segment.getLower(), 1e-10);
+        assertEquals(8, segment.getUpper(), 1e-10);
+    }
+
+    @Test
+    public void testIntersectionWithCenterOnExterior(){
+        Line line = new Line(new Vector(new double[] {-5,2,3}), new Vector(new double[] {1,0,0}));
+        LineSegment segment = elp.intersect(line);
+        assertEquals(2, segment.getLower(), 1e-10);
+        assertEquals(10, segment.getUpper(), 1e-10);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testTangentIntersectionWithCenterOnBoundary(){
+        Line line = new Line(new Vector(new double[] {5,2,3}), new Vector(new double[] {0,0,1}));
+        elp.intersect(line);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testTangentIntersectionWithCenterNotOnBoundary(){
+        Line line = new Line(new Vector(new double[] {5,2,0}), new Vector(new double[] {0,0,1}));
+        elp.intersect(line);
+    }
+
+    @Test(expected = EmptyIntersectionException.class)
+    public void testNoIntersection(){
+        Line line = new Line(new Vector(new double[] {6,2,0}), new Vector(new double[] {0,0,1}));
+        elp.intersect(line);
+    }
 }

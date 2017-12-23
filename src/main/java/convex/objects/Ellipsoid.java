@@ -1,5 +1,8 @@
 package convex.objects;
 
+import convex.sampling.Line;
+import convex.sampling.LineSegment;
+import exceptions.EmptyIntersectionException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 
@@ -56,6 +59,23 @@ class Ellipsoid extends ConvexBody {
         if (!point.isLargerThan(0))
             throw new NegativeLengthException("Half-axis");
 
+    }
+
+    @Override
+    public LineSegment intersect(Line line){
+        checkDim(line);
+        Vector normalizedCenter = line.getCenter().subtract(this.center).divide(this.halfAxisLengths);
+        Vector normalizedDirection = line.getDirection().divide(this.halfAxisLengths);
+
+        double a = normalizedDirection.sqNorm();
+        double b = normalizedCenter.dot(normalizedDirection);
+        double c = normalizedCenter.sqNorm() - 1;
+
+        double delta = b*b - a*c;
+        if (delta <= 0)
+            throw new EmptyIntersectionException();
+
+        return new LineSegment(line, (-b - Math.sqrt(delta))/a,(-b + Math.sqrt(delta))/a);
     }
 }
 

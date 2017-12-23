@@ -81,6 +81,17 @@ public class OjalgoVectorOperationStrategy implements VectorOperationStrategy {
         return ojalgoVector.norm();
     }
 
+    @Override
+    public boolean equals(Vector vector, double val) {
+        PrimitiveMatrix simpleVector = fromVector(vector);
+
+        for (int i=0; i < vector.getDim(); i++){
+            if (Math.abs(simpleVector.get(i) - val) > 1e-10)
+                return false;
+        }
+        return true;
+    }
+
     public boolean equals(Vector leftVector, Vector rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);

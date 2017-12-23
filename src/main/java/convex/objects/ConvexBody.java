@@ -1,5 +1,7 @@
 package convex.objects;
 
+import convex.sampling.Line;
+import convex.sampling.LineSegment;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import linalg.Matrix;
@@ -14,9 +16,9 @@ abstract public class ConvexBody {
         this.dim = dim;
     }
 
-    public void checkDim(double[] point){
-        if(point.length != dim)
-            throw new IncompatibleDimensionsException(getDim(), point.length);
+    public void checkDim(Line line){
+        if(line.getDim() != dim)
+            throw new IncompatibleDimensionsException(getDim(), line.getDim());
     }
 
     public void checkDim(Vector point){
@@ -38,5 +40,7 @@ abstract public class ConvexBody {
     }
 
     public abstract boolean isInside(Vector point);
-    // checks weather body1 point is the interior of convex set (boundary does not count!)
+    // checks weather point is the interior of convex set (boundary does not count!)
+
+    public abstract LineSegment intersect(Line line);
 }

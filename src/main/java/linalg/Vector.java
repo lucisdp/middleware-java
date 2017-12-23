@@ -45,6 +45,10 @@ public class Vector {
             throw new IncompatibleDimensionsException(this.getDim(), vector.getDim());
     }
 
+    public double get(int index){
+        return this.values[index];
+    }
+
     public Vector add(double val){
         return opStrategy.add(this, val);
     }
@@ -86,6 +90,10 @@ public class Vector {
         return opStrategy.dot(this, vector);
     }
 
+    public double sqNorm(){
+        return opStrategy.dot(this, this);
+    }
+
     public double norm(){
         return opStrategy.norm(this);
     }
@@ -94,6 +102,10 @@ public class Vector {
     public boolean equals(Vector vector){
         checkDim(vector);
         return opStrategy.equals(this, vector);
+    }
+
+    public boolean equals(double val){
+        return opStrategy.equals(this, val);
     }
 
     public boolean isSmallerThan(double val){
