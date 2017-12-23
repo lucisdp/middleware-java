@@ -9,7 +9,7 @@ import linalg.Matrix;
 import linalg.Vector;
 
 
-class Polytope extends ConvexBody {
+public class Polytope extends ConvexBody {
     /*
     * A Polytope is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
     * and a vector b, it is defined as the set of all points x satisfying Ax <= b.
@@ -20,6 +20,7 @@ class Polytope extends ConvexBody {
 
     public Polytope(Matrix A, Vector b){
         super(A.getCols());
+
         if(A.getRows() != b.getDim()){
             throw new IncompatibleDimensionsException(A.getRows(), b.getDim());
         }
@@ -40,6 +41,8 @@ class Polytope extends ConvexBody {
         return b;
     }
 
+    public int getNumConstrains() {return b.getDim(); }
+
     @Override
     public boolean isInside(Vector point){
         return A.multiply(point).isSmallerThan(b);
@@ -55,7 +58,7 @@ class Polytope extends ConvexBody {
         double lowerBound = Double.NEGATIVE_INFINITY;
         double upperBound = Double.POSITIVE_INFINITY;
 
-        for(int i=0; i < getDim(); i++){
+        for(int i=0; i < getNumConstrains(); i++){
             if(denominator.get(i) > 0)
                 upperBound = Math.min(upperBound, numerator.get(i)/denominator.get(i));
 
@@ -66,7 +69,7 @@ class Polytope extends ConvexBody {
                 throw new EmptyIntersectionException();
         }
 
-        if(lowerBound <= upperBound)
+        if(lowerBound >= upperBound)
             throw new EmptyIntersectionException();
 
         return new LineSegment(line, lowerBound, upperBound);

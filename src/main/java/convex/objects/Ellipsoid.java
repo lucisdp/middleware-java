@@ -7,7 +7,7 @@ import exceptions.NegativeLengthException;
 import linalg.Vector;
 
 
-class Ellipsoid extends ConvexBody {
+public class Ellipsoid extends ConvexBody {
     private Vector center;
     private Vector halfAxisLengths;
 

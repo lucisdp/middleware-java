@@ -1,6 +1,7 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
+import exceptions.PointOutsideConvexBodyException;
 import linalg.Matrix;
 import linalg.Vector;
 
@@ -8,28 +9,17 @@ abstract class RandomWalk{
     private int chainLength, sampleSize;
 
     public RandomWalk(int chainLength, int sampleSize){
-        setChainLength(chainLength);
-        setSampleSize(sampleSize);
+        checkParameters(chainLength, sampleSize);
+        this.chainLength = chainLength;
+        this.sampleSize = sampleSize;
     }
 
-    public int getChainLength() {
-        return chainLength;
-    }
-
-    public int getSampleSize() {
-        return sampleSize;
-    }
-
-    public void setChainLength(int chainLength) {
+    private void checkParameters(int chainLength, int sampleSize){
         if (chainLength <= 0)
             throw new IllegalArgumentException("Chain length must be a positive integer");
-        this.chainLength = chainLength;
-    }
 
-    public void setSampleSize(int sampleSize) {
         if (sampleSize <= 0)
             throw new IllegalArgumentException("Sample size must be a positive integer");
-        this.sampleSize = sampleSize;
     }
 
     public Matrix chain(ConvexBody convexBody, Vector initialPoint){
@@ -73,7 +63,7 @@ abstract class RandomWalk{
         convexBody.checkDim(initialPoint);
 
         if (!convexBody.isInside(initialPoint))
-            throw new IllegalArgumentException("Initial point outside convexbody!");
+            throw new PointOutsideConvexBodyException();
     }
 }
 

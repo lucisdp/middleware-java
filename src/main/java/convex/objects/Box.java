@@ -7,7 +7,7 @@ import exceptions.IncompatibleBoundsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 
-class Box extends ConvexBody {
+public class Box extends ConvexBody {
     private Vector low, high;
 
     public Box(Vector low, Vector high){
