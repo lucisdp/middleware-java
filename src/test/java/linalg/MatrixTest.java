@@ -34,13 +34,29 @@ public class MatrixTest {
     }
 
     @Test
-    public void testGetRows(){
-        assertEquals(2, mat.getRows());
+    public void testGetNumRows(){
+        assertEquals(2, mat.getNumRows());
     }
 
     @Test
-    public void testGetCols(){
-        assertEquals(3, mat.getCols());
+    public void testGetNumCols(){
+        assertEquals(3, mat.getNumCols());
+    }
+
+    @Test
+    public void testGetRow() throws Exception {
+        assertArrayEquals(new double[] {1,2,3}, mat.getRow(0).getValues(), 1e-10);
+        assertArrayEquals(new double[] {4,5,6}, mat.getRow(1).getValues(), 1e-10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetRowNegativeIndex() throws Exception {
+        mat.getRow(-1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetRowLargerThanSizeIndex() throws Exception {
+        mat.getRow(2);
     }
 
     @Test

@@ -37,7 +37,7 @@ public class SamplerTest {
         Vector normal = Sampler.sampleGaussian(10000);
         KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         double pValue = test.kolmogorovSmirnovTest(new NormalDistribution(0,1), normal.getValues());
-        assertTrue(pValue > 0.05);
+        assertTrue(pValue > 0.01);
     }
 
     @Test

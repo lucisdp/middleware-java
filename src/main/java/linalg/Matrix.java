@@ -37,34 +37,36 @@ public class Matrix {
         return values;
     }
 
-    public int getRows() {
+    public int getNumRows() {
         return rows;
     }
 
-    public int getCols() {
+    public int getNumCols() {
         return cols;
     }
+
+    public Vector getRow(int i) { return new Vector(values[i]); }
 
     public static void setMatrixOperationStrategy(String strategyName){
         Matrix.opStrategy = MatrixOperationStrategy.getStrategy(strategyName);
     }
 
     private void checkDim(Matrix matrix){
-        if (this.getRows() != matrix.getRows())
-            throw new IncompatibleDimensionsException(this.getRows(), matrix.getRows());
+        if (this.getNumRows() != matrix.getNumRows())
+            throw new IncompatibleDimensionsException(this.getNumRows(), matrix.getNumRows());
 
-        if (this.getCols() != matrix.getCols())
-            throw new IncompatibleDimensionsException(this.getCols(), matrix.getCols());
+        if (this.getNumCols() != matrix.getNumCols())
+            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumCols());
     }
 
     private void checkVectorDim(Vector vector){
-        if (this.getCols() != vector.getDim())
-            throw new IncompatibleDimensionsException(this.getRows(), vector.getDim());
+        if (this.getNumCols() != vector.getDim())
+            throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
     }
 
     private void checkMatrixMultDim(Matrix matrix){
-        if (this.getCols() != matrix.getRows())
-            throw new IncompatibleDimensionsException(this.getCols(), matrix.getRows());
+        if (this.getNumCols() != matrix.getNumRows())
+            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
     }
 
     public Matrix add(double val){
@@ -116,9 +118,9 @@ public class Matrix {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for (int i=0; i < getRows(); i++) {
+        for (int i = 0; i < getNumRows(); i++) {
             builder.append('{');
-            for (int j=0; j < getCols(); j++) {
+            for (int j = 0; j < getNumCols(); j++) {
                 builder.append(values[i][j]);
                 builder.append(',');
                 builder.append(' ');

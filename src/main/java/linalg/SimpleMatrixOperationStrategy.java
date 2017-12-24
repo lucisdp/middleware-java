@@ -11,8 +11,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix add(Matrix matrix, double value){
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getNumRows();
+        int cols = matrix.getNumCols();
         
         double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
@@ -26,8 +26,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix add(Matrix leftMatrix, Matrix rightMatrix){
-        int rows = leftMatrix.getRows();
-        int cols = leftMatrix.getCols();
+        int rows = leftMatrix.getNumRows();
+        int cols = leftMatrix.getNumCols();
         
         double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
         double[][] simpleRightMatrix = fromMatrix(rightMatrix);
@@ -42,8 +42,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix subtract(Matrix matrix, double value){
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getNumRows();
+        int cols = matrix.getNumCols();
 
         double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
@@ -57,8 +57,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix subtract(Matrix leftMatrix, Matrix rightMatrix){
-        int rows = leftMatrix.getRows();
-        int cols = leftMatrix.getCols();
+        int rows = leftMatrix.getNumRows();
+        int cols = leftMatrix.getNumCols();
 
         double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
         double[][] simpleRightMatrix = fromMatrix(rightMatrix);
@@ -73,8 +73,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix multiply(Matrix matrix, double value){
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getNumRows();
+        int cols = matrix.getNumCols();
         double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
 
@@ -87,8 +87,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix) {
-        int leftRows = leftMatrix.getRows();
-        int rightCols = rightMatrix.getCols();
+        int leftRows = leftMatrix.getNumRows();
+        int rightCols = rightMatrix.getNumCols();
 
         double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
         double[][] simpleRightMatrix = fromMatrix(rightMatrix);
@@ -96,7 +96,7 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
         for(int i=0; i < leftRows; i++)
             for(int j=0; j < rightCols; j++)
-                for(int k=0; k < leftMatrix.getCols(); k++)
+                for(int k = 0; k < leftMatrix.getNumCols(); k++)
                     res[i][j] += simpleLeftMatrix[i][k] * simpleRightMatrix[k][j];
 
         return toMatrix(res);
@@ -104,13 +104,13 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Vector multiply(Matrix matrix, Vector vector){
-        int rows = matrix.getRows();
+        int rows = matrix.getNumRows();
         double[][] simpleMatrix = fromMatrix(matrix);
         double[] simpleVector = SimpleVectorOperationStrategy.fromVector(vector);
         double[] res = new double[rows];
 
         for(int i=0; i < rows; i++)
-            for(int k=0; k < matrix.getCols(); k++)
+            for(int k = 0; k < matrix.getNumCols(); k++)
                 res[i] += simpleMatrix[i][k] * simpleVector[k];
 
         return SimpleVectorOperationStrategy.toVector(res);
@@ -118,8 +118,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix){
-        int rows = leftMatrix.getRows();
-        int cols = leftMatrix.getCols();
+        int rows = leftMatrix.getNumRows();
+        int cols = leftMatrix.getNumCols();
 
         double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
         double[][] simpleRightMatrix = fromMatrix(rightMatrix);
@@ -134,8 +134,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
     
     @Override
     public Matrix divide(Matrix matrix, double value){
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getNumRows();
+        int cols = matrix.getNumCols();
         double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
 
@@ -148,8 +148,8 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
 
     @Override
     public Matrix divide(Matrix leftMatrix, Matrix rightMatrix){
-        int rows = leftMatrix.getRows();
-        int cols = leftMatrix.getCols();
+        int rows = leftMatrix.getNumRows();
+        int cols = leftMatrix.getNumCols();
 
         double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
         double[][] simpleRightMatrix = fromMatrix(rightMatrix);

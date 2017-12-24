@@ -7,12 +7,11 @@ import exceptions.NegativeLengthException;
 import linalg.Vector;
 
 
-public class Ellipsoid extends ConvexBody {
+public class Ellipsoid implements ConvexBody {
     private Vector center;
     private Vector halfAxisLengths;
 
     public Ellipsoid(Vector center, Vector halfAxisLengths){
-        super(center.getDim());
         this.center = center;
         this.halfAxisLengths = halfAxisLengths;
         checkDim(halfAxisLengths);
@@ -24,7 +23,6 @@ public class Ellipsoid extends ConvexBody {
     }
 
     public Ellipsoid(Vector center, double radius){
-        super(center.getDim());
         this.center = center;
 
         if (radius <= 0)
@@ -39,6 +37,11 @@ public class Ellipsoid extends ConvexBody {
 
     public Ellipsoid(int dim){
         this(new Vector(new double[dim]), 1);
+    }
+
+    @Override
+    public int getDim() {
+        return this.center.getDim();
     }
 
     public Vector getCenter() {

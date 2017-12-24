@@ -7,11 +7,10 @@ import exceptions.IncompatibleBoundsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 
-public class Box extends ConvexBody {
+public class Box implements ConvexBody {
     private Vector low, high;
 
     public Box(Vector low, Vector high){
-        super(low.getDim());
         this.low = low;
         this.high = high;
         validateAttributes();
@@ -22,8 +21,6 @@ public class Box extends ConvexBody {
     }
 
     public Box(Vector center, double length){
-        super(center.getDim());
-
         if (length <= 0)
             throw new NegativeLengthException("Side-length");
 
@@ -36,7 +33,6 @@ public class Box extends ConvexBody {
     }
 
     public Box(int dim){
-        super(dim);
         low = new Vector(dim, -1);
         high = new Vector(dim, 1);
     }
@@ -47,6 +43,11 @@ public class Box extends ConvexBody {
 
         if(!low.isSmallerThan(high))
             throw new IncompatibleBoundsException();
+    }
+
+    @Override
+    public int getDim() {
+        return low.getDim();
     }
 
     public Vector getLow() {

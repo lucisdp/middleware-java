@@ -9,7 +9,7 @@ import linalg.Matrix;
 import linalg.Vector;
 
 
-public class Polytope extends ConvexBody {
+public class Polytope implements ConvexBody {
     /*
     * A Polytope is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
     * and a vector b, it is defined as the set of all points x satisfying Ax <= b.
@@ -19,10 +19,8 @@ public class Polytope extends ConvexBody {
     private Vector b;
 
     public Polytope(Matrix A, Vector b){
-        super(A.getCols());
-
-        if(A.getRows() != b.getDim()){
-            throw new IncompatibleDimensionsException(A.getRows(), b.getDim());
+        if(A.getNumRows() != b.getDim()){
+            throw new IncompatibleDimensionsException(A.getNumRows(), b.getDim());
         }
 
         this.A = A;
@@ -31,6 +29,11 @@ public class Polytope extends ConvexBody {
 
     public Polytope(double[][] A, double[] b){
         this(new Matrix(A), new Vector(b));
+    }
+
+    @Override
+    public int getDim() {
+        return A.getNumCols();
     }
 
     public Matrix getMatrix(){
@@ -74,17 +77,4 @@ public class Polytope extends ConvexBody {
 
         return new LineSegment(line, lowerBound, upperBound);
     }
-}
-
-
-class PolyhedralCone extends Polytope{
-    /*
-    * A Polyhedral Cone is the intersection of CENTERED hyperplanes. Thus, we can describe it as a Polytope whose vector
-    * b is zero.
-    * */
-
-    public PolyhedralCone(Matrix A){
-        super(A, new Vector(A.getRows(), 0));
-    }
-    public PolyhedralCone(double[][] A){ this(new Matrix(A)); }
 }

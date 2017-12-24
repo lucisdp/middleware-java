@@ -1,4 +1,4 @@
-package convex.objects;
+package version_space;
 
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
@@ -9,50 +9,52 @@ import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
-public class PolytopeTest{
-    double[][] A;
-    double[] b;
-    Polytope pol;
+public class IncrementalPolyhedralConeTest{
+    IncrementalPolyhedralCone pol;
 
     @Before
-    public void setUp() throws Exception
-    {
-        Vector.setVectorOperationStrategy("ojalgo");
-        Matrix.setMatrixOperationStrategy("ojalgo");
-        A = new double[][] {{-1,0}, {0,-1}, {0,1}};
-        b = new double[] {1,0,2};
-        pol = new Polytope(A,b);
-
-    }
-
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testWrongDimension(){
-        b = new double[] {-1,0};
-        new Polytope(A,b);
+    public void setUp(){
+        Vector.setVectorOperationStrategy("simple");
+        Matrix.setMatrixOperationStrategy("simple");
+        double[][] A = new double[][] {{-1,-1}, {1,-1}};
+        pol = new IncrementalPolyhedralCone(A);
     }
 
     @Test
-    public void testGetMatrix(){
-        assertTrue(Arrays.deepEquals(pol.getMatrix().getValues(), A));
+    public void testIsEmpty() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        assertTrue(pol.isEmpty());
     }
 
     @Test
-    public void testGetVector(){
-        assertTrue(Arrays.equals(pol.getVector().getValues(), b));
+    public void testIsNotEmpty() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        pol.addConstrain(new Vector(new double[] {1,1}));
+        assertTrue(!pol.isEmpty());
     }
 
     @Test
-    public void testGetDimPolytope(){
+    public void testGetDimEmptyPolytope() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        assertEquals(0, pol.getDim());
+    }
+
+    @Test
+    public void testGetDim() throws Exception {
         assertEquals(2, pol.getDim());
     }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testAddConstrainWithWrongDim() throws Exception {
+        pol.addConstrain(new Vector(new double[] {1,2,3}));
+    }
+
     @Test
-    public void testGetNumConstrains() throws Exception {
-        assertEquals(3, pol.getNumConstrains());
+    public void testIsInsideEmptyPolytope() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        assertTrue(pol.isInside(new double[] {1,1}));
     }
 
     @Test
@@ -75,7 +77,7 @@ public class PolytopeTest{
 
     @Test
     public void testIsInsideOnInteriorCloseToBoundary(){
-        double[] point = {-1 + 1e-9, 0 + 1e-9};
+        double[] point = {-1 + 1e-9, 1 + 1e-9};
         assertTrue(pol.isInside(point));
     }
 
@@ -83,6 +85,15 @@ public class PolytopeTest{
     public void testIsInsideOnExteriorCloseToBoundary(){
         double[] point = {-1 - 1e-9, 0 - 1e-9};
         assertFalse(pol.isInside(point));
+    }
+
+    @Test
+    public void testIntersectionWithEmptyPolytope() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        Line line = Line.sample(new Vector(new double[] {1,1}));
+        LineSegment segment = pol.intersect(line);
+        assertEquals(Double.NEGATIVE_INFINITY, segment.getLower(), 1e-10);
+        assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -98,7 +109,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(new Vector(new double[] {0,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(new Vector(new double[] {0,1}), new Vector(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -106,7 +117,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(new Vector(new double[] {0,0}), new Vector(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -114,27 +125,27 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(new Vector(new double[] {-2,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(new Vector(new double[] {0,-2}), new Vector(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
-        assertEquals(1, segment.getLower(), 1e-10);
+        assertEquals(2, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,1}), new Vector(new double[] {0,1}));
+        Line line = new Line(new Vector(new double[] {0,0}), new Vector(new double[] {1,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,-1}), new Vector(new double[] {0,1}));
+        Line line = new Line(new Vector(new double[] {-1,-1}), new Vector(new double[] {1,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(new Vector(new double[] {-2,0}), new Vector(new double[] {1,-1}));
+        Line line = new Line(new Vector(new double[] {-2,0}), new Vector(new double[] {1,0}));
         pol.intersect(line);
     }
 }
