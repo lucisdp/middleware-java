@@ -1,6 +1,7 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Configuration;
@@ -55,6 +56,19 @@ public abstract class MatrixTest {
     public void testGetValues(){
         assertArrayEquals(new double[] {1,2,3}, mat.getValues()[0], 1e-10);
         assertArrayEquals(new double[] {4,5,6}, mat.getValues()[1], 1e-10);
+    }
+
+    @Test
+    public void testGetIdentity() throws Exception {
+        Matrix mat = Matrix.getIdentity(3);
+        assertArrayEquals(new double[] {1,0,0}, mat.getValues()[0], 1e-10);
+        assertArrayEquals(new double[] {0,1,0}, mat.getValues()[1], 1e-10);
+        assertArrayEquals(new double[] {0,0,1}, mat.getValues()[2], 1e-10);
+    }
+
+    @Test(expected = NegativeDimensionException.class)
+    public void testGetIdentityWithNegativeDim() throws Exception {
+        Matrix.getIdentity(0);
     }
 
     @Test

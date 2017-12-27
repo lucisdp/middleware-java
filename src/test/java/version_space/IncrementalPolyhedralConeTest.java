@@ -39,6 +39,17 @@ public class IncrementalPolyhedralConeTest{
     }
 
     @Test
+    public void testGetNumConstrainsEmptyPolytope() throws Exception {
+        pol = new IncrementalPolyhedralCone();
+        assertEquals(0, pol.getNumConstrains());
+    }
+
+    @Test
+    public void testGetNumConstrains() throws Exception {
+        assertEquals(2, pol.getNumConstrains());
+    }
+
+    @Test
     public void testGetDim() throws Exception {
         assertEquals(2, pol.getDim());
     }

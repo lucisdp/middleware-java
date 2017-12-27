@@ -52,6 +52,9 @@ public class Vector {
     public double get(int index){
         return this.values[index];
     }
+    public double set(int index, double newValue){
+        return this.values[index] = newValue;
+    }
 
     public Vector add(double val){
         return opStrategy.add(this, val);
@@ -145,6 +148,14 @@ public class Vector {
     public boolean isLargerOrEqualThan(Vector vector){
         checkDim(vector);
         return opStrategy.isLargerOrEqualThan(this, vector);
+    }
+
+    public Vector appendLeft(double value){
+        double[] newVector = new double[getDim()+1];
+        newVector[0] = value;
+        for(int i=1; i < getDim()+1; i++)
+            newVector[i] = this.values[i-1];
+        return new Vector(newVector);
     }
 
     @Override

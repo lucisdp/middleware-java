@@ -35,6 +35,19 @@ public abstract class VectorTest {
     }
 
     @Test
+    public void testSetValues() throws Exception {
+        vec.set(0,10);
+        vec.set(1,20);
+        vec.set(2,30);
+        assertArrayEquals(new double[] {10,20,30}, vec.getValues(), 1e-10);
+    }
+
+    @Test
+    public void testAppendLeft() throws Exception {
+        assertArrayEquals(new double[] {-3, 1, 2, 3}, vec.appendLeft(-3).getValues(), 1e-10);
+    }
+
+    @Test
     public void testFillConstructor(){
         assertArrayEquals(new double[] {1,1,1}, (new Vector(3, 1)).getValues(), 1e-10);
     }

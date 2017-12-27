@@ -35,6 +35,14 @@ public class IncrementalPolyhedralCone implements ConvexBody {
         return constrainList.get(0).getDim();
     }
 
+    public List<Vector> getConstrainList() {
+        return constrainList;
+    }
+
+    public int getNumConstrains(){
+        return constrainList.size();
+    }
+
     @Override
     public boolean isInside(Vector point) {
         if(!isEmpty())
