@@ -15,8 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 
 public class LinearVersionSpaceTest {
-    int dim, chainLength, sampleSize;
-    LinearVersionSpace versionSpace;
+    private int dim, chainLength, sampleSize;
+    private LinearVersionSpace versionSpace;
 
     @Before
     public void setUp() throws Exception {
@@ -43,14 +43,14 @@ public class LinearVersionSpaceTest {
 
     @Test
     public void testGetDim() throws Exception {
-        assertEquals(dim, versionSpace.getDim());
+        assertEquals(dim+1, versionSpace.getDim());
     }
 
     @Test
     public void testSampleDimensions() throws Exception {
         Matrix sample = versionSpace.sample();
         assertEquals(sampleSize, sample.getNumRows());
-        assertEquals(dim, sample.getNumCols());
+        assertEquals(dim+1, sample.getNumCols());
     }
 
     @Test
@@ -65,25 +65,25 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testIsInsideWrongDimension() throws Exception {
-       versionSpace.isInside(new double[]{0,0,0});
+       versionSpace.isInside(new double[]{0,0,0,0});
     }
 
     @Test
     public void testIsInsideWithNoConstrains() throws Exception {
-        assertTrue(versionSpace.isInside(new double[] {0,0}));
-        assertFalse(versionSpace.isInside(new double[] {1,0}));
-        assertFalse(versionSpace.isInside(new double[] {2,0}));
+        assertTrue(versionSpace.isInside(new double[] {0,0,0}));
+        assertFalse(versionSpace.isInside(new double[] {1,0,0}));
+        assertFalse(versionSpace.isInside(new double[] {2,0,0}));
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testLineWithWrongDimension() throws Exception {
-        Line line = new Line(new Vector(new double[] {0,0,0}), new Vector(new double[] {1,0,-1}));
+        Line line = new Line(new Vector(new double[] {0,0,0,0}), new Vector(new double[] {1,0,-1,0}));
         versionSpace.intersect(line);
     }
 
     @Test
     public void testIntersectionWithEmptyConstrains() throws Exception {
-        Line line = new Line(new Vector(new double[] {0,0}), new Vector(new double[] {1,0}));
+        Line line = new Line(new Vector(new double[] {0,0,0}), new Vector(new double[] {1,0,0}));
         LineSegment segment = versionSpace.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(1, segment.getUpper(), 1e-10);

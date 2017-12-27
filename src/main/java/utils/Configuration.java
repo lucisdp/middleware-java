@@ -55,4 +55,8 @@ public class Configuration {
         else
             throw new LinearAlgebraLibraryNotFound(libraryName);
     }
+
+    public static String getLinearProgrammingLibrary() {
+        return prop.getProperty("LinearProgrammingLibrary");
+    }
 }

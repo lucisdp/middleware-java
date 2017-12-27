@@ -8,7 +8,6 @@ import convex.sampling.LineSegment;
 import exceptions.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.Vector;
-import linear_programming.ApacheLinearProgramSolver;
 import linear_programming.LinearProgramSolver;
 
 
@@ -22,11 +21,11 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     public LinearVersionSpace(int dim, int chainLength, int sampleSize) {
         if(dim <= 0)
             throw new NegativeDimensionException(dim);
-        this.dim = dim;
+        this.dim = dim+1;
         this.sampler = new HitAndRun(chainLength, sampleSize);
         this.constrains = new IncrementalPolyhedralCone();
-        this.ball = new Ellipsoid(dim);
-        this.solver = new ApacheLinearProgramSolver(dim);
+        this.ball = new Ellipsoid(this.dim);
+        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim);
         setSolverObjectiveFunction();
         setSolverBounds();
     }
@@ -39,7 +38,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     @Override
     public void addConstrain(Vector point, double label) {
         checkDim(point);
-        Vector constrain = point.multiply(-label);
+        Vector constrain = point.appendLeft(1).multiply(-label);  // -y_i (1, x_i) * (b, w) <= 0
         constrains.addConstrain(constrain);
         solver.addLinearConstrain(constrain.appendLeft(-1), 0);
     }
@@ -75,19 +74,20 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         Vector solution = solver.findMinimizer();
 
         if(solution.get(0) >= 0)
-            throw new RuntimeException();
+            throw new RuntimeException();  // TODO: add better exception
 
+        // TODO: add slicing
         return solution;
     }
 
     private void setSolverObjectiveFunction(){
-        Vector linProgObjective = new Vector(getDim()+1);
+        Vector linProgObjective = new Vector(solver.getDim());
         linProgObjective.set(0, 1);
         solver.setObjectiveFunction(linProgObjective);
     }
 
     private void setSolverBounds(){
-        solver.setLower(new Vector(getDim(), -1));
-        solver.setUpper(new Vector(getDim(), 1));
+        solver.setLower(new Vector(solver.getDim(), -1));
+        solver.setUpper(new Vector(solver.getDim(), 1));
     }
 }
