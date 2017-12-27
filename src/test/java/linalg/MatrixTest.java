@@ -3,17 +3,26 @@ package linalg;
 import exceptions.IncompatibleDimensionsException;
 import org.junit.Before;
 import org.junit.Test;
+import utils.Configuration;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class MatrixTest {
+public abstract class MatrixTest {
     Matrix mat, mat2;
+
+    abstract String getLibraryName();
 
     @Before
     public void setUp(){
+        Configuration.setLinearAlgebraLibrary(getLibraryName());
         mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
         mat2 = new Matrix(new double[][] {{-1,0,1},{2,5,-8}});
+    }
+
+    @Test
+    public void testLibraryName() throws Exception {
+        assertEquals(getLibraryName(), Configuration.getLinearAlgebraLibrary());
     }
 
     @Test

@@ -48,6 +48,10 @@ public class Configuration {
             Vector.setOpStrategy(new OjalgoVectorOperationStrategy());
             Matrix.setOpStrategy(new OjalgoMatrixOperationStrategy());
         }
+        else if (libraryName.equalsIgnoreCase("apache")) {
+            Vector.setOpStrategy(new ApacheVectorOperationStrategy());
+            Matrix.setOpStrategy(new ApacheMatrixOperationStrategy());
+        }
         else
             throw new LinearAlgebraLibraryNotFound(libraryName);
     }

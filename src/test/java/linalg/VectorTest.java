@@ -7,14 +7,21 @@ import utils.Configuration;
 
 import static org.junit.Assert.*;
 
-public class VectorTest {
+public abstract class VectorTest {
     Vector vec, vec2;
+
+    abstract String getLibraryName();
 
     @Before
     public void setUp(){
-        Configuration.getLinearAlgebraLibrary();
+        Configuration.setLinearAlgebraLibrary(getLibraryName());
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
+    }
+
+    @Test
+    public void testLibraryName() throws Exception {
+        assertEquals(getLibraryName(), Configuration.getLinearAlgebraLibrary());
     }
 
     @Test
@@ -121,7 +128,7 @@ public class VectorTest {
     @Test
     public void testEquals(){
         assertTrue(vec.equals(new Vector(new double[] {1,2,3})));
-        assertTrue(vec.equals(new Vector(new double[] {1+1e-11,2,3})));
+        assertTrue(vec.equals(new Vector(new double[] {1+1e-18,2,3})));
         assertFalse(vec.equals(new Vector(new double[] {1+1e-9,2,3})));
     }
 
