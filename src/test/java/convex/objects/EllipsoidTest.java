@@ -18,7 +18,6 @@ public class EllipsoidTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("ojalgo");
         center = new Vector(new double[] {1,2,3});
         axisLengths = new Vector(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);

@@ -14,7 +14,6 @@ public class LineSegmentTest {
 
     @Before
     public void setUp() throws Exception {
-        Vector.setVectorOperationStrategy("simple");
         line = new Line(new Vector(new double[] {1,2,3}), new Vector(new double[] {-1,0,1}));
         segment = new LineSegment(line, -2, 3);
     }

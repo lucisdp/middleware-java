@@ -47,7 +47,7 @@ public class SamplerTest {
             uniform[i] = Sampler.sampleUniform(-2,3);
         KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         double pValue = test.kolmogorovSmirnovTest(new UniformRealDistribution(-2,3), uniform);
-        assertTrue(pValue > 0.05);
+        assertTrue(pValue > 0.01);
     }
 
 

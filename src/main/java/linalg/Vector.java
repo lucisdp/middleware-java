@@ -1,14 +1,18 @@
 package linalg;
 
-import exceptions.NegativeDimensionException;
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
+import utils.Configuration;
 
 import java.util.Arrays;
 
 public class Vector {
     private double[] values;
     private int dim;
-    private static VectorOperationStrategy opStrategy = null;
+    private static VectorOperationStrategy opStrategy;
+    static {
+        Configuration.setLinearAlgebraLibrary(Configuration.getLinearAlgebraLibrary());
+    }
 
     public Vector(double[] values){
         this.values = values;
@@ -36,8 +40,8 @@ public class Vector {
         return dim;
     }
 
-    public static void setVectorOperationStrategy(String strategyName){
-        Vector.opStrategy = VectorOperationStrategy.getStrategy(strategyName);
+    public static void setOpStrategy(VectorOperationStrategy opStrategy) {
+        Vector.opStrategy = opStrategy;
     }
 
     private void checkDim(Vector vector){

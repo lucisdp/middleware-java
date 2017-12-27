@@ -4,7 +4,6 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +20,6 @@ public class PolytopeTest{
     @Before
     public void setUp() throws Exception
     {
-        Vector.setVectorOperationStrategy("ojalgo");
-        Matrix.setMatrixOperationStrategy("ojalgo");
         A = new double[][] {{-1,0}, {0,-1}, {0,1}};
         b = new double[] {1,0,2};
         pol = new Polytope(A,b);

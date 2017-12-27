@@ -1,7 +1,6 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.LinearAlgebraClassNotFound;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,24 +12,8 @@ public class MatrixTest {
 
     @Before
     public void setUp(){
-        Matrix.setMatrixOperationStrategy("ojalgo");
         mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
         mat2 = new Matrix(new double[][] {{-1,0,1},{2,5,-8}});
-    }
-
-    @Test(expected = LinearAlgebraClassNotFound.class)
-    public void testSetUnknownStrategy(){
-        Matrix.setMatrixOperationStrategy("unknown");
-    }
-
-    @Test
-    public void testSetSimpleStrategy() throws ClassNotFoundException{
-        Matrix.setMatrixOperationStrategy("simple");
-    }
-
-    @Test
-    public void testSetOjalgoStrategy() throws ClassNotFoundException{
-        Matrix.setMatrixOperationStrategy("ojalgo");
     }
 
     @Test

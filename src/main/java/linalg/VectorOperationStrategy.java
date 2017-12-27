@@ -1,17 +1,6 @@
 package linalg;
 
-import exceptions.LinearAlgebraClassNotFound;
-
 public interface VectorOperationStrategy {
-    static VectorOperationStrategy getStrategy(String strategyName){
-        if (strategyName.equalsIgnoreCase("simple"))
-            return new SimpleVectorOperationStrategy();
-        else if (strategyName.equalsIgnoreCase("ojalgo"))
-            return new OjalgoVectorOperationStrategy();
-        else
-            throw new LinearAlgebraClassNotFound(strategyName);
-    }
-
     Vector add(Vector vector, double value);
     Vector add(Vector leftVector, Vector rightVector);
 

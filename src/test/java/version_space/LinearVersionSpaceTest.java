@@ -20,8 +20,6 @@ public class LinearVersionSpaceTest {
 
     @Before
     public void setUp() throws Exception {
-        Vector.setVectorOperationStrategy("simple");
-        Matrix.setMatrixOperationStrategy("simple");
         dim = 2;
         chainLength = 64;
         sampleSize = 8;

@@ -1,9 +1,9 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.LinearAlgebraClassNotFound;
 import org.junit.Before;
 import org.junit.Test;
+import utils.Configuration;
 
 import static org.junit.Assert.*;
 
@@ -12,24 +12,9 @@ public class VectorTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("ojalgo");
+        Configuration.getLinearAlgebraLibrary();
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
-    }
-
-    @Test(expected = LinearAlgebraClassNotFound.class)
-    public void testSetUnknownStrategy(){
-        Vector.setVectorOperationStrategy("unknown");
-    }
-
-    @Test
-    public void testSetSimpleStrategy() throws ClassNotFoundException{
-        Vector.setVectorOperationStrategy("simple");
-    }
-
-    @Test
-    public void testSetOjalgoStrategy() throws ClassNotFoundException{
-        Vector.setVectorOperationStrategy("ojalgo");
     }
 
     @Test

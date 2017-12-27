@@ -3,7 +3,6 @@ package convex.sampling;
 import convex.objects.ConvexBody;
 import convex.objects.Polytope;
 import exceptions.PointOutsideConvexBodyException;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,6 @@ public class HitAndRunTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("ojalgo");
-        Matrix.setMatrixOperationStrategy("ojalgo");
         sampler = new HitAndRun(64, 8);
         elp = new Polytope(new double[][] {{-1,0}, {0,-1}, {1,0}, {0,1}}, new double[] {1,1,1,1}); //new Box(2); //new Ellipsoid(2);
     }

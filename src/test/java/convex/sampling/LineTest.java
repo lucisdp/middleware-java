@@ -15,8 +15,6 @@ public class LineTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("ojalgo");
-        //Vector.setVectorOperationStrategy("simple");
         center = new Vector(new double[] {1,2,3});
         direction = new Vector(new double[] {-1,0,1});
         line = new Line(center, direction);

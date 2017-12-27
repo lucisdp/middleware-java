@@ -1,7 +1,7 @@
 package version_space;
 
-import convex.objects.Box;
 import convex.objects.ConvexBody;
+import convex.objects.Ellipsoid;
 import convex.sampling.HitAndRun;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
@@ -14,7 +14,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     private final int dim;
     private final HitAndRun sampler;
     private final IncrementalPolyhedralCone constrains;
-    private final Box box;
+    private final Ellipsoid ball;
 
     public LinearVersionSpace(int dim, int chainLength, int sampleSize) {
         if(dim <= 0)
@@ -22,7 +22,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         this.dim = dim;
         this.sampler = new HitAndRun(chainLength, sampleSize);
         this.constrains = new IncrementalPolyhedralCone();
-        this.box = new Box(dim);
+        this.ball = new Ellipsoid(dim);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     @Override
     public boolean isInside(Vector point) {
         checkDim(point);
-        return constrains.isInside(point) && box.isInside(point);
+        return constrains.isInside(point) && ball.isInside(point);
     }
 
     @Override
@@ -62,10 +62,10 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         checkDim(line);
 
         LineSegment constrainsSegment = constrains.intersect(line);
-        LineSegment boxSegment = box.intersect(line);
+        LineSegment ballSegment = ball.intersect(line);
 
-        double lower = Math.max(constrainsSegment.getLower(), boxSegment.getLower());
-        double upper = Math.min(constrainsSegment.getUpper(), boxSegment.getUpper());
+        double lower = Math.max(constrainsSegment.getLower(), ballSegment.getLower());
+        double upper = Math.min(constrainsSegment.getUpper(), ballSegment.getUpper());
         return new LineSegment(line, lower, upper);
     }
 }

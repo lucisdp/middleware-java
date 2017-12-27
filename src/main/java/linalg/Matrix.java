@@ -1,7 +1,8 @@
 package linalg;
 
-import exceptions.NegativeDimensionException;
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
+import utils.Configuration;
 
 import java.util.Arrays;
 
@@ -9,7 +10,10 @@ public class Matrix {
     private double[][] values;
     private int rows;
     private int cols;
-    private static MatrixOperationStrategy opStrategy = null;
+    private static MatrixOperationStrategy opStrategy;
+    static {
+        Configuration.setLinearAlgebraLibrary(Configuration.getLinearAlgebraLibrary());
+    }
 
     public Matrix(double[][] values){
         this.values = values;
@@ -29,6 +33,10 @@ public class Matrix {
             Arrays.fill(this.values[i], fill);
     }
 
+    public static void setOpStrategy(MatrixOperationStrategy opStrategy) {
+        Matrix.opStrategy = opStrategy;
+    }
+
     public Matrix(int rows, int cols){
         this(rows, cols, 0);
     }
@@ -46,10 +54,6 @@ public class Matrix {
     }
 
     public Vector getRow(int i) { return new Vector(values[i]); }
-
-    public static void setMatrixOperationStrategy(String strategyName){
-        Matrix.opStrategy = MatrixOperationStrategy.getStrategy(strategyName);
-    }
 
     private void checkDim(Matrix matrix){
         if (this.getNumRows() != matrix.getNumRows())

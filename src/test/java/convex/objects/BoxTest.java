@@ -16,7 +16,6 @@ public class BoxTest {
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("simple");
         low = new Vector(new double[] {1,2,3});
         high =  new Vector(new double[] {4,5,6});
         box = new Box(low, high);

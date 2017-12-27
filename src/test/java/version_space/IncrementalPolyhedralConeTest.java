@@ -4,7 +4,6 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +15,6 @@ public class IncrementalPolyhedralConeTest{
 
     @Before
     public void setUp(){
-        Vector.setVectorOperationStrategy("simple");
-        Matrix.setMatrixOperationStrategy("simple");
         double[][] A = new double[][] {{-1,-1}, {1,-1}};
         pol = new IncrementalPolyhedralCone(A);
     }
