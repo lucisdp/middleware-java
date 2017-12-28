@@ -8,13 +8,13 @@ import exceptions.IncompatibleDimensionsException;
 import linalg.Matrix;
 import linalg.Vector;
 
-
+/**
+ * Implementation of an Polytope convex set. It is determined by a collection of linear inequality constrains, which can
+ * be described by two parameters: a matrix A and a vector b. Points are inside the polytope if they satisfy all constrains:
+ *
+ *                                          Ax < b
+ */
 public class Polytope implements ConvexBody {
-    /*
-    * A Polytope is defined as the intersection of half-spaces. Mathematically speaking, given a matrix A
-    * and a vector b, it is defined as the set of all points x satisfying Ax <= b.
-    * */
-
     private Matrix A;
     private Vector b;
 
@@ -46,11 +46,30 @@ public class Polytope implements ConvexBody {
 
     public int getNumConstrains() {return b.getDim(); }
 
+
+    /**
+     * Checks whether for a given point x it satisfies:
+     *              A x < b
+     *
+     * @param point: point in the euclidean space
+     * @return boolean telling whether point is inside polytope
+     * @throws IncompatibleDimensionsException if point and Polytope have different dimensions
+     */
     @Override
     public boolean isInside(Vector point){
         return A.multiply(point).isSmallerThan(b);
     }
 
+    /**
+     * Finds line intersection by solving a set of inequalities:
+     *
+     *          A (C + t * D) < b
+     *
+     * @param line: Line instance
+     * @return line intersection result
+     * @throws IncompatibleDimensionsException if line and Polytope have different dimensions
+     * @throws EmptyIntersectionException if line does not intercept Polytope
+     */
     @Override
     public LineSegment intersect(Line line) {
         checkDim(line);

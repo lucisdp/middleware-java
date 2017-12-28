@@ -53,9 +53,7 @@ public class Vector {
     public double get(int index){
         return this.values[index];
     }
-    public double set(int index, double newValue){
-        return this.values[index] = newValue;
-    }
+    public void set(int index, double newValue){ this.values[index] = newValue; }
 
     public Vector add(double val){
         return opStrategy.add(this, val);

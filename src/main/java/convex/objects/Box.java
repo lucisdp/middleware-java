@@ -4,9 +4,17 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleBoundsException;
+import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 
+/**
+ * Implementation of a Box convex set. It is defined by two parameters: its lower-most edge point and its upper-most edge
+ * point.
+ *
+ * @see ConvexBody
+ * @author lucianodp
+ */
 public class Box implements ConvexBody {
     private Vector low, high;
 
@@ -20,6 +28,12 @@ public class Box implements ConvexBody {
         this(new Vector(low), new Vector(high));
     }
 
+
+    /**
+     * Construcs a Cube, given its center and side length. It is a particular case of an Box.
+     * @param center: cube's center
+     * @param length: cube's side length (must be positive)
+     */
     public Box(Vector center, double length){
         if (length <= 0)
             throw new NegativeLengthException("Side-length");
@@ -32,6 +46,10 @@ public class Box implements ConvexBody {
         this(new Vector(center), length);
     }
 
+    /**
+     * Constructs an unit box, which is a cube centered at the origin with side length equal to 2.
+     * @param dim: dimension of underlying euclidean space
+     */
     public Box(int dim){
         low = new Vector(dim, -1);
         high = new Vector(dim, 1);
@@ -58,11 +76,30 @@ public class Box implements ConvexBody {
         return high;
     }
 
+    /**
+     * If L and U are, respectively, the lowest and uppermost points in this box, a given point X is inside it iff:
+     *
+     *                      L_i < X_i < U_i, for all i
+     *
+     * @param point: point in the euclidean space
+     * @return boolean telling whether point is inside polytope
+     * @throws IncompatibleDimensionsException if point and box have different dimensions
+     */
     @Override
     public boolean isInside(Vector point) {
         return low.isSmallerThan(point) && point.isSmallerThan(high);
     }
 
+    /**
+     * Let C be the line's center and D its direction vector. To find the intersection segment we solve the inequalities below:
+     *
+     *                      L_i < C_i + t * D_i < U_i
+     *
+     * @param line: Line instance
+     * @return Intersection result
+     * @throws IncompatibleDimensionsException if line and box have different dimensions
+     * @throws EmptyIntersectionException if line does not intercept box
+     */
     @Override
     public LineSegment intersect(Line line) {
         checkDim(line);

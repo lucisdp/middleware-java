@@ -3,9 +3,17 @@ package convex.objects;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
+import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 
+/**
+ * Implementation of an Ellipsoid convex set. It is defined by two parameters: its geometrical center (any point in an
+ * euclidean space) and the lengths of each half-axis (positive numbers).
+ *
+ * @see ConvexBody
+ * @author lucianodp
+ */
 
 public class Ellipsoid implements ConvexBody {
     private Vector center;
@@ -22,6 +30,11 @@ public class Ellipsoid implements ConvexBody {
         this(new Vector(center), new Vector(halfAxisLengths));
     }
 
+    /**
+     * Construct an ball given its center and a radius (which is a particular case of an Ellipsoid).
+     * @param center: center of ball
+     * @param radius: radius of ball (must be positive)
+     */
     public Ellipsoid(Vector center, double radius){
         this.center = center;
 
@@ -35,9 +48,11 @@ public class Ellipsoid implements ConvexBody {
         this(new Vector(center), radius);
     }
 
-    public Ellipsoid(int dim){
-        this(new Vector(new double[dim]), 1);
-    }
+    /**
+     * Constructs an unit ball (centered at origin, radius 1)
+     * @param dim: dimension of underlying euclidean space
+     */
+    public Ellipsoid(int dim){ this(new Vector(dim), 1); }
 
     @Override
     public int getDim() {
@@ -52,6 +67,15 @@ public class Ellipsoid implements ConvexBody {
         return halfAxisLengths;
     }
 
+    /**
+     * If C is the center and L_i is the size of the half-axis i, a point X is inside the Ellipsoid if:
+     *
+     *             \sum_i ((X_i - C_i) / L_i)^2 < 1
+     *
+     * @param point: point in the euclidean space
+     * @return boolean telling whether point is inside this box
+     * @throws IncompatibleDimensionsException if point and Polytope have different dimensions
+     */
     @Override
     public boolean isInside(Vector point) {
         checkDim(point);
@@ -64,6 +88,13 @@ public class Ellipsoid implements ConvexBody {
 
     }
 
+    /**
+     * Finds line intersection by solving a second degree equation.
+     * @param line: Line instance
+     * @return Intersection result
+     * @throws IncompatibleDimensionsException if line and Ellipsoid have different dimensions
+     * @throws EmptyIntersectionException if line does not intercept Ellipsoid
+     */
     @Override
     public LineSegment intersect(Line line){
         checkDim(line);
