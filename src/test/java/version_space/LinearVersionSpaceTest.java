@@ -89,5 +89,12 @@ public class LinearVersionSpaceTest {
         assertEquals(1, segment.getUpper(), 1e-10);
     }
 
+    @Test
+    public void testFindInteriorPoint() throws Exception {
+        versionSpace.addConstrain(new Vector(new double[] {1,1}), -1);
+        Vector interiorPoint = versionSpace.findInteriorPoint();
+        assertTrue(versionSpace.isInside(interiorPoint));
+    }
+
     // TODO: add tests with non-empty constrains
 }

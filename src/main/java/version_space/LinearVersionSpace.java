@@ -5,6 +5,7 @@ import convex.objects.Ellipsoid;
 import convex.sampling.HitAndRun;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
+import exceptions.LinearProgramOptimizationFailed;
 import exceptions.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.Vector;
@@ -25,7 +26,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         this.sampler = new HitAndRun(chainLength, sampleSize);
         this.constrains = new IncrementalPolyhedralCone();
         this.ball = new Ellipsoid(this.dim);
-        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim);
+        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim+1);
         setSolverObjectiveFunction();
         setSolverBounds();
     }
@@ -37,8 +38,8 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
 
     @Override
     public void addConstrain(Vector point, double label) {
-        checkDim(point);
         Vector constrain = point.appendLeft(1).multiply(-label);  // -y_i (1, x_i) * (b, w) <= 0
+        checkDim(constrain);
         constrains.addConstrain(constrain);
         solver.addLinearConstrain(constrain.appendLeft(-1), 0);
     }
@@ -74,10 +75,9 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         Vector solution = solver.findMinimizer();
 
         if(solution.get(0) >= 0)
-            throw new RuntimeException();  // TODO: add better exception
+            throw new LinearProgramOptimizationFailed();
 
-        // TODO: add slicing
-        return solution;
+        return solution.dropLeft().normalize().multiply(0.8);
     }
 
     private void setSolverObjectiveFunction(){

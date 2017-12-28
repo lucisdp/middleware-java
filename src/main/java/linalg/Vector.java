@@ -1,5 +1,6 @@
 package linalg;
 
+import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import utils.Configuration;
@@ -104,7 +105,7 @@ public class Vector {
     public double norm(){
         return opStrategy.norm(this);
     }
-    //public Vector normalize() {return opStrategy.divide(this, norm()); }
+    public Vector normalize() {return opStrategy.divide(this, norm()); }
 
     public boolean equals(Vector vector){
         checkDim(vector);
@@ -156,6 +157,12 @@ public class Vector {
         for(int i=1; i < getDim()+1; i++)
             newVector[i] = this.values[i-1];
         return new Vector(newVector);
+    }
+
+    public Vector dropLeft(){
+        if(getDim() == 1)
+            throw new EmptyVectorException();
+        return new Vector(Arrays.copyOfRange(values, 1, getDim()));
     }
 
     @Override

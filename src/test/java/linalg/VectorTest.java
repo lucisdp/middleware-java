@@ -1,5 +1,6 @@
 package linalg;
 
+import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +46,16 @@ public abstract class VectorTest {
     @Test
     public void testAppendLeft() throws Exception {
         assertArrayEquals(new double[] {-3, 1, 2, 3}, vec.appendLeft(-3).getValues(), 1e-10);
+    }
+
+    @Test
+    public void testDropLeft() throws Exception {
+        assertArrayEquals(new double[] {2, 3}, vec.dropLeft().getValues(), 1e-10);
+    }
+
+    @Test(expected = EmptyVectorException.class)
+    public void testDropLeftUntilEmpty() throws Exception {
+        vec.dropLeft().dropLeft().dropLeft();
     }
 
     @Test
