@@ -73,16 +73,6 @@ public class Matrix {
             throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumCols());
     }
 
-    private void checkVectorDim(Vector vector){
-        if (this.getNumCols() != vector.getDim())
-            throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
-    }
-
-    private void checkMatrixMultDim(Matrix matrix){
-        if (this.getNumCols() != matrix.getNumRows())
-            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
-    }
-
     public Matrix add(double val){
         return opStrategy.add(this, val);
     }
@@ -106,12 +96,14 @@ public class Matrix {
     }
 
     public Vector multiply(Vector vector){
-        checkVectorDim(vector);
+        if (this.getNumCols() != vector.getDim())
+            throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
         return opStrategy.multiply(this, vector);
     }
 
     public Matrix multiply(Matrix matrix){
-        checkMatrixMultDim(matrix);
+        if (this.getNumCols() != matrix.getNumRows())
+            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
         return opStrategy.multiply(this, matrix);
     }
 

@@ -6,8 +6,6 @@ import linalg.Matrix;
 import linalg.Vector;
 import utils.Configuration;
 
-import java.util.Collection;
-
 public interface LinearProgramSolver {
     /*
     * Wrapper of most common Linear Programming solver available in java: Ojalgo and Apache Commons Math
@@ -37,13 +35,6 @@ public interface LinearProgramSolver {
     Vector findMinimizer();
 
     void addLinearConstrain(Vector vector, double val);
-    default void addLinearConstrain(Collection<Vector> constrains, Vector values){
-        int i=0;
-        for(Vector constrain: constrains){
-            addLinearConstrain(constrain, values.get(i));
-            i++;
-        }
-    }
     default void addLinearConstrain(Matrix constrains, Vector values){
         for(int i=0; i < values.getDim(); i++){
             addLinearConstrain(constrains.getRow(i), values.get(i));

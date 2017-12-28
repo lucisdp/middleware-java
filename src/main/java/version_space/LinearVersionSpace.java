@@ -22,11 +22,11 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     public LinearVersionSpace(int dim, int chainLength, int sampleSize) {
         if(dim <= 0)
             throw new NegativeDimensionException(dim);
-        this.dim = dim+1;
+        this.dim = dim+1;  // bias + weight vector
         this.sampler = new HitAndRun(chainLength, sampleSize);
         this.constrains = new IncrementalPolyhedralCone();
         this.ball = new Ellipsoid(this.dim);
-        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim+1);
+        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim+1);  // add dummy variable
         setSolverObjectiveFunction();
         setSolverBounds();
     }
