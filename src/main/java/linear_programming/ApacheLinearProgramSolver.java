@@ -11,6 +11,12 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Wrapper for Linear Programming solver in the Apache Commons Math library.
+ * @see <a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/index.html?overview-summary.html">
+ *     Apache Commons Math 3 linear optimization javadoc</a>
+ * @author lucianodp
+ */
 public class ApacheLinearProgramSolver implements LinearProgramSolver {
     private final int dim;
     private LinearObjectiveFunction objective;

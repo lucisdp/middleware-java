@@ -7,7 +7,12 @@ import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;
 import org.ojalgo.optimisation.Variable;
 
-
+/**
+ * Wrapper for Linear Programming solver in the OjAlgo library.
+ *
+ * @see <a href="https://github.com/optimatika/ojAlgo/wiki/The-Diet-Problem">OjAlgo wiki on Linear Programming</a>
+ * @author lucianodp
+ */
 public class OjalgoLinearProgramSolver implements LinearProgramSolver {
     private int numConstrains;
     private final int dim;
