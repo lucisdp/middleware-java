@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public abstract class VectorTest {
     Vector vec, vec2;
 
-    abstract String getLibraryName();
+    protected abstract String getLibraryName();
 
     @Before
     public void setUp(){

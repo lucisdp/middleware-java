@@ -1,5 +1,7 @@
-package linalg;
+package linalg.libraries.apache;
 
+import linalg.Vector;
+import linalg.VectorOperationStrategy;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 

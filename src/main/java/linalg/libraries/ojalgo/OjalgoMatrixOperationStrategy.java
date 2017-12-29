@@ -1,5 +1,8 @@
-package linalg;
+package linalg.libraries.ojalgo;
 
+import linalg.Matrix;
+import linalg.MatrixOperationStrategy;
+import linalg.Vector;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 /**

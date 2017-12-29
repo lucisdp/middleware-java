@@ -2,6 +2,12 @@ package utils;
 
 import exceptions.LinearAlgebraLibraryNotFound;
 import linalg.*;
+import linalg.libraries.apache.ApacheMatrixOperationStrategy;
+import linalg.libraries.apache.ApacheVectorOperationStrategy;
+import linalg.libraries.ojalgo.OjalgoMatrixOperationStrategy;
+import linalg.libraries.ojalgo.OjalgoVectorOperationStrategy;
+import linalg.libraries.simple.SimpleMatrixOperationStrategy;
+import linalg.libraries.simple.SimpleVectorOperationStrategy;
 
 import java.io.IOException;
 import java.io.InputStream;

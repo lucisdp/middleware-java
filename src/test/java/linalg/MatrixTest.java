@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public abstract class MatrixTest {
     Matrix mat, mat2;
 
-    abstract String getLibraryName();
+    protected abstract String getLibraryName();
 
     @Before
     public void setUp(){

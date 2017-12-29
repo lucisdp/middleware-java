@@ -1,4 +1,8 @@
-package linalg;
+package linalg.libraries.simple;
+
+import linalg.Matrix;
+import linalg.MatrixOperationStrategy;
+import linalg.Vector;
 
 /**
  * This is a naive implementation of all matrix operations using double[][] arrays.

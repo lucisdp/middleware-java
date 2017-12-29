@@ -1,4 +1,7 @@
-package linalg;
+package linalg.libraries.simple;
+
+import linalg.Vector;
+import linalg.VectorOperationStrategy;
 
 /**
  * This is a naive implementation of all vector operations using double[] arrays.

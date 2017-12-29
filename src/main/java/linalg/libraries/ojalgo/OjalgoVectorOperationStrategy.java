@@ -1,5 +1,7 @@
-package linalg;
+package linalg.libraries.ojalgo;
 
+import linalg.Vector;
+import linalg.VectorOperationStrategy;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 /**

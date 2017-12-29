@@ -1,6 +1,9 @@
-package linalg;
+package linalg.libraries.apache;
 
 
+import linalg.Matrix;
+import linalg.MatrixOperationStrategy;
+import linalg.Vector;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
