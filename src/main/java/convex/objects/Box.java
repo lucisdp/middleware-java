@@ -79,7 +79,7 @@ public class Box implements ConvexBody {
     /**
      * If L and U are, respectively, the lowest and uppermost points in this box, a given point X is inside it iff:
      *
-     *                      L_i < X_i < U_i, for all i
+     *                    \[ L_i &lt; X_i &lt; U_i, \forall i \]
      *
      * @param point: point in the euclidean space
      * @return boolean telling whether point is inside polytope
@@ -91,9 +91,9 @@ public class Box implements ConvexBody {
     }
 
     /**
-     * Let C be the line's center and D its direction vector. To find the intersection segment we solve the inequalities below:
+     * If \(c + t D\) is the line's equation, in order to find the intersection segment we solve the inequalities below:
      *
-     *                      L_i < C_i + t * D_i < U_i
+     *                     \[ L_i &lt; c_i + t D_i &lt; U_i, \forall i \]
      *
      * @param line: Line instance
      * @return Intersection result
@@ -121,9 +121,13 @@ public class Box implements ConvexBody {
                 upperBound = Math.min(upperBound, normalizedLow.get(i));
             }
 
-            else if(low.get(i) >= line.getCenter().get(i) || high.get(i) <= line.getCenter().get(i) || lowerBound >= upperBound)
+            // if D_i == 0, check that L_i < C_i < U_i
+            else if(low.get(i) >= line.getCenter().get(i) || high.get(i) <= line.getCenter().get(i))
                 throw new EmptyIntersectionException();
         }
+
+        if(lowerBound >= upperBound)
+            throw new EmptyIntersectionException();
 
         return new LineSegment(line, lowerBound, upperBound);
     }

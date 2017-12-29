@@ -31,7 +31,7 @@ public class Ellipsoid implements ConvexBody {
     }
 
     /**
-     * Construct an ball given its center and a radius (which is a particular case of an Ellipsoid).
+     * Construct a ball given its center and a radius.
      * @param center: center of ball
      * @param radius: radius of ball (must be positive)
      */
@@ -68,9 +68,9 @@ public class Ellipsoid implements ConvexBody {
     }
 
     /**
-     * If C is the center and L_i is the size of the half-axis i, a point X is inside the Ellipsoid if:
+     * If \( C \) is the center and \( L_i \) is the size of the half-axis i, a point \( X \) is inside the Ellipsoid if:
      *
-     *             \sum_i ((X_i - C_i) / L_i)^2 < 1
+     *            \[ \sum_i \left(\frac{X_i - C_i}{L_i}\right)^2 &lt; 1 \]
      *
      * @param point: point in the euclidean space
      * @return boolean telling whether point is inside this box
@@ -89,7 +89,12 @@ public class Ellipsoid implements ConvexBody {
     }
 
     /**
-     * Finds line intersection by solving a second degree equation.
+     * If \(c + t D\) is the line's equation, in order to find the intersection segment we solve the equation:
+     *
+     *                \[ \sum_i \left(\frac{t D_i + c_i - C_i}{L_i}\right)^2 &lt; 1 \]
+     *
+     * By rearranging the terms, we arrive at a simple second degree equation for \( t \).
+     *
      * @param line: Line instance
      * @return Intersection result
      * @throws IncompatibleDimensionsException if line and Ellipsoid have different dimensions
@@ -101,12 +106,13 @@ public class Ellipsoid implements ConvexBody {
         Vector normalizedCenter = line.getCenter().subtract(this.center).divide(this.halfAxisLengths);
         Vector normalizedDirection = line.getDirection().divide(this.halfAxisLengths);
 
+        // solve second degree equation
         double a = normalizedDirection.sqNorm();
         double b = normalizedCenter.dot(normalizedDirection);
         double c = normalizedCenter.sqNorm() - 1;
 
         double delta = b*b - a*c;
-        if (delta <= 0)
+        if (delta <= 0)  // only two real solutions determine a segment
             throw new EmptyIntersectionException();
 
         return new LineSegment(line, (-b - Math.sqrt(delta))/a,(-b + Math.sqrt(delta))/a);

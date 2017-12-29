@@ -12,7 +12,10 @@ import linalg.Vector;
  * Implementation of an Polytope convex set. It is determined by a collection of linear inequality constrains, which can
  * be described by two parameters: a matrix A and a vector b. Points are inside the polytope if they satisfy all constrains:
  *
- *                                          Ax < b
+ *                                  \[ Ax &lt; b \]
+ *
+ * @author lucianodp
+ * @see ConvexBody
  */
 public class Polytope implements ConvexBody {
     private Matrix A;
@@ -49,7 +52,7 @@ public class Polytope implements ConvexBody {
 
     /**
      * Checks whether for a given point x it satisfies:
-     *              A x < b
+     *             \[ A x &lt; b \]
      *
      * @param point: point in the euclidean space
      * @return boolean telling whether point is inside polytope
@@ -63,7 +66,11 @@ public class Polytope implements ConvexBody {
     /**
      * Finds line intersection by solving a set of inequalities:
      *
-     *          A (C + t * D) < b
+     *         \[ A (c + t D) &lt; b \]
+     *
+     * or, more explicitly,
+     *
+     *         \[ t \langle A_i , D \rangle &lt; b - \langle A_i , c \rangle, \forall i \]
      *
      * @param line: Line instance
      * @return line intersection result
@@ -72,8 +79,6 @@ public class Polytope implements ConvexBody {
      */
     @Override
     public LineSegment intersect(Line line) {
-        checkDim(line);
-
         Vector numerator = b.subtract(A.multiply(line.getCenter()));
         Vector denominator = A.multiply(line.getDirection());
 
@@ -87,6 +92,7 @@ public class Polytope implements ConvexBody {
             else if(denominator.get(i) < 0)
                 lowerBound = Math.max(lowerBound, numerator.get(i)/denominator.get(i));
 
+            // if < A_i , D > == 0, check that
             else if(numerator.get(i) <= 0)
                 throw new EmptyIntersectionException();
         }
