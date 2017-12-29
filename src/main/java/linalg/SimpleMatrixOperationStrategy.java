@@ -1,5 +1,10 @@
 package linalg;
 
+/**
+ * This is a naive implementation of all matrix operations using double[][] arrays.
+ *
+ * @author lucianodp
+ */
 public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
     private double[][] fromMatrix(Matrix matrix){
         return matrix.getValues();

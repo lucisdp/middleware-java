@@ -14,7 +14,7 @@ package linalg;
  */
 public interface VectorOperationStrategy {
     /**
-     * Adds a given value to all components of given vector.
+     * Adds a value to all components of vector.
      * @param vector: vector to perform sum
      * @param value: value to add to all components of vector
      * @return sum result
@@ -22,7 +22,7 @@ public interface VectorOperationStrategy {
     Vector add(Vector vector, double value);
 
     /**
-     * Adds two given vectors
+     * Adds two  vectors
      * @param leftVector: LHS of sum
      * @param rightVector: RHS of sum
      * @return sum result
@@ -30,7 +30,7 @@ public interface VectorOperationStrategy {
     Vector add(Vector leftVector, Vector rightVector);
 
     /**
-     * Subtracts a given value from all components of given vector.
+     * Subtracts a  value from all components of  vector.
      * @param vector: vector to perform subtraction
      * @param value: value to subtract to all components of vector
      * @return subtraction result
@@ -38,7 +38,7 @@ public interface VectorOperationStrategy {
     Vector subtract(Vector vector, double value);
 
     /**
-     * Subtracts two given vectors
+     * Subtracts two  vectors
      * @param leftVector: LHS of subtraction
      * @param rightVector: RHS of subtraction
      * @return subtraction result
@@ -46,7 +46,7 @@ public interface VectorOperationStrategy {
     Vector subtract(Vector leftVector, Vector rightVector);
 
     /**
-     * Multiplies a given value to all components of given vector.
+     * Multiplies a  value to all components of  vector.
      * @param vector: vector to perform multiplication
      * @param value: value to multiply all components of vector with
      * @return multiplication result
@@ -54,7 +54,7 @@ public interface VectorOperationStrategy {
     Vector multiply(Vector vector, double value);
 
     /**
-     * Element-wise multiplication two given vectors
+     * Element-wise multiplication two  vectors
      * @param leftVector: LHS of multiplication
      * @param rightVector: RHS of multiplication
      * @return multiplication result
@@ -62,7 +62,7 @@ public interface VectorOperationStrategy {
     Vector multiply(Vector leftVector, Vector rightVector);
 
     /**
-     * Divides a given value to all components of given vector.
+     * Divides a  value to all components of  vector.
      * @param vector: vector to perform division
      * @param value: value to divide all components of vector with
      * @return division result
@@ -70,7 +70,7 @@ public interface VectorOperationStrategy {
     Vector divide(Vector vector, double value);
 
     /**
-     * Element-wise division two given vectors
+     * Element-wise division of two  vectors
      * @param leftVector: Numerator of division
      * @param rightVector: Denominator of division
      * @return division result
@@ -104,10 +104,10 @@ public interface VectorOperationStrategy {
     boolean equals(Vector leftVector, Vector rightVector);
 
     /**
-     * Checks vector's components are all strictly smaller than the given value.
+     * Checks that vector's components are all strictly smaller than value.
      * @param vector: vector to compare with value
      * @param val: value to compare with components
-     * @return are all components strictly smaller than given value or not
+     * @return are all components strictly smaller than value or not
      */
     boolean isSmallerThan(Vector vector, double val);
 
@@ -120,10 +120,10 @@ public interface VectorOperationStrategy {
     boolean isSmallerThan(Vector leftVector, Vector rightVector);
 
     /**
-     * Checks vector's components are all smaller than or equal to the given value.
+     * Checks vector's components are all smaller than or equal to the  value.
      * @param vector: vector to compare with value
      * @param val: value to compare with components
-     * @return are all components smaller or equal than given value or not
+     * @return are all components smaller or equal than value or not
      */
     boolean isSmallerOrEqualThan(Vector vector, double val);
 
@@ -136,10 +136,10 @@ public interface VectorOperationStrategy {
     boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector);
 
     /**
-     * Checks vector's components are all strictly larger than the given value.
+     * Checks vector's components are all strictly larger than value.
      * @param vector: vector to compare with value
      * @param val: value to compare with components
-     * @return are all components strictly larger than given value or not
+     * @return are all components strictly larger than value or not
      */
     boolean isLargerThan(Vector vector, double val);
 
@@ -152,10 +152,10 @@ public interface VectorOperationStrategy {
     boolean isLargerThan(Vector leftVector, Vector rightVector);
 
     /**
-     * Checks vector's components are all larger than or equal to the given value.
+     * Checks vector's components are all larger than or equal to value.
      * @param vector: vector to compare with value
      * @param val: value to compare with components
-     * @return are all components strictly smaller than given value or not
+     * @return are all components strictly smaller than value or not
      */
     boolean isLargerOrEqualThan(Vector vector, double val);
 

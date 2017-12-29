@@ -2,6 +2,13 @@ package linalg;
 
 import org.ojalgo.matrix.PrimitiveMatrix;
 
+/**
+ * This class implements all matrix operations by means of the ojAlgo third-party library.
+ *
+ * @see <a href="http://ojalgo.org">ojAlgo website</a>
+ * @see <a href="https://github.com/optimatika/ojAlgo/wiki">ojAlgo wiki</a>
+ * @author lucianodp
+ */
 public class OjalgoMatrixOperationStrategy implements MatrixOperationStrategy {
     private PrimitiveMatrix fromMatrix(Matrix vector){
         return PrimitiveMatrix.FACTORY.rows(vector.getValues());

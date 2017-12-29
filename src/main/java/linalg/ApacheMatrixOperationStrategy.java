@@ -5,7 +5,13 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
-
+/**
+ * This class implements all matrix operations by means of the Apache Commons Math third-party library.
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math website</a>
+ * @see <a href="http://commons.apache.org/proper/commons-math/userguide/linear.html">Apache Commons Math linear algebra user guide</a>
+ * @author lucianodp
+ */
 public class ApacheMatrixOperationStrategy implements MatrixOperationStrategy {
     private RealMatrix fromMatrix(Matrix vector){
         return MatrixUtils.createRealMatrix(vector.getValues());

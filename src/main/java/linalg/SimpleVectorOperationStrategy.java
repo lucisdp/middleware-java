@@ -1,7 +1,7 @@
 package linalg;
 
 /**
- * This is a naive implementation of all Vector operations using double arrays.
+ * This is a naive implementation of all vector operations using double[] arrays.
  *
  * @author lucianodp
  */

@@ -253,7 +253,7 @@ public class Vector {
     }
 
     /**
-     * Checks vector's components are all strictly smaller than the given value.
+     * Checks if vector's components are all strictly smaller than value.
      * @param val: value to compare with components
      * @return are all components strictly smaller than given value or not
      */
@@ -273,7 +273,7 @@ public class Vector {
     }
 
     /**
-     * Checks vector's components are all smaller or equal than the given value.
+     * Checks if vector's components are all smaller or equal than given value.
      * @param val: value to compare with components
      * @return are all components smaller than given value or not
      */
@@ -293,7 +293,7 @@ public class Vector {
     }
 
     /**
-     * Checks vector's components are all larger than the given value.
+     * Checks if vector's components are all larger than given value.
      * @param val: value to compare with components
      * @return are all components strictly larger than given value or not
      */
@@ -313,7 +313,7 @@ public class Vector {
     }
 
     /**
-     * Checks vector's components are all larger or equal than the given value.
+     * Checks if vector's components are all larger or equal than given value.
      * @param val: value to compare with components
      * @return are all components larger than given value or not
      */
