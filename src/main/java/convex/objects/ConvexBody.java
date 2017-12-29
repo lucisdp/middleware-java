@@ -2,6 +2,7 @@ package convex.objects;
 
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
+import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import linalg.Matrix;
@@ -13,7 +14,7 @@ import linalg.Vector;
  * method, returning the LineSegment formed by the intersection between the ConvexBody and a Line.
  *
  * There are no checks guaranteeing whether a given implementing class defines a true convex set, we assume it is the
- * responsibility of the developer to ensure his implementations conform to this assumption.
+ * responsibility of the developer to ensure his implementation conforms to this assumption.
  *
  * @author lucianodp
 * */
@@ -53,6 +54,7 @@ public interface ConvexBody {
      *
      * @param point: point in the euclidean space
      * @return boolean telling whether point is inside this body
+     * @throws IncompatibleDimensionsException if point and convex body have different dimensions
      */
     boolean isInside(Vector point);
     default boolean isInside(double[] point) {
@@ -68,6 +70,8 @@ public interface ConvexBody {
      *
      * @param line: Line instance
      * @return Intersection result
+     * @throws IncompatibleDimensionsException if line and convex body have different dimensions
+     * @throws EmptyIntersectionException if line does not intersept convex body in two points
      * @see Line
      * @see LineSegment
      */

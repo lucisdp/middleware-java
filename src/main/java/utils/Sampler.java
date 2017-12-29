@@ -1,7 +1,7 @@
 package utils;
 
+import exceptions.EmptyVectorException;
 import exceptions.IncompatibleBoundsException;
-import exceptions.NegativeDimensionException;
 import linalg.Vector;
 
 import java.util.Random;
@@ -12,7 +12,7 @@ public class Sampler {
 
     public static Vector sampleGaussian(int size){
         if (size <= 0)
-            throw new NegativeDimensionException(size);
+            throw new EmptyVectorException();
 
         double[] direction = new double[size];
         for(int i=0; i < size; i++)

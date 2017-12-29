@@ -9,8 +9,8 @@ import exceptions.NegativeLengthException;
 import linalg.Vector;
 
 /**
- * Implementation of a Box convex set. It is defined by two parameters: its lower-most edge point and its upper-most edge
- * point.
+ * Implementation of a Box convex set. It is defined by two parameters: its lower-most edge point L and its upper-most edge
+ * point U.
  *
  * @see ConvexBody
  * @author lucianodp
@@ -77,7 +77,7 @@ public class Box implements ConvexBody {
     }
 
     /**
-     * If L and U are, respectively, the lowest and uppermost points in this box, a given point X is inside it iff:
+     * If L and U are, respectively, the lowermost and uppermost points in this box, a given point X is inside it iff:
      *
      *                    \[ L_i &lt; X_i &lt; U_i, \forall i \]
      *
