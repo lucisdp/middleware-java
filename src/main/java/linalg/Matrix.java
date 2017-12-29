@@ -6,6 +6,29 @@ import utils.Configuration;
 
 import java.util.Arrays;
 
+
+/**
+ * <p>This module implements an euclidean Matrix. In other words, a matrix is a bi-dimensional collection of real numbers with
+ * which we can perform several operations (sum, subtract, multiply, ...), including decompositions and acting upon vectors.</p>
+ *
+ * <p>There are several Linear Algebra libraries in Java, but there is not a single better choice for all applications. Given
+ * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
+ * libraries.</p>
+ *
+ * <p>Our design works as follows: this Matrix class stores an array containing the matrix values, but it delegates all
+ * matrix-related operations to a MatrixOperationStrategy object. For each third-part library, we create a new object
+ * implementing the MatrixOperationStrategy interface, where the matrix operations are finally performed using the library's
+ * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
+ * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
+ * before and after every operation, the matrix must be converted to the libraries appropriate Matrix class, which incurs
+ * copying the array to a new position in memory. This overhead may not be negligible for large matrices, which may require a
+ * rethink on the current design.</p>
+ *
+ * @author lucianodp
+ *
+ * @see Vector
+ * @see MatrixOperationStrategy
+ */
 public class Matrix {
     private double[][] values;
     private int rows;
@@ -17,8 +40,8 @@ public class Matrix {
     }
 
     /**
-     * Create new vector from double array
-     * @param values: array of values to be composing the vector
+     * Create new matrix from double array
+     * @param values: array of values to be composing the matrix
      */
     public Matrix(double[][] values){
         this.values = values;
@@ -30,7 +53,7 @@ public class Matrix {
      * Construct a matrix of specified size, filling it with a given value.
      * @param rows: number of rows
      * @param cols: number of columns
-     * @param fill: value to fill vector
+     * @param fill: value to fill the new matrix
      * @throws NegativeDimensionException if rows or cols are not positive numbers
      */
     public Matrix(int rows, int cols, double fill){

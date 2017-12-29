@@ -25,6 +25,10 @@ import java.util.Arrays;
  * copying the array to a new position in memory. This overhead may not be negligible for large vectors, which may require a
  * rethink on the current design.</p>
  *
+ * @author lucianodp
+ *
+ * @see Matrix
+ * @see VectorOperationStrategy
  */
 public class Vector {
     private double[] values;
