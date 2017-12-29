@@ -2,6 +2,7 @@ package linalg;
 
 import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NormalizingZeroVectorException;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Configuration;
@@ -134,6 +135,16 @@ public abstract class VectorTest {
 
     @Test
     public void testNorm(){ assertEquals( Math.sqrt(1+4+9), vec.norm(), 1e-10); }
+
+    @Test(expected = NormalizingZeroVectorException.class)
+    public void testNormalizeZeroVector() throws Exception {
+        (new Vector(3)).normalize();
+    }
+
+    @Test
+    public void testNormalize() throws Exception {
+        assertArrayEquals(new double[] {1.0/Math.sqrt(14), 2.0/Math.sqrt(14), 3.0/Math.sqrt(14)}, vec.normalize().getValues(), 1e-10);
+    }
 
     @Test
     public void testSqNorm(){ assertEquals( 14, vec.sqNorm(), 1e-10); }

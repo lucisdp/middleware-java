@@ -3,6 +3,13 @@ package linalg;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
+/**
+ * This class implements all vector operations by means of the Apache Commons Math third-party library.
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math website</a>
+ * @see <a href="http://commons.apache.org/proper/commons-math/userguide/linear.html">Apache Commons Math linear algebra user guide</a>
+ * @author lucianodp
+ */
 public class ApacheVectorOperationStrategy implements VectorOperationStrategy {
     
     static RealVector fromVector(Vector vector){ return new ArrayRealVector(vector.getValues()); }

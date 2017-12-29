@@ -4,6 +4,7 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
 import exceptions.NegativeLengthException;
 import linalg.Vector;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class EllipsoidTest {
         new Ellipsoid(center, -1);
     }
 
-    @Test(expected=NegativeArraySizeException.class)
+    @Test(expected= NegativeDimensionException.class)
     public void testNegativeDim() throws Exception {
         new Ellipsoid(-1);
     }

@@ -3,23 +3,52 @@ package linalg;
 import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
+import exceptions.NormalizingZeroVectorException;
 import utils.Configuration;
 
 import java.util.Arrays;
 
+/**
+ * <p>This module implements an euclidean vector. In other words, a vector is a fixed-size collection of real numbers with
+ * which we can perform several operations (sum, subtract, multiply, ...).</p>
+ *
+ * <p>There are several Linear Algebra libraries in Java, but there is not a single better choice for all applications. Given
+ * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
+ * libraries.</p>
+ *
+ * <p>Our design works as follows: this Vector class stores an array containing the vector values, but it delegates all
+ * vector-related operations to a VectorOperationStrategy object. For each third-part library, we create a new object
+ * implementing the VectorOperationStrategy interface, where the vector operations are finally performed using the library's
+ * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
+ * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
+ * before and after every operation, the vector must be converted to the libraries appropriate Vector class, which incurs
+ * copying the array to a new position in memory. This overhead may not be negligible for large vectors, which may require a
+ * rethink on the current design.</p>
+ *
+ */
 public class Vector {
     private double[] values;
     private int dim;
     private static VectorOperationStrategy opStrategy;
     static {
+        // set library from config file
         Configuration.setLinearAlgebraLibrary(Configuration.getLinearAlgebraLibrary());
     }
 
+    /**
+     * Create new vector from double array
+     * @param values: array of values to be composing the vector
+     */
     public Vector(double[] values){
         this.values = values;
         this.dim = values.length;
     }
 
+    /**
+     * Construct a vector of specified size, filling it with a given value.
+     * @param dim: vector size
+     * @param fill: value to fill vector
+     */
     public Vector(int dim, double fill){
         if (dim <= 0)
             throw new NegativeDimensionException(dim);
@@ -29,18 +58,35 @@ public class Vector {
         Arrays.fill(this.values, fill);
     }
 
+    /**
+     * Construct a zero vector of given size
+     * @param dim: vector size
+     */
     public Vector(int dim){
         this(dim, 0);
     }
 
+    /**
+     * Return reference to Vector's internal array (not a copy!)
+     * @return values attribute
+     */
     public double[] getValues() {
         return values;
     }
 
+    /**
+     * Vector's dimension
+     * @return dim attribute
+     */
     public int getDim() {
         return dim;
     }
 
+    /**
+     * Sets a new Vector operation strategy.
+     * @param opStrategy: VectorOperationStrategy instance.
+     * @see VectorOperationStrategy
+     */
     public static void setOpStrategy(VectorOperationStrategy opStrategy) {
         Vector.opStrategy = opStrategy;
     }
@@ -50,105 +96,247 @@ public class Vector {
             throw new IncompatibleDimensionsException(this.getDim(), vector.getDim());
     }
 
+    /**
+     * Get value at position 'index'.
+     * @param index: index of component to retrieve value
+     * @return value of component 'index'
+     * @throws ArrayIndexOutOfBoundsException if index is not valid
+     */
     public double get(int index){
         return this.values[index];
     }
+
+    /**
+     * Sets the component 'index' to a new value.
+     * @param index: index to set new value
+     * @param newValue: new value to set in position
+     * @throws ArrayIndexOutOfBoundsException if index is not valid
+     */
     public void set(int index, double newValue){ this.values[index] = newValue; }
 
+    /**
+     * Adds a given value to all components of Vector.
+     * @param val: value to add to all components of vector
+     * @return new vector with the sum result
+     */
     public Vector add(double val){
         return opStrategy.add(this, val);
     }
 
+    /**
+     * Performs vector addition.
+     * @param vector: vector to perform sum
+     * @return new vector with the sum result
+     * @throws IncompatibleDimensionsException if vectors have different sizes
+     */
     public Vector add(Vector vector){
         checkDim(vector);
         return opStrategy.add(this, vector);
     }
 
+    /**
+     * Subtracts a given value to all components of Vector.
+     * @param val: value to subtract to all components of vector
+     * @return new vector with the subtraction result
+     */
     public Vector subtract(double val){
         return opStrategy.subtract(this, val);
     }
 
+    /**
+     * Performs vector subtraction.
+     * @param vector: vector to perform subtraction
+     * @return new vector with the subtraction result
+     * @throws IncompatibleDimensionsException if vectors have different sizes
+     */
     public Vector subtract(Vector vector){
         checkDim(vector);
         return opStrategy.subtract(this, vector);
     }
 
+    /**
+     * Multiplies a given value to all components of Vector.
+     * @param val: value to multiply all components of vector with
+     * @return new vector with the multiplication result
+     */
     public Vector multiply(double val){
         return opStrategy.multiply(this, val);
     }
 
+    /**
+     * Performs vector element-wise multiplication.
+     * @param vector: vector to perform element-wise multiplication.
+     * @return new vector with the multiplication result
+     * @throws IncompatibleDimensionsException if vectors have different sizes
+     */
     public Vector multiply(Vector vector){
         checkDim(vector);
         return opStrategy.multiply(this, vector);
     }
 
+    /**
+     * Divides a given value to all components of Vector.
+     * @param val: value to divide all components of vector with
+     * @return new vector with the division result
+     */
     public Vector divide(double val){
         return opStrategy.divide(this, val);
     }
 
+    /**
+     * Performs vector element-wise division.
+     * @param vector: vector to perform element-wise division.
+     * @return new vector with the division result
+     * @throws IncompatibleDimensionsException if vectors have different sizes
+     */
     public Vector divide(Vector vector){
         checkDim(vector);
         return opStrategy.divide(this, vector);
     }
 
+    /**
+     * Computes the dot product between two vectors.
+     * @param vector to perform scalar product
+     * @return Dot product result
+     * @throws IncompatibleDimensionsException if vectors have different sizes
+     */
     public double dot(Vector vector){
         checkDim(vector);
         return opStrategy.dot(this, vector);
     }
 
+    /**
+     * Computes the scalar product of the vector with itself.
+     * @return squared norm of vector
+     */
     public double sqNorm(){
         return opStrategy.dot(this, this);
     }
 
+    /**
+     * Computes the vector's norm
+     * @return vector's norm
+     */
     public double norm(){
         return opStrategy.norm(this);
     }
-    public Vector normalize() {return opStrategy.divide(this, norm()); }
 
+    /**
+     * Normalizes a vector (divides it by its norm)
+     * @return normalized vector
+     * @throws NormalizingZeroVectorException if vector is zero
+     */
+    public Vector normalize() {
+        if(this.equals(0))
+            throw new NormalizingZeroVectorException();
+        return opStrategy.divide(this, norm());
+    }
+
+    /**
+     * Checks whether the corresponding components of the two vectors are equal, up to a tolerance of 1e-10.
+     * @param vector: vector to compare with
+     * @return is equal or not
+     * @throws IncompatibleDimensionsException if vectors have incompatible sizes
+     */
     public boolean equals(Vector vector){
         checkDim(vector);
         return opStrategy.equals(this, vector);
     }
 
+    /**
+     * Checks whether all vector's components are equal to a given number, up to a tolerance of 1e-10.
+     * @param val: number to compare components
+     * @return are all components equal to given value or not
+     */
     public boolean equals(double val){
         return opStrategy.equals(this, val);
     }
 
+    /**
+     * Checks vector's components are all strictly smaller than the given value.
+     * @param val: value to compare with components
+     * @return are all components strictly smaller than given value or not
+     */
     public boolean isSmallerThan(double val){
         return opStrategy.isSmallerThan(this, val);
     }
 
+    /**
+     * Checks whether this.get(i) &lt; vector.get(i), for all i.
+     * @param vector: vector to compare with
+     * @return is equal or not
+     * @throws IncompatibleDimensionsException if vectors have incompatible sizes
+     */
     public boolean isSmallerThan(Vector vector){
         checkDim(vector);
         return opStrategy.isSmallerThan(this, vector);
     }
 
+    /**
+     * Checks vector's components are all smaller or equal than the given value.
+     * @param val: value to compare with components
+     * @return are all components smaller than given value or not
+     */
     public boolean isSmallerOrEqualThan(double val){
         return opStrategy.isSmallerOrEqualThan(this, val);
     }
 
+    /**
+     * Checks whether this.get(i) \(\leq\) vector.get(i), for all i.
+     * @param vector: vector to compare with
+     * @return is equal or not
+     * @throws IncompatibleDimensionsException if vectors have incompatible sizes
+     */
     public boolean isSmallerOrEqualThan(Vector vector){
         checkDim(vector);
         return opStrategy.isSmallerOrEqualThan(this, vector);
     }
+
+    /**
+     * Checks vector's components are all larger than the given value.
+     * @param val: value to compare with components
+     * @return are all components strictly larger than given value or not
+     */
     public boolean isLargerThan(double val){
         return opStrategy.isLargerThan(this, val);
     }
 
+    /**
+     * Checks whether this.get(i) &gt; vector.get(i), for all i.
+     * @param vector: vector to compare with
+     * @return is equal or not
+     * @throws IncompatibleDimensionsException if vectors have incompatible sizes
+     */
     public boolean isLargerThan(Vector vector){
         checkDim(vector);
         return opStrategy.isLargerThan(this, vector);
     }
 
+    /**
+     * Checks vector's components are all larger or equal than the given value.
+     * @param val: value to compare with components
+     * @return are all components larger than given value or not
+     */
     public boolean isLargerOrEqualThan(double val){
         return opStrategy.isLargerOrEqualThan(this, val);
     }
 
+    /**
+     * Checks whether this.get(i) \(\geq\) vector.get(i), for all i.
+     * @param vector: vector to compare with
+     * @return is equal or not
+     * @throws IncompatibleDimensionsException if vectors have incompatible sizes
+     */
     public boolean isLargerOrEqualThan(Vector vector){
         checkDim(vector);
         return opStrategy.isLargerOrEqualThan(this, vector);
     }
 
+    /**
+     * Append a value to the left of vector. This creates a new copy of the Vector.
+     * @param value: value to append
+     * @return new vector with 'value' appended to the left
+     */
     public Vector appendLeft(double value){
         double[] newVector = new double[getDim()+1];
         newVector[0] = value;
@@ -157,6 +345,12 @@ public class Vector {
         return new Vector(newVector);
     }
 
+    /**
+     * Drops the 0-th component of vector, creating a new copy of Vector. It throws an exception is operation results
+     * would result in empty vector.
+     * @return new vector with 0-th component excluded
+     * @throws EmptyVectorException if Vector has a single component
+     */
     public Vector dropLeft(){
         if(getDim() == 1)
             throw new EmptyVectorException();
