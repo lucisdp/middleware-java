@@ -1,7 +1,7 @@
 package utils;
 
-import exceptions.EmptyVectorException;
 import exceptions.IncompatibleBoundsException;
+import exceptions.NegativeDimensionException;
 import linalg.Vector;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
@@ -12,12 +12,12 @@ import static junit.framework.TestCase.assertTrue;
 
 public class SamplerTest {
 
-    @Test(expected = EmptyVectorException.class)
+    @Test(expected = NegativeDimensionException.class)
     public void testNegativeSizeInGaussianSampler() throws Exception {
         Sampler.sampleGaussian(-1);
     }
 
-    @Test(expected = EmptyVectorException.class)
+    @Test(expected = NegativeDimensionException.class)
     public void testZeroSizeInGaussianSampler() throws Exception {
         Sampler.sampleGaussian(0);
     }

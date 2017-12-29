@@ -1,7 +1,7 @@
 package utils;
 
-import exceptions.EmptyVectorException;
 import exceptions.IncompatibleBoundsException;
+import exceptions.NegativeDimensionException;
 import linalg.Vector;
 
 import java.util.Random;
@@ -25,11 +25,11 @@ public class Sampler {
      * Computes an iid sample of standard gaussian r.v. of given size.
      * @param size: sample size
      * @return Vector containing the sample
-     * @throws EmptyVectorException if size is non-positive
+     * @throws NegativeDimensionException if size is non-positive
      */
     public static Vector sampleGaussian(int size){
         if (size <= 0)
-            throw new EmptyVectorException();
+            throw new NegativeDimensionException(size);
 
         double[] direction = new double[size];
         for(int i=0; i < size; i++)
