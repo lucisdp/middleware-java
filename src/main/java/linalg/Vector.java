@@ -28,20 +28,20 @@ import exceptions.NormalizingZeroVectorException;
  * @see VectorOperation
  */
 public class Vector {
-    private VectorStorage storageStrategy;
+    private VectorStorage storage;
     private static VectorStorageFactory storageFactory;
-    private static VectorOperation opStrategy;
+    private static VectorOperation vectorOperation;
 
     /**
      * Create new vector from double array
      * @param values: array of values to be composing the vector
      */
     public Vector(double[] values){
-        this.storageStrategy = storageFactory.makeVectorStorage(values);
+        this.storage = storageFactory.makeVectorStorage(values);
     }
 
-    public Vector(VectorStorage storageStrategy){
-        this.storageStrategy = storageStrategy;
+    public Vector(VectorStorage storage){
+        this.storage = storage;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Vector {
     public Vector(int dim, double fill){
         if (dim <= 0)
             throw new NegativeDimensionException(dim);
-        this.storageStrategy = storageFactory.makeVectorStorage(dim, fill);
+        this.storage = storageFactory.makeVectorStorage(dim, fill);
     }
 
     /**
@@ -67,12 +67,12 @@ public class Vector {
      * Return reference to Vector's internal array (not a copy!)
      * @return values attribute
      */
-    public double[] getValues() {
-        return storageStrategy.asArray();
+    public double[] asArray() {
+        return storage.asArray();
     }
 
-    public VectorStorage getStorageStrategy() {
-        return storageStrategy;
+    public VectorStorage getStorage() {
+        return storage;
     }
 
     /**
@@ -80,16 +80,16 @@ public class Vector {
      * @return dim attribute
      */
     public int getDim() {
-        return storageStrategy.getDim();
+        return storage.getDim();
     }
 
     /**
      * Sets a new Vector operation strategy.
-     * @param opStrategy: VectorOperation instance.
+     * @param vectorOperation: VectorOperation instance.
      * @see VectorOperation
      */
-    public static void setOpStrategy(VectorOperation opStrategy) {
-        Vector.opStrategy = opStrategy;
+    public static void setVectorOperation(VectorOperation vectorOperation) {
+        Vector.vectorOperation = vectorOperation;
     }
     public static void setStorageFactory(VectorStorageFactory storageFactory) {
         Vector.storageFactory = storageFactory;
@@ -107,7 +107,7 @@ public class Vector {
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
     public double get(int index){
-        return this.storageStrategy.get(index);
+        return this.storage.get(index);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Vector {
      * @param newValue: new value to set in position
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
-    public void set(int index, double newValue){ this.storageStrategy.set(index, newValue); }
+    public void set(int index, double newValue){ this.storage.set(index, newValue); }
 
     /**
      * Adds a given value to all components of Vector.
@@ -124,7 +124,7 @@ public class Vector {
      * @return new vector with the sum result
      */
     public Vector add(double val){
-        return opStrategy.add(this, val);
+        return vectorOperation.add(this, val);
     }
 
     /**
@@ -135,7 +135,7 @@ public class Vector {
      */
     public Vector add(Vector vector){
         checkDim(vector);
-        return opStrategy.add(this, vector);
+        return vectorOperation.add(this, vector);
     }
 
     /**
@@ -144,7 +144,7 @@ public class Vector {
      * @return new vector with the subtraction result
      */
     public Vector subtract(double val){
-        return opStrategy.subtract(this, val);
+        return vectorOperation.subtract(this, val);
     }
 
     /**
@@ -155,7 +155,7 @@ public class Vector {
      */
     public Vector subtract(Vector vector){
         checkDim(vector);
-        return opStrategy.subtract(this, vector);
+        return vectorOperation.subtract(this, vector);
     }
 
     /**
@@ -164,7 +164,7 @@ public class Vector {
      * @return new vector with the multiplication result
      */
     public Vector multiply(double val){
-        return opStrategy.multiply(this, val);
+        return vectorOperation.multiply(this, val);
     }
 
     /**
@@ -175,7 +175,7 @@ public class Vector {
      */
     public Vector multiply(Vector vector){
         checkDim(vector);
-        return opStrategy.multiply(this, vector);
+        return vectorOperation.multiply(this, vector);
     }
 
     /**
@@ -184,7 +184,7 @@ public class Vector {
      * @return new vector with the division result
      */
     public Vector divide(double val){
-        return opStrategy.divide(this, val);
+        return vectorOperation.divide(this, val);
     }
 
     /**
@@ -195,7 +195,7 @@ public class Vector {
      */
     public Vector divide(Vector vector){
         checkDim(vector);
-        return opStrategy.divide(this, vector);
+        return vectorOperation.divide(this, vector);
     }
 
     /**
@@ -206,7 +206,7 @@ public class Vector {
      */
     public double dot(Vector vector){
         checkDim(vector);
-        return opStrategy.dot(this, vector);
+        return vectorOperation.dot(this, vector);
     }
 
     /**
@@ -214,7 +214,7 @@ public class Vector {
      * @return squared norm of vector
      */
     public double sqNorm(){
-        return opStrategy.dot(this, this);
+        return vectorOperation.dot(this, this);
     }
 
     /**
@@ -222,7 +222,7 @@ public class Vector {
      * @return vector's norm
      */
     public double norm(){
-        return opStrategy.norm(this);
+        return vectorOperation.norm(this);
     }
 
     /**
@@ -233,7 +233,7 @@ public class Vector {
     public Vector normalize() {
         if(this.equals(0))
             throw new NormalizingZeroVectorException();
-        return opStrategy.divide(this, norm());
+        return vectorOperation.divide(this, norm());
     }
 
     /**
@@ -244,7 +244,7 @@ public class Vector {
      */
     public boolean equals(Vector vector){
         checkDim(vector);
-        return opStrategy.equals(this, vector);
+        return vectorOperation.equals(this, vector);
     }
 
     /**
@@ -253,7 +253,7 @@ public class Vector {
      * @return are all components equal to given value or not
      */
     public boolean equals(double val){
-        return opStrategy.equals(this, val);
+        return vectorOperation.equals(this, val);
     }
 
     /**
@@ -262,7 +262,7 @@ public class Vector {
      * @return are all components strictly smaller than given value or not
      */
     public boolean isSmallerThan(double val){
-        return opStrategy.isSmallerThan(this, val);
+        return vectorOperation.isSmallerThan(this, val);
     }
 
     /**
@@ -273,7 +273,7 @@ public class Vector {
      */
     public boolean isSmallerThan(Vector vector){
         checkDim(vector);
-        return opStrategy.isSmallerThan(this, vector);
+        return vectorOperation.isSmallerThan(this, vector);
     }
 
     /**
@@ -282,7 +282,7 @@ public class Vector {
      * @return are all components smaller than given value or not
      */
     public boolean isSmallerOrEqualThan(double val){
-        return opStrategy.isSmallerOrEqualThan(this, val);
+        return vectorOperation.isSmallerOrEqualThan(this, val);
     }
 
     /**
@@ -293,7 +293,7 @@ public class Vector {
      */
     public boolean isSmallerOrEqualThan(Vector vector){
         checkDim(vector);
-        return opStrategy.isSmallerOrEqualThan(this, vector);
+        return vectorOperation.isSmallerOrEqualThan(this, vector);
     }
 
     /**
@@ -302,7 +302,7 @@ public class Vector {
      * @return are all components strictly larger than given value or not
      */
     public boolean isLargerThan(double val){
-        return opStrategy.isLargerThan(this, val);
+        return vectorOperation.isLargerThan(this, val);
     }
 
     /**
@@ -313,7 +313,7 @@ public class Vector {
      */
     public boolean isLargerThan(Vector vector){
         checkDim(vector);
-        return opStrategy.isLargerThan(this, vector);
+        return vectorOperation.isLargerThan(this, vector);
     }
 
     /**
@@ -322,7 +322,7 @@ public class Vector {
      * @return are all components larger than given value or not
      */
     public boolean isLargerOrEqualThan(double val){
-        return opStrategy.isLargerOrEqualThan(this, val);
+        return vectorOperation.isLargerOrEqualThan(this, val);
     }
 
     /**
@@ -333,10 +333,11 @@ public class Vector {
      */
     public boolean isLargerOrEqualThan(Vector vector){
         checkDim(vector);
-        return opStrategy.isLargerOrEqualThan(this, vector);
+        return vectorOperation.isLargerOrEqualThan(this, vector);
     }
 
     /**
+     * TODO: move to VectorStorage
      * Append a value to the left of vector. This creates a new copy of the Vector.
      * @param value: value to append
      * @return new vector with 'value' appended to the left
@@ -350,6 +351,7 @@ public class Vector {
     }
 
     /**
+     * TODO: move to VectorStorage
      * Drops the 0-th component of vector, creating a new copy of Vector. It throws an exception is operation results
      * would result in empty vector.
      * @return new vector with 0-th component excluded

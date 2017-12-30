@@ -27,16 +27,16 @@ import exceptions.NegativeDimensionException;
  * @see MatrixOperation
  */
 public class Matrix {
-    private MatrixStorage storageStrategy;
+    private MatrixStorage storage;
     private static MatrixStorageFactory storageFactory;
-    private static MatrixOperation opStrategy;
+    private static MatrixOperation matrixOperation;
 
     /**
      * Create new matrix from double array
      * @param values: array of values to be composing the matrix
      */
     public Matrix(double[][] values){
-        this.storageStrategy = storageFactory.makeMatrixStorage(values);
+        this.storage = storageFactory.makeMatrixStorage(values);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Matrix {
         if (cols <= 0)
             throw new NegativeDimensionException(cols);
         
-        this.storageStrategy = storageFactory.makeMatrixStorage(rows, cols, fill);
+        this.storage = storageFactory.makeMatrixStorage(rows, cols, fill);
     }
 
     /**
@@ -79,21 +79,21 @@ public class Matrix {
         return new Matrix(storageFactory.makeEye(dim));
     }
 
-    public Matrix(MatrixStorage storageStrategy){
-        this.storageStrategy = storageStrategy;
+    public Matrix(MatrixStorage storage){
+        this.storage = storage;
     }
 
-    public MatrixStorage getStorageStrategy() {
-        return storageStrategy;
+    public MatrixStorage getStorage() {
+        return storage;
     }
 
     /**
      * Sets matrix operation strategy, responsible for performing matrix operations.
-     * @param opStrategy: new matrix operation strategy
+     * @param matrixOperation: new matrix operation strategy
      */
     // TODO: create one single public method to set both values, to avoid different Op and Factory
-    public static void setOpStrategy(MatrixOperation opStrategy) {
-        Matrix.opStrategy = opStrategy;
+    public static void setMatrixOperation(MatrixOperation matrixOperation) {
+        Matrix.matrixOperation = matrixOperation;
     }
     public static void setStorageFactory(MatrixStorageFactory storageFactory) { Matrix.storageFactory = storageFactory; }
 
@@ -102,15 +102,15 @@ public class Matrix {
      * @return inner storage of values
      */
     public double[][] asArray() {
-        return storageStrategy.asArray();
+        return storage.asArray();
     }
 
     public int getNumRows() {
-        return storageStrategy.getNumRows();
+        return storage.getNumRows();
     }
 
     public int getNumCols() {
-        return storageStrategy.getNumCols();
+        return storage.getNumCols();
     }
 
     /**
@@ -121,7 +121,7 @@ public class Matrix {
     public Vector getRow(int row) {
         if(row < 0 || row >= getNumRows())
             throw new ArrayIndexOutOfBoundsException();
-        return new Vector(storageStrategy.getRow(row));
+        return new Vector(storage.getRow(row));
     }
 
     private void checkDim(Matrix matrix){
@@ -138,7 +138,7 @@ public class Matrix {
      * @return sum result
      */
     public Matrix add(double val){
-        return opStrategy.add(this, val);
+        return matrixOperation.add(this, val);
     }
 
     /**
@@ -148,7 +148,7 @@ public class Matrix {
      */
     public Matrix add(Matrix matrix){
         checkDim(matrix);
-        return opStrategy.add(this, matrix);
+        return matrixOperation.add(this, matrix);
     }
 
     /**
@@ -157,7 +157,7 @@ public class Matrix {
      * @return subtraction result
      */
     public Matrix subtract(double val){
-        return opStrategy.subtract(this, val);
+        return matrixOperation.subtract(this, val);
     }
 
     /**
@@ -167,7 +167,7 @@ public class Matrix {
      */
     public Matrix subtract(Matrix matrix){
         checkDim(matrix);
-        return opStrategy.subtract(this, matrix);
+        return matrixOperation.subtract(this, matrix);
     }
 
     /**
@@ -176,7 +176,7 @@ public class Matrix {
      * @return multiplication result
      */
     public Matrix multiply(double val){
-        return opStrategy.multiply(this, val);
+        return matrixOperation.multiply(this, val);
     }
 
     /**
@@ -187,7 +187,7 @@ public class Matrix {
     public Vector multiply(Vector vector){
         if (this.getNumCols() != vector.getDim())
             throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
-        return opStrategy.multiply(this, vector);
+        return matrixOperation.multiply(this, vector);
     }
 
     /**
@@ -198,7 +198,7 @@ public class Matrix {
     public Matrix multiply(Matrix matrix){
         if (this.getNumCols() != matrix.getNumRows())
             throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
-        return opStrategy.multiply(this, matrix);
+        return matrixOperation.multiply(this, matrix);
     }
 
     /**
@@ -208,7 +208,7 @@ public class Matrix {
      */
     public Matrix multiplyElement(Matrix matrix){
         checkDim(matrix);
-        return opStrategy.multiplyElement(this, matrix);
+        return matrixOperation.multiplyElement(this, matrix);
     }
 
     /**
@@ -217,7 +217,7 @@ public class Matrix {
      * @return division result
      */
     public Matrix divide(double val){
-        return opStrategy.divide(this, val);
+        return matrixOperation.divide(this, val);
     }
 
     /**
@@ -227,7 +227,7 @@ public class Matrix {
      */
     public Matrix divide(Matrix matrix){
         checkDim(matrix);
-        return opStrategy.divide(this, matrix);
+        return matrixOperation.divide(this, matrix);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class Matrix {
         for (int i = 0; i < getNumRows(); i++) {
             builder.append('{');
             for (int j = 0; j < getNumCols(); j++) {
-                builder.append(storageStrategy.get(i, j));
+                builder.append(storage.get(i, j));
                 builder.append(',');
                 builder.append(' ');
             }

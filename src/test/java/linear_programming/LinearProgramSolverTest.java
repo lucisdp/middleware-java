@@ -19,7 +19,7 @@ public abstract class LinearProgramSolverTest {
         for(int i=0; i < constrainsMatrix.length; i++)
             solver.addLinearConstrain(new Vector(constrainsMatrix[i]), constrainsVector[i]);
         Vector solution = solver.findMinimizer();
-        assertArrayEquals(answer, solution.getValues(), 1e-10);
+        assertArrayEquals(answer, solution.asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)

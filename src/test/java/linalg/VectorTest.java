@@ -33,7 +33,7 @@ public abstract class VectorTest {
 
     @Test
     public void testGetValues(){
-        assertArrayEquals(new double[] {1,2,3}, vec.getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,2,3}, vec.asArray(), 1e-10);
     }
 
     @Test
@@ -41,17 +41,17 @@ public abstract class VectorTest {
         vec.set(0,10);
         vec.set(1,20);
         vec.set(2,30);
-        assertArrayEquals(new double[] {10,20,30}, vec.getValues(), 1e-10);
+        assertArrayEquals(new double[] {10,20,30}, vec.asArray(), 1e-10);
     }
 
     @Test
     public void testAppendLeft() throws Exception {
-        assertArrayEquals(new double[] {-3, 1, 2, 3}, vec.appendLeft(-3).getValues(), 1e-10);
+        assertArrayEquals(new double[] {-3, 1, 2, 3}, vec.appendLeft(-3).asArray(), 1e-10);
     }
 
     @Test
     public void testDropLeft() throws Exception {
-        assertArrayEquals(new double[] {2, 3}, vec.dropLeft().getValues(), 1e-10);
+        assertArrayEquals(new double[] {2, 3}, vec.dropLeft().asArray(), 1e-10);
     }
 
     @Test(expected = EmptyVectorException.class)
@@ -61,12 +61,12 @@ public abstract class VectorTest {
 
     @Test
     public void testFillConstructor(){
-        assertArrayEquals(new double[] {1,1,1}, (new Vector(3, 1)).getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,1,1}, (new Vector(3, 1)).asArray(), 1e-10);
     }
 
     @Test
     public void testDimConstructor(){
-        assertArrayEquals(new double[] {0,0,0}, (new Vector(3)).getValues(), 1e-10);
+        assertArrayEquals(new double[] {0,0,0}, (new Vector(3)).asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -77,13 +77,13 @@ public abstract class VectorTest {
     @Test
     public void testAddValue(){
         Vector res = vec.add(5);
-        assertArrayEquals(new double[] {6,7,8}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {6,7,8}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testAddVector(){
         Vector res = vec2.add(vec);
-        assertArrayEquals(new double[] {0,2,4}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {0,2,4}, res.asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -92,13 +92,13 @@ public abstract class VectorTest {
     @Test
     public void testSubtractValue(){
         Vector res = vec.subtract(5);
-        assertArrayEquals(new double[] {-4,-3,-2}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {-4,-3,-2}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testSubtractVector(){
         Vector res = vec.subtract(vec2);
-        assertArrayEquals(new double[] {2,2,2}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {2,2,2}, res.asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -107,13 +107,13 @@ public abstract class VectorTest {
     @Test
     public void testMultiplyByValue(){
         Vector res = vec.multiply(2);
-        assertArrayEquals(new double[] {2,4,6}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {2,4,6}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testMultiplyByVector(){
         Vector res = vec.multiply(vec2);
-        assertArrayEquals(new double[] {-1,0,3}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {-1,0,3}, res.asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -123,14 +123,14 @@ public abstract class VectorTest {
     @Test
     public void testDivideByValue(){
         Vector res = vec.divide(2);
-        assertArrayEquals(new double[] {0.5,1.0,1.5}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {0.5,1.0,1.5}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testDivideByVector(){
         vec2 = new Vector(new double[] {-1,2,4});
         Vector res = vec.divide(vec2);
-        assertArrayEquals(new double[] {-1,1,0.75}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {-1,1,0.75}, res.asArray(), 1e-10);
     }
 
     @Test
@@ -143,7 +143,7 @@ public abstract class VectorTest {
 
     @Test
     public void testNormalize() throws Exception {
-        assertArrayEquals(new double[] {1.0/Math.sqrt(14), 2.0/Math.sqrt(14), 3.0/Math.sqrt(14)}, vec.normalize().getValues(), 1e-10);
+        assertArrayEquals(new double[] {1.0/Math.sqrt(14), 2.0/Math.sqrt(14), 3.0/Math.sqrt(14)}, vec.normalize().asArray(), 1e-10);
     }
 
     @Test

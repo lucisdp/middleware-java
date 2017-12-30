@@ -14,7 +14,7 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  */
 public class OjalgoMatrixOperation implements MatrixOperation {
     private PrimitiveMatrix fromMatrix(Matrix matrix){
-        return ((OjalgoMatrixStorage) matrix.getStorageStrategy()).getRawStorage();
+        return ((OjalgoMatrixStorage) matrix.getStorage()).getRawStorage();
     }
 
     private Matrix toMatrix(PrimitiveMatrix ojalgoMatrix){

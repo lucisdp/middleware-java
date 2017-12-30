@@ -16,7 +16,7 @@ import org.apache.commons.math3.linear.RealVector;
  */
 public class ApacheMatrixOperation implements MatrixOperation {
     private RealMatrix fromMatrix(Matrix matrix){
-        return ((ApacheMatrixStorage) matrix.getStorageStrategy()).getRawStorage();
+        return ((ApacheMatrixStorage) matrix.getStorage()).getRawStorage();
     }
 
     private Matrix toMatrix(RealMatrix apacheMatrix){

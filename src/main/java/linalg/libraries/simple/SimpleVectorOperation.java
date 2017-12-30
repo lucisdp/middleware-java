@@ -10,7 +10,7 @@ import linalg.VectorOperation;
  */
 public class SimpleVectorOperation implements VectorOperation {
     static double[] fromVector(Vector vector){
-        return ((SimpleVectorStorage) vector.getStorageStrategy()).getRawStorage();
+        return ((SimpleVectorStorage) vector.getStorage()).getRawStorage();
     }
 
     static Vector toVector(double[] simpleVector){

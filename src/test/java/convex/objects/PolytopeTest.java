@@ -40,7 +40,7 @@ public class PolytopeTest{
 
     @Test
     public void testGetVector(){
-        assertTrue(Arrays.equals(pol.getVector().getValues(), b));
+        assertTrue(Arrays.equals(pol.getVector().asArray(), b));
     }
 
     @Test

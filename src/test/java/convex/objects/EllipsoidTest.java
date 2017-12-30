@@ -53,36 +53,36 @@ public class EllipsoidTest {
 
     @Test
     public void testGetCenter() throws Exception {
-        assertArrayEquals(center.getValues(), elp.getCenter().getValues(), 1e-10);
+        assertArrayEquals(center.asArray(), elp.getCenter().asArray(), 1e-10);
     }
 
     @Test
     public void testGetCenterWithRadiusConstructor() throws Exception {
         elp = new Ellipsoid(center, 4);
-        assertArrayEquals(center.getValues(), elp.getCenter().getValues(), 1e-10);
+        assertArrayEquals(center.asArray(), elp.getCenter().asArray(), 1e-10);
     }
 
     @Test
     public void testGetCenterWithDimConstructor() throws Exception {
         elp = new Ellipsoid(3);
-        assertArrayEquals(new double[] {0,0,0}, elp.getCenter().getValues(), 1e-10);
+        assertArrayEquals(new double[] {0,0,0}, elp.getCenter().asArray(), 1e-10);
     }
 
     @Test
     public void testGetAxisLength() throws Exception {
-        assertArrayEquals(axisLengths.getValues(), elp.getHalfAxisLengths().getValues(), 1e-10);
+        assertArrayEquals(axisLengths.asArray(), elp.getHalfAxisLengths().asArray(), 1e-10);
     }
 
     @Test
     public void testGetAxisLengthWithRadiusConstructor() throws Exception {
         elp = new Ellipsoid(center, 4);
-        assertArrayEquals(new double[] {4,4,4}, elp.getHalfAxisLengths().getValues(), 1e-10);
+        assertArrayEquals(new double[] {4,4,4}, elp.getHalfAxisLengths().asArray(), 1e-10);
     }
 
     @Test
     public void testGetAxisLengthWithDimConstructor() throws Exception {
         elp = new Ellipsoid(3);
-        assertArrayEquals(new double[] {1,1,1}, elp.getHalfAxisLengths().getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,1,1}, elp.getHalfAxisLengths().asArray(), 1e-10);
     }
 
     @Test

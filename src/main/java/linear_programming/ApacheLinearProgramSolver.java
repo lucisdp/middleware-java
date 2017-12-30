@@ -36,7 +36,7 @@ public class ApacheLinearProgramSolver implements LinearProgramSolver {
     @Override
     public void setObjectiveFunction(Vector vector) {
         checkDim(vector);
-        objective = new LinearObjectiveFunction(vector.getValues(), 0);
+        objective = new LinearObjectiveFunction(vector.asArray(), 0);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ApacheLinearProgramSolver implements LinearProgramSolver {
     @Override
     public void addLinearConstrain(Vector vector, double val) {
         checkDim(vector);
-        constraints.add(new LinearConstraint(vector.getValues(), Relationship.LEQ, val));
+        constraints.add(new LinearConstraint(vector.asArray(), Relationship.LEQ, val));
     }
 
     @Override

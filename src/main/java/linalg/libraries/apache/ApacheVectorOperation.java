@@ -14,7 +14,7 @@ import org.apache.commons.math3.linear.RealVector;
 public class ApacheVectorOperation implements VectorOperation {
     
     static RealVector fromVector(Vector vector){
-        return ((ApacheVectorStorage) vector.getStorageStrategy()).getRawStorage();
+        return ((ApacheVectorStorage) vector.getStorage()).getRawStorage();
     }
 
     static Vector toVector(RealVector apacheVector){

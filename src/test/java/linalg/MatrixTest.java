@@ -38,8 +38,8 @@ public abstract class MatrixTest {
 
     @Test
     public void testGetRow() throws Exception {
-        assertArrayEquals(new double[] {1,2,3}, mat.getRow(0).getValues(), 1e-10);
-        assertArrayEquals(new double[] {4,5,6}, mat.getRow(1).getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,2,3}, mat.getRow(0).asArray(), 1e-10);
+        assertArrayEquals(new double[] {4,5,6}, mat.getRow(1).asArray(), 1e-10);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
@@ -140,7 +140,7 @@ public abstract class MatrixTest {
     @Test
     public void testMultiplyByVector(){
         Vector res = mat.multiply(new Vector(new double[] {-1,0,1}));
-        assertArrayEquals(new double[] {2, 2}, res.getValues(), 1e-10);
+        assertArrayEquals(new double[] {2, 2}, res.asArray(), 1e-10);
     }
 
     @Test

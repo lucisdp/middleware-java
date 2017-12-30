@@ -62,30 +62,30 @@ public class BoxTest {
     @Test
     public void testGetHighWithCenterConstructor() throws Exception {
         box = new Box(new Vector(new double[] {1,2,3}), 2);
-        assertArrayEquals(new double[] {2,3,4}, box.getHigh().getValues(), 1e-10);
+        assertArrayEquals(new double[] {2,3,4}, box.getHigh().asArray(), 1e-10);
     }
 
     @Test
     public void testGetHighWithDimConstructor() throws Exception {
         box = new Box(3);
-        assertArrayEquals(new double[] {1,1,1}, box.getHigh().getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,1,1}, box.getHigh().asArray(), 1e-10);
     }
 
     @Test
     public void testGetLow() throws Exception {
-        assertArrayEquals(low.getValues(), box.getLow().getValues(), 1e-10);
+        assertArrayEquals(low.asArray(), box.getLow().asArray(), 1e-10);
     }
 
     @Test
     public void testGetLowWithCenterConstructor() throws Exception {
         Box box = new Box(low, 2);
-        assertArrayEquals(new double[] {0,1,2}, box.getLow().getValues(), 1e-10);
+        assertArrayEquals(new double[] {0,1,2}, box.getLow().asArray(), 1e-10);
     }
 
     @Test
     public void testGetLowWithDimConstructor() throws Exception {
         Box box = new Box(3);
-        assertArrayEquals(new double[] {-1,-1,-1}, box.getLow().getValues(), 1e-10);
+        assertArrayEquals(new double[] {-1,-1,-1}, box.getLow().asArray(), 1e-10);
     }
 
 

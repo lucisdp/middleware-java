@@ -14,7 +14,7 @@ import org.ojalgo.matrix.PrimitiveMatrix;
 public class OjalgoVectorOperation implements VectorOperation {
 
     static PrimitiveMatrix fromVector(Vector vector){
-        return ((OjalgoVectorStorage) vector.getStorageStrategy()).getRawStorage();
+        return ((OjalgoVectorStorage) vector.getStorage()).getRawStorage();
     }
 
     static Vector toVector(PrimitiveMatrix ojalgoVector){

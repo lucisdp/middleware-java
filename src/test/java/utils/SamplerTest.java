@@ -36,7 +36,7 @@ public class SamplerTest {
     public void testNormalDistribution() throws Exception {
         Vector normal = Sampler.sampleGaussian(10000);
         KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        double pValue = test.kolmogorovSmirnovTest(new NormalDistribution(0,1), normal.getValues());
+        double pValue = test.kolmogorovSmirnovTest(new NormalDistribution(0,1), normal.asArray());
         assertTrue(pValue > 0.01);
     }
 

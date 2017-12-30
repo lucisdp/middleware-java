@@ -48,22 +48,22 @@ public class LinearAlgebraConfiguration {
 
     private static void setLibrary(){
         if(libraryName.equalsIgnoreCase("apache")) {
-            Vector.setOpStrategy(new ApacheVectorOperation());
+            Vector.setVectorOperation(new ApacheVectorOperation());
             Vector.setStorageFactory(new ApacheVectorStorageFactory());
-            Matrix.setOpStrategy(new ApacheMatrixOperation());
+            Matrix.setMatrixOperation(new ApacheMatrixOperation());
             Matrix.setStorageFactory(new ApacheMatrixStorageFactory());
         }
         else if (libraryName.equalsIgnoreCase("ojalgo")){
-            Vector.setOpStrategy(new OjalgoVectorOperation());
+            Vector.setVectorOperation(new OjalgoVectorOperation());
             Vector.setStorageFactory(new OjalgoVectorStorageFactory());
-            Matrix.setOpStrategy(new OjalgoMatrixOperation());
+            Matrix.setMatrixOperation(new OjalgoMatrixOperation());
             Matrix.setStorageFactory(new OjalgoMatrixStorageFactory());
         }
 
         else if (libraryName.equalsIgnoreCase("simple")) {
-            Vector.setOpStrategy(new SimpleVectorOperation());
+            Vector.setVectorOperation(new SimpleVectorOperation());
             Vector.setStorageFactory(new SimpleVectorStorageFactory());
-            Matrix.setOpStrategy(new SimpleMatrixOperation());
+            Matrix.setMatrixOperation(new SimpleMatrixOperation());
             Matrix.setStorageFactory(new SimpleMatrixStorageFactory());
         }
         else

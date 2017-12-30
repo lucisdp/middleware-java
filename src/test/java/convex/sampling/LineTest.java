@@ -34,12 +34,12 @@ public class LineTest {
 
     @Test
     public void testGetCenter() {
-        assertArrayEquals(new double[] {1,2,3}, line.getCenter().getValues(),  1e-10);
+        assertArrayEquals(new double[] {1,2,3}, line.getCenter().asArray(),  1e-10);
     }
 
     @Test
     public void testGetDirection() {
-        assertArrayEquals(new double[] {-1,0,1}, line.getDirection().getValues(), 1e-10);
+        assertArrayEquals(new double[] {-1,0,1}, line.getDirection().asArray(), 1e-10);
     }
 
     @Test
@@ -49,17 +49,17 @@ public class LineTest {
 
     @Test
     public void testGetCenterPoint() throws Exception {
-        assertArrayEquals(new double[] {1,2,3}, line.getPoint(0).getValues(), 1e-10);
+        assertArrayEquals(new double[] {1,2,3}, line.getPoint(0).asArray(), 1e-10);
     }
 
     @Test
     public void testGetPositivePoint() throws Exception {
-        assertArrayEquals(new double[] {-3,2,7}, line.getPoint(4).getValues(), 1e-10);
+        assertArrayEquals(new double[] {-3,2,7}, line.getPoint(4).asArray(), 1e-10);
     }
 
     @Test
     public void testGetNegativePoint() throws Exception {
-        assertArrayEquals(new double[] {5,2,-1}, line.getPoint(-4).getValues(), 1e-10);
+        assertArrayEquals(new double[] {5,2,-1}, line.getPoint(-4).asArray(), 1e-10);
     }
 
     //TODO: test sampling method
