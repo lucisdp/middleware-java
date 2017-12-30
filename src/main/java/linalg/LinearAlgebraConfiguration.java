@@ -73,19 +73,19 @@ public class LinearAlgebraConfiguration {
             throw new LinearAlgebraLibraryNotFound(libraryName);
     }
 
-    public static VectorOperation getVectorOperation() {
+    static VectorOperation getVectorOperation() {
         return vectorOperation;
     }
 
-    public static VectorStorageFactory getVectorStorageFactory() {
+    static VectorStorageFactory getVectorStorageFactory() {
         return vectorStorageFactory;
     }
 
-    public static MatrixOperation getMatrixOperation() {
+    static MatrixOperation getMatrixOperation() {
         return matrixOperation;
     }
 
-    public static MatrixStorageFactory getMatrixStorageFactory() {
+    static MatrixStorageFactory getMatrixStorageFactory() {
         return matrixStorageFactory;
     }
 }
