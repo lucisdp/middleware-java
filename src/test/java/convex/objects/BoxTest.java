@@ -6,7 +6,7 @@ import exceptions.*;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import utils.LinearAlgebraConfiguration;
+import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 

@@ -2,17 +2,16 @@ package utils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 
 /**
  * This module reads and stores all necessary system properties from the config.properties file in the resources folder.
  * In particular, it reads which Linear Algebra library and which Linear Programming solver to use.
  */
-public class Configuration {
-    private static Properties prop = readPropertiesFile();
+public class Configurations {
+    private static java.util.Properties prop = readPropertiesFile();
 
-    private static Properties readPropertiesFile() {
-        Properties prop = new Properties();
+    private static java.util.Properties readPropertiesFile() {
+        java.util.Properties prop = new java.util.Properties();
         InputStream input = null;
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();

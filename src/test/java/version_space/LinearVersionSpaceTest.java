@@ -8,7 +8,7 @@ import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import utils.LinearAlgebraConfiguration;
+import linalg.LinearAlgebraConfiguration;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;

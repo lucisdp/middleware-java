@@ -3,7 +3,7 @@ package linear_programming;
 import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Test;
-import utils.LinearAlgebraConfiguration;
+import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 

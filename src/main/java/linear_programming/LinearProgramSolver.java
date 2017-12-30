@@ -4,7 +4,7 @@ import exceptions.IncompatibleDimensionsException;
 import exceptions.LinearProgrammingLibraryNotFound;
 import linalg.Matrix;
 import linalg.Vector;
-import utils.Configuration;
+import utils.Configurations;
 
 /**
  * Wrapper of most common Linear Programming (LP) solvers available in java. A LP refers to the problem:
@@ -26,7 +26,7 @@ public interface LinearProgramSolver {
      * @return LP solver instance
      */
     static LinearProgramSolver getLinearProgramSolver(int dim){
-        return getLinearProgramSolver(Configuration.getLinearProgrammingLibrary(), dim);
+        return getLinearProgramSolver(Configurations.getLinearProgrammingLibrary(), dim);
     }
 
     /**

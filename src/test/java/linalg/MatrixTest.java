@@ -4,7 +4,6 @@ import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import org.junit.Before;
 import org.junit.Test;
-import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,7 @@ public abstract class MatrixTest {
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryName(getLibraryName());
+        LinearAlgebraConfiguration.setLibrary(getLibraryName());
         mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
         mat2 = new Matrix(new double[][] {{-1,0,1},{2,5,-8}});
     }
