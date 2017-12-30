@@ -13,20 +13,12 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  * @author lucianodp
  */
 public class OjalgoMatrixOperation implements MatrixOperation {
-    private PrimitiveMatrix fromMatrix(Matrix vector){
-        return PrimitiveMatrix.FACTORY.rows(vector.asArray());
+    private PrimitiveMatrix fromMatrix(Matrix matrix){
+        return ((OjalgoMatrixStorage) matrix.getStorageStrategy()).getRawStorage();
     }
 
     private Matrix toMatrix(PrimitiveMatrix ojalgoMatrix){
-        int rows = (int) ojalgoMatrix.countRows();
-        int cols = (int) ojalgoMatrix.countColumns();
-
-        double[][] res = new double[rows][cols];
-        for (int i=0; i < rows; i++)
-            for (int j=0; j < cols; j++)
-                res[i][j] = ojalgoMatrix.get(i,j);
-
-        return new Matrix(res);
+        return new Matrix(new OjalgoMatrixStorage(ojalgoMatrix));
     }
 
     @Override

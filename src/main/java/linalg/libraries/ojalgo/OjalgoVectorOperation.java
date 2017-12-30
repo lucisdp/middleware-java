@@ -14,7 +14,6 @@ import org.ojalgo.matrix.PrimitiveMatrix;
 public class OjalgoVectorOperation implements VectorOperation {
 
     static PrimitiveMatrix fromVector(Vector vector){
-        // TODO: add try-catch for incompatible storage and operation strategies
         return ((OjalgoVectorStorage) vector.getStorageStrategy()).getRawStorage();
     }
 

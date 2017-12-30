@@ -4,7 +4,6 @@ package linalg.libraries.apache;
 import linalg.Matrix;
 import linalg.MatrixOperation;
 import linalg.Vector;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
@@ -16,12 +15,12 @@ import org.apache.commons.math3.linear.RealVector;
  * @author lucianodp
  */
 public class ApacheMatrixOperation implements MatrixOperation {
-    private RealMatrix fromMatrix(Matrix vector){
-        return MatrixUtils.createRealMatrix(vector.asArray());
+    private RealMatrix fromMatrix(Matrix matrix){
+        return ((ApacheMatrixStorage) matrix.getStorageStrategy()).getRawStorage();
     }
 
     private Matrix toMatrix(RealMatrix apacheMatrix){
-        return new Matrix(apacheMatrix.getData());
+        return new Matrix(new ApacheMatrixStorage(apacheMatrix));
     }
 
     @Override

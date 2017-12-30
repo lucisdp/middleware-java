@@ -79,9 +79,12 @@ public class Matrix {
         return new Matrix(storageFactory.makeEye(dim));
     }
 
-
-    private Matrix(MatrixStorage storageStrategy){
+    public Matrix(MatrixStorage storageStrategy){
         this.storageStrategy = storageStrategy;
+    }
+
+    public MatrixStorage getStorageStrategy() {
+        return storageStrategy;
     }
 
     /**
