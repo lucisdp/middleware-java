@@ -1,7 +1,7 @@
 package linalg.libraries.ojalgo;
 
 import linalg.Vector;
-import linalg.VectorOperationStrategy;
+import linalg.VectorOperation;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 /**
@@ -11,15 +11,15 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  * @see <a href="https://github.com/optimatika/ojAlgo/wiki">ojAlgo wiki</a>
  * @author lucianodp
  */
-public class OjalgoVectorOperationStrategy implements VectorOperationStrategy {
+public class OjalgoVectorOperation implements VectorOperation {
 
     static PrimitiveMatrix fromVector(Vector vector){
         // TODO: add try-catch for incompatible storage and operation strategies
-        return ((OjalgoVectorStorageStrategy) vector.getStorageStrategy()).getRawStorage();
+        return ((OjalgoVectorStorage) vector.getStorageStrategy()).getRawStorage();
     }
 
     static Vector toVector(PrimitiveMatrix ojalgoVector){
-        return new Vector(new OjalgoVectorStorageStrategy(ojalgoVector));
+        return new Vector(new OjalgoVectorStorage(ojalgoVector));
     }
 
     @Override

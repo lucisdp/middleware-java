@@ -1,14 +1,14 @@
 package linalg.libraries.apache;
 
-import linalg.MatrixStorageStrategy;
-import linalg.VectorStorageStrategy;
+import linalg.MatrixStorage;
+import linalg.VectorStorage;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 
-public class ApacheMatrixStorageStrategy implements MatrixStorageStrategy {
+public class ApacheMatrixStorage implements MatrixStorage {
     private RealMatrix storage;
 
-    ApacheMatrixStorageStrategy(RealMatrix matrix){
+    ApacheMatrixStorage(RealMatrix matrix){
         this.storage = matrix;
     }
 
@@ -28,8 +28,8 @@ public class ApacheMatrixStorageStrategy implements MatrixStorageStrategy {
     }
 
     @Override
-    public VectorStorageStrategy getRow(int index) {
-        return new ApacheVectorStorageStrategy(new ArrayRealVector(storage.getRow(index)));
+    public VectorStorage getRow(int index) {
+        return new ApacheVectorStorage(new ArrayRealVector(storage.getRow(index)));
     }
 
     @Override

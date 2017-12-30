@@ -7,6 +7,7 @@ import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import java.util.Arrays;
 
@@ -18,8 +19,8 @@ public class PolytopeTest{
     Polytope pol;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         A = new double[][] {{-1,0}, {0,-1}, {0,1}};
         b = new double[] {1,0,2};
         pol = new Polytope(A,b);
@@ -34,7 +35,7 @@ public class PolytopeTest{
 
     @Test
     public void testGetMatrix(){
-        assertTrue(Arrays.deepEquals(pol.getMatrix().getValues(), A));
+        assertTrue(Arrays.deepEquals(pol.getMatrix().asArray(), A));
     }
 
     @Test

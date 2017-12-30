@@ -9,6 +9,7 @@ import exceptions.NegativeLengthException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +20,7 @@ public class EllipsoidTest {
 
     @Before
     public void setUp(){
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         center = new Vector(new double[] {1,2,3});
         axisLengths = new Vector(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);

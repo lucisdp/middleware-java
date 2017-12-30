@@ -1,7 +1,7 @@
 package linalg.libraries.simple;
 
 import linalg.Matrix;
-import linalg.MatrixOperationStrategy;
+import linalg.MatrixOperation;
 import linalg.Vector;
 
 /**
@@ -9,9 +9,9 @@ import linalg.Vector;
  *
  * @author lucianodp
  */
-public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
+public class SimpleMatrixOperation implements MatrixOperation {
     private double[][] fromMatrix(Matrix matrix){
-        return matrix.getValues();
+        return matrix.asArray();
     }
 
     private Matrix toMatrix(double[][] simpleMatrix){
@@ -115,14 +115,14 @@ public class SimpleMatrixOperationStrategy implements MatrixOperationStrategy {
     public Vector multiply(Matrix matrix, Vector vector){
         int rows = matrix.getNumRows();
         double[][] simpleMatrix = fromMatrix(matrix);
-        double[] simpleVector = SimpleVectorOperationStrategy.fromVector(vector);
+        double[] simpleVector = SimpleVectorOperation.fromVector(vector);
         double[] res = new double[rows];
 
         for(int i=0; i < rows; i++)
             for(int k = 0; k < matrix.getNumCols(); k++)
                 res[i] += simpleMatrix[i][k] * simpleVector[k];
 
-        return SimpleVectorOperationStrategy.toVector(res);
+        return SimpleVectorOperation.toVector(res);
     }
 
     @Override

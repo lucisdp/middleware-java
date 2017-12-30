@@ -4,6 +4,7 @@ import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -15,6 +16,7 @@ public class LineTest {
 
     @Before
     public void setUp(){
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         center = new Vector(new double[] {1,2,3});
         direction = new Vector(new double[] {-1,0,1});
         line = new Line(center, direction);

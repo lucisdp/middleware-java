@@ -14,8 +14,8 @@ import exceptions.NormalizingZeroVectorException;
  * libraries.</p>
  *
  * <p>Our design works as follows: this Vector class stores an array containing the vector values, but it delegates all
- * vector-related operations to a VectorOperationStrategy object. For each third-part library, we create a new object
- * implementing the VectorOperationStrategy interface, where the vector operations are finally performed using the library's
+ * vector-related operations to a VectorOperation object. For each third-part library, we create a new object
+ * implementing the VectorOperation interface, where the vector operations are finally performed using the library's
  * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
  * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
  * before and after every operation, the vector must be converted to the libraries appropriate Vector class, which incurs
@@ -25,12 +25,12 @@ import exceptions.NormalizingZeroVectorException;
  * @author lucianodp
  *
  * @see Matrix
- * @see VectorOperationStrategy
+ * @see VectorOperation
  */
 public class Vector {
-    private VectorStorageStrategy storageStrategy;
+    private VectorStorage storageStrategy;
     private static VectorStorageFactory storageFactory;
-    private static VectorOperationStrategy opStrategy;
+    private static VectorOperation opStrategy;
 
     /**
      * Create new vector from double array
@@ -40,7 +40,7 @@ public class Vector {
         this.storageStrategy = storageFactory.makeVectorStorage(values);
     }
 
-    public Vector(VectorStorageStrategy storageStrategy){
+    public Vector(VectorStorage storageStrategy){
         this.storageStrategy = storageStrategy;
     }
 
@@ -71,7 +71,7 @@ public class Vector {
         return storageStrategy.asArray();
     }
 
-    public VectorStorageStrategy getStorageStrategy() {
+    public VectorStorage getStorageStrategy() {
         return storageStrategy;
     }
 
@@ -85,10 +85,10 @@ public class Vector {
 
     /**
      * Sets a new Vector operation strategy.
-     * @param opStrategy: VectorOperationStrategy instance.
-     * @see VectorOperationStrategy
+     * @param opStrategy: VectorOperation instance.
+     * @see VectorOperation
      */
-    public static void setOpStrategy(VectorOperationStrategy opStrategy) {
+    public static void setOpStrategy(VectorOperation opStrategy) {
         Vector.opStrategy = opStrategy;
     }
     public static void setStorageFactory(VectorStorageFactory storageFactory) {

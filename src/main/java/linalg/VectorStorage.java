@@ -1,6 +1,6 @@
 package linalg;
 
-public interface VectorStorageStrategy {
+public interface VectorStorage {
     double get(int index);
     void set(int index, double value);
     int getDim();

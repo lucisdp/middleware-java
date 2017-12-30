@@ -16,9 +16,4 @@ public class LinearAlgebraConfigurationTest {
         LinearAlgebraConfiguration.setLibraryFromConfig();
         assertEquals(Configuration.getLinearAlgebraLibrary(), LinearAlgebraConfiguration.getLibraryName());
     }
-
-    @Test
-    public void testGetLibraryWithoutSettingAnyLibrary() throws Exception {
-        assertEquals(null, LinearAlgebraConfiguration.getLibraryName());
-    }
 }

@@ -1,11 +1,11 @@
 package linalg.libraries.simple;
 
 import linalg.MatrixStorageFactory;
-import linalg.MatrixStorageStrategy;
+import linalg.MatrixStorage;
 
 public class SimpleMatrixStorageFactory implements MatrixStorageFactory{
     @Override
-    public MatrixStorageStrategy makeMatrixStorage(double[][] values) {
-        return new SimpleMatrixStorageStrategy(values);
+    public MatrixStorage makeMatrixStorage(double[][] values) {
+        return new SimpleMatrixStorage(values);
     }
 }

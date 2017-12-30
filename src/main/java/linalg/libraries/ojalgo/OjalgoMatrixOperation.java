@@ -1,7 +1,7 @@
 package linalg.libraries.ojalgo;
 
 import linalg.Matrix;
-import linalg.MatrixOperationStrategy;
+import linalg.MatrixOperation;
 import linalg.Vector;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
@@ -12,9 +12,9 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  * @see <a href="https://github.com/optimatika/ojAlgo/wiki">ojAlgo wiki</a>
  * @author lucianodp
  */
-public class OjalgoMatrixOperationStrategy implements MatrixOperationStrategy {
+public class OjalgoMatrixOperation implements MatrixOperation {
     private PrimitiveMatrix fromMatrix(Matrix vector){
-        return PrimitiveMatrix.FACTORY.rows(vector.getValues());
+        return PrimitiveMatrix.FACTORY.rows(vector.asArray());
     }
 
     private Matrix toMatrix(PrimitiveMatrix ojalgoMatrix){
@@ -64,8 +64,8 @@ public class OjalgoMatrixOperationStrategy implements MatrixOperationStrategy {
     @Override
     public Vector multiply(Matrix matrix, Vector vector){
         PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
-        PrimitiveMatrix ojalgoVector = OjalgoVectorOperationStrategy.fromVector(vector);
-        return OjalgoVectorOperationStrategy.toVector(ojalgoMatrix.multiply(ojalgoVector));
+        PrimitiveMatrix ojalgoVector = OjalgoVectorOperation.fromVector(vector);
+        return OjalgoVectorOperation.toVector(ojalgoMatrix.multiply(ojalgoVector));
     }
 
     @Override

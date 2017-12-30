@@ -8,6 +8,7 @@ import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +21,7 @@ public class LinearVersionSpaceTest {
 
     @Before
     public void setUp() throws Exception {
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         dim = 2;
         chainLength = 64;
         sampleSize = 8;

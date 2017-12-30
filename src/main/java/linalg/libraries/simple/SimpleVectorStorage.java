@@ -1,11 +1,11 @@
 package linalg.libraries.simple;
 
-import linalg.VectorStorageStrategy;
+import linalg.VectorStorage;
 
-public class SimpleVectorStorageStrategy implements VectorStorageStrategy {
+public class SimpleVectorStorage implements VectorStorage {
     double[] storage;
 
-    public SimpleVectorStorageStrategy(double[] values){
+    public SimpleVectorStorage(double[] values){
         storage = values;
     }
 

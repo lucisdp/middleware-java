@@ -1,14 +1,14 @@
 package linalg.libraries.ojalgo;
 
-import linalg.MatrixStorageStrategy;
-import linalg.VectorStorageStrategy;
+import linalg.MatrixStorage;
+import linalg.VectorStorage;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 
-public class OjalgoMatrixStorageStrategy implements MatrixStorageStrategy {
+public class OjalgoMatrixStorage implements MatrixStorage {
     private PrimitiveMatrix storage;
 
-    OjalgoMatrixStorageStrategy(PrimitiveMatrix matrix){
+    OjalgoMatrixStorage(PrimitiveMatrix matrix){
         this.storage = matrix;
     }
 
@@ -28,8 +28,8 @@ public class OjalgoMatrixStorageStrategy implements MatrixStorageStrategy {
     }
 
     @Override
-    public VectorStorageStrategy getRow(int index) {
-        return new OjalgoVectorStorageStrategy(storage.selectRows(index));
+    public VectorStorage getRow(int index) {
+        return new OjalgoVectorStorage(storage.selectRows(index).transpose());
     }
 
     @Override

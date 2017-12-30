@@ -1,13 +1,13 @@
 package linalg.libraries.simple;
 
-import linalg.MatrixStorageStrategy;
-import linalg.VectorStorageStrategy;
+import linalg.MatrixStorage;
+import linalg.VectorStorage;
 
 
-public class SimpleMatrixStorageStrategy implements MatrixStorageStrategy {
+public class SimpleMatrixStorage implements MatrixStorage {
     private double[][] storage;
 
-    SimpleMatrixStorageStrategy(double[][] matrix){
+    SimpleMatrixStorage(double[][] matrix){
         this.storage = matrix;
     }
 
@@ -27,8 +27,8 @@ public class SimpleMatrixStorageStrategy implements MatrixStorageStrategy {
     }
 
     @Override
-    public VectorStorageStrategy getRow(int index) {
-        return new SimpleVectorStorageStrategy(storage[index]);
+    public VectorStorage getRow(int index) {
+        return new SimpleVectorStorage(storage[index]);
     }
 
     @Override

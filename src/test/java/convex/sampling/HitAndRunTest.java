@@ -6,6 +6,7 @@ import exceptions.PointOutsideConvexBodyException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -16,6 +17,7 @@ public class HitAndRunTest {
 
     @Before
     public void setUp(){
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         sampler = new HitAndRun(64, 8);
         elp = new Polytope(new double[][] {{-1,0}, {0,-1}, {1,0}, {0,1}}, new double[] {1,1,1,1}); //new Box(2); //new Ellipsoid(2);
     }

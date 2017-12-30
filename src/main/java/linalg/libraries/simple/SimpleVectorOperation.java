@@ -1,20 +1,20 @@
 package linalg.libraries.simple;
 
 import linalg.Vector;
-import linalg.VectorOperationStrategy;
+import linalg.VectorOperation;
 
 /**
  * This is a naive implementation of all vector operations using double[] arrays.
  *
  * @author lucianodp
  */
-public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
+public class SimpleVectorOperation implements VectorOperation {
     static double[] fromVector(Vector vector){
-        return ((SimpleVectorStorageStrategy) vector.getStorageStrategy()).getRawStorage();
+        return ((SimpleVectorStorage) vector.getStorageStrategy()).getRawStorage();
     }
 
     static Vector toVector(double[] simpleVector){
-        return new Vector(new SimpleVectorStorageStrategy(simpleVector));
+        return new Vector(new SimpleVectorStorage(simpleVector));
     }
 
     @Override

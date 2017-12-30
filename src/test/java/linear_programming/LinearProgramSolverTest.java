@@ -3,12 +3,16 @@ package linear_programming;
 import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 
 public abstract class LinearProgramSolverTest {
     final int dim=2;
     LinearProgramSolver solver = null;
+    static {
+        LinearAlgebraConfiguration.setLibraryFromConfig();
+    }
 
     public void testSolver(double[] objective, double[][] constrainsMatrix, double[] constrainsVector, double[] answer){
         solver.setObjectiveFunction(new Vector(objective));

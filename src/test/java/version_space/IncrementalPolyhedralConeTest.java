@@ -7,6 +7,7 @@ import exceptions.IncompatibleDimensionsException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
@@ -15,6 +16,7 @@ public class IncrementalPolyhedralConeTest{
 
     @Before
     public void setUp(){
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         double[][] A = new double[][] {{-1,-1}, {1,-1}};
         pol = new IncrementalPolyhedralCone(A);
     }

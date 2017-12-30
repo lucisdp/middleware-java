@@ -1,13 +1,13 @@
 package linalg.libraries.ojalgo;
 
-import linalg.VectorStorageStrategy;
+import linalg.VectorStorage;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 
-public class OjalgoVectorStorageStrategy implements VectorStorageStrategy {
+public class OjalgoVectorStorage implements VectorStorage {
     private PrimitiveMatrix storage;
 
-    OjalgoVectorStorageStrategy(PrimitiveMatrix ojalgoMatrix){
+    OjalgoVectorStorage(PrimitiveMatrix ojalgoMatrix){
         storage = ojalgoMatrix;
     }
 

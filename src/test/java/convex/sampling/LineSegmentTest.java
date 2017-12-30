@@ -5,6 +5,7 @@ import exceptions.UnboundedSegmentException;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,6 +15,7 @@ public class LineSegmentTest {
 
     @Before
     public void setUp() throws Exception {
+        LinearAlgebraConfiguration.setLibraryFromConfig();
         line = new Line(new Vector(new double[] {1,2,3}), new Vector(new double[] {-1,0,1}));
         segment = new LineSegment(line, -2, 3);
     }

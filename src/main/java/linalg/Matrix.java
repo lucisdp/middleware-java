@@ -13,8 +13,8 @@ import exceptions.NegativeDimensionException;
  * libraries.</p>
  *
  * <p>Our design works as follows: this Matrix class stores an array containing the matrix values, but it delegates all
- * matrix-related operations to a MatrixOperationStrategy object. For each third-part library, we create a new object
- * implementing the MatrixOperationStrategy interface, where the matrix operations are finally performed using the library's
+ * matrix-related operations to a MatrixOperation object. For each third-part library, we create a new object
+ * implementing the MatrixOperation interface, where the matrix operations are finally performed using the library's
  * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
  * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
  * before and after every operation, the matrix must be converted to the libraries appropriate Matrix class, which incurs
@@ -24,12 +24,12 @@ import exceptions.NegativeDimensionException;
  * @author lucianodp
  *
  * @see Vector
- * @see MatrixOperationStrategy
+ * @see MatrixOperation
  */
 public class Matrix {
-    private MatrixStorageStrategy storageStrategy;
+    private MatrixStorage storageStrategy;
     private static MatrixStorageFactory storageFactory;
-    private static MatrixOperationStrategy opStrategy;
+    private static MatrixOperation opStrategy;
 
     /**
      * Create new matrix from double array
@@ -67,9 +67,6 @@ public class Matrix {
     }
 
 
-    public Matrix(MatrixStorageStrategy storageStrategy){
-        this.storageStrategy = storageStrategy;
-    }
     /**
      * Creates an identity matrix of given dimension.
      * @param dim: dimension of matrix (number of rows = number of cols = dim)
@@ -82,11 +79,17 @@ public class Matrix {
         return new Matrix(storageFactory.makeEye(dim));
     }
 
+
+    private Matrix(MatrixStorage storageStrategy){
+        this.storageStrategy = storageStrategy;
+    }
+
     /**
      * Sets matrix operation strategy, responsible for performing matrix operations.
      * @param opStrategy: new matrix operation strategy
      */
-    public static void setOpStrategy(MatrixOperationStrategy opStrategy) {
+    // TODO: create one single public method to set both values, to avoid different Op and Factory
+    public static void setOpStrategy(MatrixOperation opStrategy) {
         Matrix.opStrategy = opStrategy;
     }
     public static void setStorageFactory(MatrixStorageFactory storageFactory) { Matrix.storageFactory = storageFactory; }
@@ -95,7 +98,7 @@ public class Matrix {
      * Returns inner matrix storage (not a copy, so be careful when manipulating!)
      * @return inner storage of values
      */
-    public double[][] getValues() {
+    public double[][] asArray() {
         return storageStrategy.asArray();
     }
 
@@ -108,7 +111,6 @@ public class Matrix {
     }
 
     /**
-     * // TODO: delegate method to MatrixStorageStrategy
      * Returns a line of matrix as Vector instance.
      * @param row: line to return
      * @return Matrix row

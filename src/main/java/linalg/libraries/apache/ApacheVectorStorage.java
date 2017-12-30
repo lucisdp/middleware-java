@@ -1,13 +1,13 @@
 package linalg.libraries.apache;
 
-import linalg.VectorStorageStrategy;
+import linalg.VectorStorage;
 import org.apache.commons.math3.linear.RealVector;
 
 
-public class ApacheVectorStorageStrategy implements VectorStorageStrategy {
+public class ApacheVectorStorage implements VectorStorage {
     private RealVector storage;
 
-    ApacheVectorStorageStrategy(RealVector ojalgoMatrix){
+    ApacheVectorStorage(RealVector ojalgoMatrix){
         storage = ojalgoMatrix;
     }
 

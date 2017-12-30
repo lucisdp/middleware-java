@@ -12,7 +12,7 @@ package linalg;
  * @author lucianodp
  * @see Matrix
  */
-public interface MatrixOperationStrategy {
+public interface MatrixOperation {
     /**
      * Adds a value to all elements of matrix.
      * @param matrix: matrix to perform sum

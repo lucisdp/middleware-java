@@ -2,7 +2,7 @@ package linalg.libraries.apache;
 
 
 import linalg.Matrix;
-import linalg.MatrixOperationStrategy;
+import linalg.MatrixOperation;
 import linalg.Vector;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -15,9 +15,9 @@ import org.apache.commons.math3.linear.RealVector;
  * @see <a href="http://commons.apache.org/proper/commons-math/userguide/linear.html">Apache Commons Math linear algebra user guide</a>
  * @author lucianodp
  */
-public class ApacheMatrixOperationStrategy implements MatrixOperationStrategy {
+public class ApacheMatrixOperation implements MatrixOperation {
     private RealMatrix fromMatrix(Matrix vector){
-        return MatrixUtils.createRealMatrix(vector.getValues());
+        return MatrixUtils.createRealMatrix(vector.asArray());
     }
 
     private Matrix toMatrix(RealMatrix apacheMatrix){
@@ -59,8 +59,8 @@ public class ApacheMatrixOperationStrategy implements MatrixOperationStrategy {
     @Override
     public Vector multiply(Matrix matrix, Vector vector){
         RealMatrix apacheMatrix = fromMatrix(matrix);
-        RealVector apacheVector = ApacheVectorOperationStrategy.fromVector(vector);
-        return ApacheVectorOperationStrategy.toVector(apacheMatrix.operate(apacheVector));
+        RealVector apacheVector = ApacheVectorOperation.fromVector(vector);
+        return ApacheVectorOperation.toVector(apacheMatrix.operate(apacheVector));
     }
 
     @Override
@@ -75,13 +75,13 @@ public class ApacheMatrixOperationStrategy implements MatrixOperationStrategy {
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
-        double[][] simpleLeftMatrix = leftMatrix.getValues();
-        double[][] simpleRightMatrix = rightMatrix.getValues();
+        double[][] simpleLeftMatrix = leftMatrix.asArray();
+        double[][] simpleRightMatrix = rightMatrix.asArray();
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] += simpleLeftMatrix[i][j] * simpleRightMatrix[i][j];
+                res[i][j] = simpleLeftMatrix[i][j] * simpleRightMatrix[i][j];
 
         return new Matrix(res);
     }
@@ -97,8 +97,8 @@ public class ApacheMatrixOperationStrategy implements MatrixOperationStrategy {
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
-        double[][] simpleLeftMatrix = leftMatrix.getValues();
-        double[][] simpleRightMatrix = rightMatrix.getValues();
+        double[][] simpleLeftMatrix = leftMatrix.asArray();
+        double[][] simpleRightMatrix = rightMatrix.asArray();
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)

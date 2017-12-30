@@ -3,17 +3,17 @@ package utils;
 import exceptions.LinearAlgebraLibraryNotFound;
 import linalg.Matrix;
 import linalg.Vector;
-import linalg.libraries.apache.ApacheMatrixOperationStrategy;
+import linalg.libraries.apache.ApacheMatrixOperation;
 import linalg.libraries.apache.ApacheMatrixStorageFactory;
-import linalg.libraries.apache.ApacheVectorOperationStrategy;
+import linalg.libraries.apache.ApacheVectorOperation;
 import linalg.libraries.apache.ApacheVectorStorageFactory;
-import linalg.libraries.ojalgo.OjalgoMatrixOperationStrategy;
+import linalg.libraries.ojalgo.OjalgoMatrixOperation;
 import linalg.libraries.ojalgo.OjalgoMatrixStorageFactory;
-import linalg.libraries.ojalgo.OjalgoVectorOperationStrategy;
+import linalg.libraries.ojalgo.OjalgoVectorOperation;
 import linalg.libraries.ojalgo.OjalgoVectorStorageFactory;
-import linalg.libraries.simple.SimpleMatrixOperationStrategy;
+import linalg.libraries.simple.SimpleMatrixOperation;
 import linalg.libraries.simple.SimpleMatrixStorageFactory;
-import linalg.libraries.simple.SimpleVectorOperationStrategy;
+import linalg.libraries.simple.SimpleVectorOperation;
 import linalg.libraries.simple.SimpleVectorStorageFactory;
 
 
@@ -48,22 +48,22 @@ public class LinearAlgebraConfiguration {
 
     private static void setLibrary(){
         if(libraryName.equalsIgnoreCase("apache")) {
-            Vector.setOpStrategy(new ApacheVectorOperationStrategy());
+            Vector.setOpStrategy(new ApacheVectorOperation());
             Vector.setStorageFactory(new ApacheVectorStorageFactory());
-            Matrix.setOpStrategy(new ApacheMatrixOperationStrategy());
+            Matrix.setOpStrategy(new ApacheMatrixOperation());
             Matrix.setStorageFactory(new ApacheMatrixStorageFactory());
         }
         else if (libraryName.equalsIgnoreCase("ojalgo")){
-            Vector.setOpStrategy(new OjalgoVectorOperationStrategy());
+            Vector.setOpStrategy(new OjalgoVectorOperation());
             Vector.setStorageFactory(new OjalgoVectorStorageFactory());
-            Matrix.setOpStrategy(new OjalgoMatrixOperationStrategy());
+            Matrix.setOpStrategy(new OjalgoMatrixOperation());
             Matrix.setStorageFactory(new OjalgoMatrixStorageFactory());
         }
 
         else if (libraryName.equalsIgnoreCase("simple")) {
-            Vector.setOpStrategy(new SimpleVectorOperationStrategy());
+            Vector.setOpStrategy(new SimpleVectorOperation());
             Vector.setStorageFactory(new SimpleVectorStorageFactory());
-            Matrix.setOpStrategy(new SimpleMatrixOperationStrategy());
+            Matrix.setOpStrategy(new SimpleMatrixOperation());
             Matrix.setStorageFactory(new SimpleMatrixStorageFactory());
         }
         else

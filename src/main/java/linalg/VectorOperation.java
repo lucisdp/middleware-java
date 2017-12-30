@@ -12,7 +12,7 @@ package linalg;
  * @author lucianodp
  * @see Vector
  */
-public interface VectorOperationStrategy {
+public interface VectorOperation {
     /**
      * Adds a value to all components of vector.
      * @param vector: vector to perform sum

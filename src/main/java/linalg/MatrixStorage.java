@@ -1,10 +1,10 @@
 package linalg;
 
-public interface MatrixStorageStrategy {
+public interface MatrixStorage {
     int getNumRows();
     int getNumCols();
     double get(int row, int col);
-    VectorStorageStrategy getRow(int index);
+    VectorStorage getRow(int index);
     Object getRawStorage();
     double[][] asArray();
 }
