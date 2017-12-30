@@ -4,9 +4,6 @@ import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import exceptions.NormalizingZeroVectorException;
-import utils.Configuration;
-
-import java.util.Arrays;
 
 /**
  * <p>This module implements an euclidean vector. In other words, a vector is a fixed-size collection of real numbers with
@@ -31,21 +28,20 @@ import java.util.Arrays;
  * @see VectorOperationStrategy
  */
 public class Vector {
-    private double[] values;
-    private int dim;
+    private VectorStorageStrategy storageStrategy;
+    private static VectorStorageFactory storageFactory;
     private static VectorOperationStrategy opStrategy;
-    static {
-        // set library from config file
-        Configuration.setLinearAlgebraLibrary(Configuration.getLinearAlgebraLibrary());
-    }
 
     /**
      * Create new vector from double array
      * @param values: array of values to be composing the vector
      */
     public Vector(double[] values){
-        this.values = values;
-        this.dim = values.length;
+        this.storageStrategy = storageFactory.makeVectorStorage(values);
+    }
+
+    public Vector(VectorStorageStrategy storageStrategy){
+        this.storageStrategy = storageStrategy;
     }
 
     /**
@@ -56,10 +52,7 @@ public class Vector {
     public Vector(int dim, double fill){
         if (dim <= 0)
             throw new NegativeDimensionException(dim);
-
-        this.dim = dim;
-        this.values = new double[dim];
-        Arrays.fill(this.values, fill);
+        this.storageStrategy = storageFactory.makeVectorStorage(dim, fill);
     }
 
     /**
@@ -75,7 +68,11 @@ public class Vector {
      * @return values attribute
      */
     public double[] getValues() {
-        return values;
+        return storageStrategy.asArray();
+    }
+
+    public VectorStorageStrategy getStorageStrategy() {
+        return storageStrategy;
     }
 
     /**
@@ -83,7 +80,7 @@ public class Vector {
      * @return dim attribute
      */
     public int getDim() {
-        return dim;
+        return storageStrategy.getDim();
     }
 
     /**
@@ -93,6 +90,9 @@ public class Vector {
      */
     public static void setOpStrategy(VectorOperationStrategy opStrategy) {
         Vector.opStrategy = opStrategy;
+    }
+    public static void setStorageFactory(VectorStorageFactory storageFactory) {
+        Vector.storageFactory = storageFactory;
     }
 
     private void checkDim(Vector vector){
@@ -107,7 +107,7 @@ public class Vector {
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
     public double get(int index){
-        return this.values[index];
+        return this.storageStrategy.get(index);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Vector {
      * @param newValue: new value to set in position
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
-    public void set(int index, double newValue){ this.values[index] = newValue; }
+    public void set(int index, double newValue){ this.storageStrategy.set(index, newValue); }
 
     /**
      * Adds a given value to all components of Vector.
@@ -345,7 +345,7 @@ public class Vector {
         double[] newVector = new double[getDim()+1];
         newVector[0] = value;
         for(int i=1; i < getDim()+1; i++)
-            newVector[i] = this.values[i-1];
+            newVector[i] = this.get(i-1);
         return new Vector(newVector);
     }
 
@@ -358,7 +358,10 @@ public class Vector {
     public Vector dropLeft(){
         if(getDim() == 1)
             throw new EmptyVectorException();
-        return new Vector(Arrays.copyOfRange(values, 1, getDim()));
+        double[] newVector = new double[getDim()-1];
+        for(int i=1; i < getDim(); i++)
+            newVector[i-1] = this.get(i);
+        return new Vector(newVector);
     }
 
     @Override
@@ -366,7 +369,7 @@ public class Vector {
         StringBuilder builder = new StringBuilder();
         builder.append('{');
         for (int i=0; i < getDim(); i++) {
-            builder.append(values[i]);
+            builder.append(this.get(i));
             builder.append(',');
             builder.append(' ');
         }

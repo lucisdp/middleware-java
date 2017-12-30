@@ -2,7 +2,6 @@ package linalg.libraries.apache;
 
 import linalg.Vector;
 import linalg.VectorOperationStrategy;
-import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 /**
@@ -14,10 +13,12 @@ import org.apache.commons.math3.linear.RealVector;
  */
 public class ApacheVectorOperationStrategy implements VectorOperationStrategy {
     
-    static RealVector fromVector(Vector vector){ return new ArrayRealVector(vector.getValues()); }
+    static RealVector fromVector(Vector vector){
+        return ((ApacheVectorStorageStrategy) vector.getStorageStrategy()).getRawStorage();
+    }
 
     static Vector toVector(RealVector apacheVector){
-        return new Vector(apacheVector.toArray());
+        return new Vector(new ApacheVectorStorageStrategy(apacheVector));
     }
 
     @Override

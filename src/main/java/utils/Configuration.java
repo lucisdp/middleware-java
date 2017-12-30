@@ -1,14 +1,5 @@
 package utils;
 
-import exceptions.LinearAlgebraLibraryNotFound;
-import linalg.*;
-import linalg.libraries.apache.ApacheMatrixOperationStrategy;
-import linalg.libraries.apache.ApacheVectorOperationStrategy;
-import linalg.libraries.ojalgo.OjalgoMatrixOperationStrategy;
-import linalg.libraries.ojalgo.OjalgoVectorOperationStrategy;
-import linalg.libraries.simple.SimpleMatrixOperationStrategy;
-import linalg.libraries.simple.SimpleVectorOperationStrategy;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -43,37 +34,11 @@ public class Configuration {
 
     /**
      * Reads the LinearAlgebraLibrary property from the config file.
-     * We do not check that the library in present in our backend.
+     * It does not check that the library in present in our backend.
      * @return library name
      */
     public static String getLinearAlgebraLibrary() {
         return prop.getProperty("LinearAlgebraLibrary");
-    }
-
-    /**
-     * Sets the Linear Algebra library backend. Current options are: simple, ojalgo and apache.
-     * Using this function will result in changing which library is used to perform matrix / vector operations.
-     *
-     * @throws LinearAlgebraLibraryNotFound if library backend is not present.
-     * @param libraryName: library to use
-     */
-    public static void setLinearAlgebraLibrary(String libraryName) {
-        prop.setProperty("LinearAlgebraLibrary", libraryName);
-
-        if (libraryName.equalsIgnoreCase("simple")) {
-            Vector.setOpStrategy(new SimpleVectorOperationStrategy());
-            Matrix.setOpStrategy(new SimpleMatrixOperationStrategy());
-        }
-        else if (libraryName.equalsIgnoreCase("ojalgo")) {
-            Vector.setOpStrategy(new OjalgoVectorOperationStrategy());
-            Matrix.setOpStrategy(new OjalgoMatrixOperationStrategy());
-        }
-        else if (libraryName.equalsIgnoreCase("apache")) {
-            Vector.setOpStrategy(new ApacheVectorOperationStrategy());
-            Matrix.setOpStrategy(new ApacheMatrixOperationStrategy());
-        }
-        else
-            throw new LinearAlgebraLibraryNotFound(libraryName);
     }
 
     /**

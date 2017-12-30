@@ -13,16 +13,13 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  */
 public class OjalgoVectorOperationStrategy implements VectorOperationStrategy {
 
-    static PrimitiveMatrix fromVector(Vector vector){ return PrimitiveMatrix.FACTORY.columns(vector.getValues()); }
+    static PrimitiveMatrix fromVector(Vector vector){
+        // TODO: add try-catch for incompatible storage and operation strategies
+        return ((OjalgoVectorStorageStrategy) vector.getStorageStrategy()).getRawStorage();
+    }
 
     static Vector toVector(PrimitiveMatrix ojalgoVector){
-        int dim = (int) ojalgoVector.countRows();
-
-        double[] res = new double[dim];
-        for (int i=0; i < dim; i++)
-            res[i] = ojalgoVector.get(i);
-
-        return new Vector(res);
+        return new Vector(new OjalgoVectorStorageStrategy(ojalgoVector));
     }
 
     @Override

@@ -2,9 +2,6 @@ package linalg;
 
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
-import utils.Configuration;
-
-import java.util.Arrays;
 
 
 /**
@@ -30,23 +27,16 @@ import java.util.Arrays;
  * @see MatrixOperationStrategy
  */
 public class Matrix {
-    private double[][] values;
-    private int rows;
-    private int cols;
+    private MatrixStorageStrategy storageStrategy;
+    private static MatrixStorageFactory storageFactory;
     private static MatrixOperationStrategy opStrategy;
-    static {
-        // sets Linear Algebra library from config file
-        Configuration.setLinearAlgebraLibrary(Configuration.getLinearAlgebraLibrary());
-    }
 
     /**
      * Create new matrix from double array
      * @param values: array of values to be composing the matrix
      */
     public Matrix(double[][] values){
-        this.values = values;
-        this.rows = values.length;
-        this.cols = values[0].length;
+        this.storageStrategy = storageFactory.makeMatrixStorage(values);
     }
 
     /**
@@ -63,9 +53,7 @@ public class Matrix {
         if (cols <= 0)
             throw new NegativeDimensionException(cols);
         
-        this.values = new double[rows][cols];
-        for (int i=0; i< rows; i++)
-            Arrays.fill(this.values[i], fill);
+        this.storageStrategy = storageFactory.makeMatrixStorage(rows, cols, fill);
     }
 
     /**
@@ -78,6 +66,10 @@ public class Matrix {
         this(rows, cols, 0);
     }
 
+
+    public Matrix(MatrixStorageStrategy storageStrategy){
+        this.storageStrategy = storageStrategy;
+    }
     /**
      * Creates an identity matrix of given dimension.
      * @param dim: dimension of matrix (number of rows = number of cols = dim)
@@ -87,10 +79,7 @@ public class Matrix {
         if(dim <= 0)
             throw new NegativeDimensionException(dim);
 
-        double[][] res = new double[dim][dim];
-        for (int i=0; i < dim; i++)
-            res[i][i] = 1.0;
-        return new Matrix(res);
+        return new Matrix(storageFactory.makeEye(dim));
     }
 
     /**
@@ -100,29 +89,35 @@ public class Matrix {
     public static void setOpStrategy(MatrixOperationStrategy opStrategy) {
         Matrix.opStrategy = opStrategy;
     }
+    public static void setStorageFactory(MatrixStorageFactory storageFactory) { Matrix.storageFactory = storageFactory; }
 
     /**
      * Returns inner matrix storage (not a copy, so be careful when manipulating!)
      * @return inner storage of values
      */
     public double[][] getValues() {
-        return values;
+        return storageStrategy.asArray();
     }
 
     public int getNumRows() {
-        return rows;
+        return storageStrategy.getNumRows();
     }
 
     public int getNumCols() {
-        return cols;
+        return storageStrategy.getNumCols();
     }
 
     /**
+     * // TODO: delegate method to MatrixStorageStrategy
      * Returns a line of matrix as Vector instance.
      * @param row: line to return
      * @return Matrix row
      */
-    public Vector getRow(int row) { return new Vector(values[row]); }
+    public Vector getRow(int row) {
+        if(row < 0 || row >= getNumRows())
+            throw new ArrayIndexOutOfBoundsException();
+        return new Vector(storageStrategy.getRow(row));
+    }
 
     private void checkDim(Matrix matrix){
         if (this.getNumRows() != matrix.getNumRows())
@@ -236,7 +231,7 @@ public class Matrix {
         for (int i = 0; i < getNumRows(); i++) {
             builder.append('{');
             for (int j = 0; j < getNumCols(); j++) {
-                builder.append(values[i][j]);
+                builder.append(storageStrategy.get(i, j));
                 builder.append(',');
                 builder.append(' ');
             }

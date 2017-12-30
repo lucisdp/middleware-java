@@ -10,11 +10,11 @@ import linalg.VectorOperationStrategy;
  */
 public class SimpleVectorOperationStrategy implements VectorOperationStrategy {
     static double[] fromVector(Vector vector){
-        return vector.getValues();
+        return ((SimpleVectorStorageStrategy) vector.getStorageStrategy()).getRawStorage();
     }
 
     static Vector toVector(double[] simpleVector){
-        return new Vector(simpleVector);
+        return new Vector(new SimpleVectorStorageStrategy(simpleVector));
     }
 
     @Override

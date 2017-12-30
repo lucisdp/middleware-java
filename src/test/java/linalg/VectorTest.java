@@ -5,7 +5,7 @@ import exceptions.IncompatibleDimensionsException;
 import exceptions.NormalizingZeroVectorException;
 import org.junit.Before;
 import org.junit.Test;
-import utils.Configuration;
+import utils.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
@@ -16,14 +16,14 @@ public abstract class VectorTest {
 
     @Before
     public void setUp(){
-        Configuration.setLinearAlgebraLibrary(getLibraryName());
+        LinearAlgebraConfiguration.setLibraryName(getLibraryName());
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
     }
 
     @Test
     public void testLibraryName() throws Exception {
-        assertEquals(getLibraryName(), Configuration.getLinearAlgebraLibrary());
+        assertEquals(getLibraryName(), LinearAlgebraConfiguration.getLibraryName());
     }
 
     @Test
