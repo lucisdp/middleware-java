@@ -3,6 +3,8 @@ package linalg.libraries.simple;
 import linalg.MatrixStorage;
 import linalg.VectorStorage;
 
+import java.util.Arrays;
+
 
 public class SimpleMatrixStorage implements MatrixStorage {
     private double[][] storage;
@@ -38,6 +40,9 @@ public class SimpleMatrixStorage implements MatrixStorage {
 
     @Override
     public double[][] asArray() {
-        return storage;
+        double[][] result = new double[getNumRows()][getNumCols()];
+        for(int i=0; i < getNumRows(); i++)
+            result[i] = Arrays.copyOf(storage[i], getNumCols());
+        return result;
     }
 }

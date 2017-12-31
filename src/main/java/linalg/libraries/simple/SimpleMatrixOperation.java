@@ -1,8 +1,8 @@
 package linalg.libraries.simple;
 
-import linalg.Matrix;
+import linalg.MatrixStorage;
 import linalg.MatrixOperation;
-import linalg.Vector;
+import linalg.VectorStorage;
 
 /**
  * This is a naive implementation of all matrix operations using double[][] arrays.
@@ -10,16 +10,16 @@ import linalg.Vector;
  * @author lucianodp
  */
 public class SimpleMatrixOperation implements MatrixOperation {
-    private double[][] fromMatrix(Matrix matrix){
-        return matrix.asArray();
+    private double[][] fromMatrix(MatrixStorage matrix){
+        return ((SimpleMatrixStorage) matrix).getRawStorage();
     }
 
-    private Matrix toMatrix(double[][] simpleMatrix){
-        return new Matrix(simpleMatrix);
+    private MatrixStorage toMatrix(double[][] simpleMatrix){
+        return new SimpleMatrixStorage(simpleMatrix);
     }
 
     @Override
-    public Matrix add(Matrix matrix, double value){
+    public MatrixStorage add(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
         
@@ -34,7 +34,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix add(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage add(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
         
@@ -50,7 +50,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix subtract(Matrix matrix, double value){
+    public MatrixStorage subtract(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
 
@@ -65,7 +65,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix subtract(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage subtract(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
@@ -81,7 +81,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix multiply(Matrix matrix, double value){
+    public MatrixStorage multiply(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
         double[][] simpleMatrix = fromMatrix(matrix);
@@ -95,7 +95,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix) {
+    public MatrixStorage multiply(MatrixStorage leftMatrix, MatrixStorage rightMatrix) {
         int leftRows = leftMatrix.getNumRows();
         int rightCols = rightMatrix.getNumCols();
 
@@ -112,7 +112,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Vector multiply(Matrix matrix, Vector vector){
+    public VectorStorage multiply(MatrixStorage matrix, VectorStorage vector){
         int rows = matrix.getNumRows();
         double[][] simpleMatrix = fromMatrix(matrix);
         double[] simpleVector = SimpleVectorOperation.fromVector(vector);
@@ -126,7 +126,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage multiplyElement(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
@@ -142,7 +142,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
     
     @Override
-    public Matrix divide(Matrix matrix, double value){
+    public MatrixStorage divide(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
         double[][] simpleMatrix = fromMatrix(matrix);
@@ -156,7 +156,7 @@ public class SimpleMatrixOperation implements MatrixOperation {
     }
 
     @Override
-    public Matrix divide(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage divide(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 

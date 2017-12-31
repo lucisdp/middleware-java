@@ -1,9 +1,8 @@
 package linalg.libraries.apache;
 
 
-import linalg.Matrix;
-import linalg.MatrixOperation;
-import linalg.Vector;
+import linalg.*;
+import linalg.VectorStorage;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
@@ -15,62 +14,62 @@ import org.apache.commons.math3.linear.RealVector;
  * @author lucianodp
  */
 public class ApacheMatrixOperation implements MatrixOperation {
-    private RealMatrix fromMatrix(Matrix matrix){
-        return ((ApacheMatrixStorage) matrix.getStorage()).getRawStorage();
+    private RealMatrix fromMatrix(MatrixStorage matrix){
+        return ((ApacheMatrixStorage) matrix).getRawStorage();
     }
 
-    private Matrix toMatrix(RealMatrix apacheMatrix){
-        return new Matrix(new ApacheMatrixStorage(apacheMatrix));
+    private MatrixStorage toMatrix(RealMatrix apacheMatrix){
+        return new ApacheMatrixStorage(apacheMatrix);
     }
 
     @Override
-    public Matrix add(Matrix matrix, double value){
+    public MatrixStorage add(MatrixStorage matrix, double value){
         RealMatrix apacheMatrix = fromMatrix(matrix);
         return toMatrix(apacheMatrix.scalarAdd(value));
     }
 
     @Override
-    public Matrix add(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage add(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         RealMatrix leftApacheMatrix = fromMatrix(leftMatrix);
         RealMatrix rightApacheMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftApacheMatrix.add(rightApacheMatrix));
     }
 
     @Override
-    public Matrix subtract(Matrix matrix, double value){
+    public MatrixStorage subtract(MatrixStorage matrix, double value){
         RealMatrix apacheMatrix = fromMatrix(matrix);
         return toMatrix(apacheMatrix.scalarAdd(-value));
     }
 
     @Override
-    public Matrix subtract(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage subtract(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         RealMatrix leftApacheMatrix = fromMatrix(leftMatrix);
         RealMatrix rightApacheMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftApacheMatrix.subtract(rightApacheMatrix));
     }
 
     @Override
-    public Matrix multiply(Matrix matrix, double value){
+    public MatrixStorage multiply(MatrixStorage matrix, double value){
         RealMatrix apacheMatrix = fromMatrix(matrix);
         return toMatrix(apacheMatrix.scalarMultiply(value));
     }
 
     @Override
-    public Vector multiply(Matrix matrix, Vector vector){
+    public VectorStorage multiply(MatrixStorage matrix, VectorStorage vector){
         RealMatrix apacheMatrix = fromMatrix(matrix);
         RealVector apacheVector = ApacheVectorOperation.fromVector(vector);
         return ApacheVectorOperation.toVector(apacheMatrix.operate(apacheVector));
     }
 
     @Override
-    public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage multiply(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         RealMatrix leftApacheMatrix = fromMatrix(leftMatrix);
         RealMatrix rightApacheMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftApacheMatrix.multiply(rightApacheMatrix));
     }
 
     @Override
-    public Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage multiplyElement(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
@@ -82,17 +81,17 @@ public class ApacheMatrixOperation implements MatrixOperation {
             for(int j=0; j < cols; j++)
                 res[i][j] = simpleLeftMatrix[i][j] * simpleRightMatrix[i][j];
 
-        return new Matrix(res);
+        return (new ApacheMatrixStorageFactory()).makeMatrixStorage(res);
     }
 
     @Override
-    public Matrix divide(Matrix matrix, double value){
+    public MatrixStorage divide(MatrixStorage matrix, double value){
         RealMatrix apacheMatrix = fromMatrix(matrix);
         return toMatrix(apacheMatrix.scalarMultiply(1.0/value));
     }
 
     @Override
-    public Matrix divide(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage divide(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
@@ -104,6 +103,6 @@ public class ApacheMatrixOperation implements MatrixOperation {
             for(int j=0; j < cols; j++)
                 res[i][j] += simpleLeftMatrix[i][j] / simpleRightMatrix[i][j];
 
-        return new Matrix(res);
+        return (new ApacheMatrixStorageFactory()).makeMatrixStorage(res);
     }
 }

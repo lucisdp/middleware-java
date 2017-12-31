@@ -1,6 +1,6 @@
 package linalg.libraries.ojalgo;
 
-import linalg.Vector;
+import linalg.VectorStorage;
 import linalg.VectorOperation;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
@@ -13,81 +13,81 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  */
 public class OjalgoVectorOperation implements VectorOperation {
 
-    static PrimitiveMatrix fromVector(Vector vector){
-        return ((OjalgoVectorStorage) vector.getStorage()).getRawStorage();
+    static PrimitiveMatrix fromVector(VectorStorage vector){
+        return ((OjalgoVectorStorage) vector).getRawStorage();
     }
 
-    static Vector toVector(PrimitiveMatrix ojalgoVector){
-        return new Vector(new OjalgoVectorStorage(ojalgoVector));
+    static VectorStorage toVector(PrimitiveMatrix ojalgoVector){
+        return new OjalgoVectorStorage(ojalgoVector);
     }
 
     @Override
-    public Vector add(Vector vector, double value){
+    public VectorStorage add(VectorStorage vector, double value){
         PrimitiveMatrix ojalgoVector = fromVector(vector);
         return toVector(ojalgoVector.add(value));
     }
 
     @Override
-    public Vector add(Vector leftVector, Vector rightVector){
+    public VectorStorage add(VectorStorage leftVector, VectorStorage rightVector){
         PrimitiveMatrix leftOjalgoVector = fromVector(leftVector);
         PrimitiveMatrix rightOjalgoVector = fromVector(rightVector);
         return toVector(leftOjalgoVector.add(rightOjalgoVector));
     }
 
     @Override
-    public Vector subtract(Vector vector, double value){
+    public VectorStorage subtract(VectorStorage vector, double value){
         PrimitiveMatrix ojalgoVector = fromVector(vector);
         return toVector(ojalgoVector.add(-value));
     }
 
     @Override
-    public Vector subtract(Vector leftVector, Vector rightVector){
+    public VectorStorage subtract(VectorStorage leftVector, VectorStorage rightVector){
         PrimitiveMatrix leftOjalgoVector = fromVector(leftVector);
         PrimitiveMatrix rightOjalgoVector = fromVector(rightVector);
         return toVector(leftOjalgoVector.subtract(rightOjalgoVector));
     }
 
     @Override
-    public Vector multiply(Vector vector, double value){
+    public VectorStorage multiply(VectorStorage vector, double value){
         PrimitiveMatrix ojalgoVector = fromVector(vector);
         return toVector(ojalgoVector.multiply(value));
     }
 
     @Override
-    public Vector multiply(Vector leftVector, Vector rightVector){
+    public VectorStorage multiply(VectorStorage leftVector, VectorStorage rightVector){
         PrimitiveMatrix leftOjalgoVector = fromVector(leftVector);
         PrimitiveMatrix rightOjalgoVector = fromVector(rightVector);
         return toVector(leftOjalgoVector.multiplyElements(rightOjalgoVector));
     }
 
     @Override
-    public Vector divide(Vector vector, double value){
+    public VectorStorage divide(VectorStorage vector, double value){
         PrimitiveMatrix ojalgoVector = fromVector(vector);
         return toVector(ojalgoVector.divide(value));
     }
 
     @Override
-    public Vector divide(Vector leftVector, Vector rightVector){
+    public VectorStorage divide(VectorStorage leftVector, VectorStorage rightVector){
         PrimitiveMatrix leftOjalgoVector = fromVector(leftVector);
         PrimitiveMatrix rightOjalgoVector = fromVector(rightVector);
         return toVector(leftOjalgoVector.divideElements(rightOjalgoVector));
     }
 
     @Override
-    public double dot(Vector leftVector, Vector rightVector){
+    public double dot(VectorStorage leftVector, VectorStorage rightVector){
         PrimitiveMatrix leftOjalgoVector = fromVector(leftVector);
         PrimitiveMatrix rightOjalgoVector = fromVector(rightVector);
         return leftOjalgoVector.dot(rightOjalgoVector);
     }
 
     @Override
-    public double norm(Vector vector) {
+    public double norm(VectorStorage vector) {
         PrimitiveMatrix ojalgoVector = fromVector(vector);
         return ojalgoVector.norm();
     }
 
     @Override
-    public boolean equals(Vector vector, double val) {
+    public boolean equals(VectorStorage vector, double val) {
         PrimitiveMatrix simpleVector = fromVector(vector);
 
         for (int i=0; i < vector.getDim(); i++){
@@ -97,7 +97,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean equals(Vector leftVector, Vector rightVector){
+    public boolean equals(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);
         PrimitiveMatrix simpleRightVector = fromVector(rightVector);
@@ -109,7 +109,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerThan(Vector vector, double val){
+    public boolean isSmallerThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         PrimitiveMatrix simpleVector = fromVector(vector);
 
@@ -120,7 +120,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);
         PrimitiveMatrix simpleRightVector = fromVector(rightVector);
@@ -132,7 +132,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerOrEqualThan(Vector vector, double val){
+    public boolean isSmallerOrEqualThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         PrimitiveMatrix simpleVector = fromVector(vector);
 
@@ -143,7 +143,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);
         PrimitiveMatrix simpleRightVector = fromVector(rightVector);
@@ -155,7 +155,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerThan(Vector vector, double val){
+    public boolean isLargerThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         PrimitiveMatrix simpleVector = fromVector(vector);
 
@@ -166,7 +166,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);
         PrimitiveMatrix simpleRightVector = fromVector(rightVector);
@@ -178,7 +178,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerOrEqualThan(Vector vector, double val){
+    public boolean isLargerOrEqualThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         PrimitiveMatrix simpleVector = fromVector(vector);
 
@@ -189,7 +189,7 @@ public class OjalgoVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         PrimitiveMatrix simpleLeftVector = fromVector(leftVector);
         PrimitiveMatrix simpleRightVector = fromVector(rightVector);

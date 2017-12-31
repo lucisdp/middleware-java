@@ -1,6 +1,6 @@
 package linalg.libraries.simple;
 
-import linalg.Vector;
+import linalg.VectorStorage;
 import linalg.VectorOperation;
 
 /**
@@ -9,16 +9,16 @@ import linalg.VectorOperation;
  * @author lucianodp
  */
 public class SimpleVectorOperation implements VectorOperation {
-    static double[] fromVector(Vector vector){
-        return ((SimpleVectorStorage) vector.getStorage()).getRawStorage();
+    static double[] fromVector(VectorStorage vector){
+        return ((SimpleVectorStorage) vector).getRawStorage();
     }
 
-    static Vector toVector(double[] simpleVector){
-        return new Vector(new SimpleVectorStorage(simpleVector));
+    static VectorStorage toVector(double[] simpleVector){
+        return new SimpleVectorStorage(simpleVector);
     }
 
     @Override
-    public Vector add(Vector vector, double value){
+    public VectorStorage add(VectorStorage vector, double value){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
         double[] res = new double[dim];
@@ -30,7 +30,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector add(Vector leftVector, Vector rightVector){
+    public VectorStorage add(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -43,7 +43,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector subtract(Vector vector, double value){
+    public VectorStorage subtract(VectorStorage vector, double value){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
         double[] res = new double[dim];
@@ -55,7 +55,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector subtract(Vector leftVector, Vector rightVector){
+    public VectorStorage subtract(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -68,7 +68,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector multiply(Vector vector, double value){
+    public VectorStorage multiply(VectorStorage vector, double value){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
         double[] res = new double[dim];
@@ -80,7 +80,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector multiply(Vector leftVector, Vector rightVector){
+    public VectorStorage multiply(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -93,7 +93,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector divide(Vector vector, double value){
+    public VectorStorage divide(VectorStorage vector, double value){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
         double[] res = new double[dim];
@@ -105,7 +105,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public Vector divide(Vector leftVector, Vector rightVector){
+    public VectorStorage divide(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -118,7 +118,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public double dot(Vector leftVector, Vector rightVector){
+    public double dot(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -131,12 +131,12 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public double norm(Vector vector) {
+    public double norm(VectorStorage vector) {
         return Math.sqrt(this.dot(vector, vector));
     }
 
     @Override
-    public boolean equals(Vector vector, double val) {
+    public boolean equals(VectorStorage vector, double val) {
         double[] simpleVector = fromVector(vector);
 
         for (int i=0; i < vector.getDim(); i++){
@@ -147,7 +147,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean equals(Vector leftVector, Vector rightVector){
+    public boolean equals(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         double[] simpleLeftVector = fromVector(leftVector);
         double[] simpleRightVector = fromVector(rightVector);
@@ -160,7 +160,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isSmallerThan(Vector vector, double val){
+    public boolean isSmallerThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         double[] simpleVector = fromVector(vector);
 
@@ -172,7 +172,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isSmallerThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerThan(VectorStorage leftVector, VectorStorage rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
          double[] simpleRightVector = fromVector(rightVector);
@@ -185,7 +185,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isSmallerOrEqualThan(Vector vector, double val){
+    public boolean isSmallerOrEqualThan(VectorStorage vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
 
@@ -197,7 +197,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
          double[] simpleRightVector = fromVector(rightVector);
@@ -210,7 +210,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isLargerThan(Vector vector, double val){
+    public boolean isLargerThan(VectorStorage vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
 
@@ -222,7 +222,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isLargerThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerThan(VectorStorage leftVector, VectorStorage rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
          double[] simpleRightVector = fromVector(rightVector);
@@ -235,7 +235,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isLargerOrEqualThan(Vector vector, double val){
+    public boolean isLargerOrEqualThan(VectorStorage vector, double val){
          int dim = vector.getDim();
          double[] simpleVector = fromVector(vector);
 
@@ -247,7 +247,7 @@ public class SimpleVectorOperation implements VectorOperation {
     }
 
     @Override
-    public boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
          int dim = leftVector.getDim();
          double[] simpleLeftVector = fromVector(leftVector);
          double[] simpleRightVector = fromVector(rightVector);

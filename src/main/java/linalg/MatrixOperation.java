@@ -19,7 +19,7 @@ public interface MatrixOperation {
      * @param value: value to add to matrix
      * @return sum result
      */
-    Matrix add(Matrix matrix, double value);
+    MatrixStorage add(MatrixStorage matrix, double value);
 
     /**
      * Adds two matrices
@@ -27,7 +27,7 @@ public interface MatrixOperation {
      * @param rightMatrix: RHS of sum
      * @return sum result
      */
-    Matrix add(Matrix leftMatrix, Matrix rightMatrix);
+    MatrixStorage add(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
 
     /**
      * Subtracts a value from all elements of matrix.
@@ -35,7 +35,7 @@ public interface MatrixOperation {
      * @param value: value to subtract all components of matrix
      * @return subtraction result
      */
-    Matrix subtract(Matrix matrix, double value);
+    MatrixStorage subtract(MatrixStorage matrix, double value);
 
     /**
      * Subtracts two given matrices
@@ -43,7 +43,7 @@ public interface MatrixOperation {
      * @param rightMatrix: RHS of subtraction
      * @return subtraction result
      */
-    Matrix subtract(Matrix leftMatrix, Matrix rightMatrix);
+    MatrixStorage subtract(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
 
 
     /**
@@ -52,15 +52,15 @@ public interface MatrixOperation {
      * @param value: value to multiply all components of matrix with
      * @return multiplication result
      */
-    Matrix multiply(Matrix matrix, double value);
+    MatrixStorage multiply(MatrixStorage matrix, double value);
 
     /**
-     * Matrix-Matrix multiplication
+     * MatrixStorage-MatrixStorage multiplication
      * @param matrix: LHS of multiplication
      * @param vector: RHS of multiplication
      * @return multiplication result
      */
-    Vector multiply(Matrix matrix, Vector vector);
+    VectorStorage multiply(MatrixStorage matrix, VectorStorage vector);
 
     /**
      * Element-wise multiplication two matrices
@@ -68,7 +68,7 @@ public interface MatrixOperation {
      * @param rightMatrix: RHS of multiplication
      * @return multiplication result
      */
-    Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix);
+    MatrixStorage multiplyElement(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
 
     /**
      * Element-wise multiplication two given matrixs
@@ -76,7 +76,7 @@ public interface MatrixOperation {
      * @param rightMatrix: RHS of multiplication
      * @return multiplication result
      */
-    Matrix multiply(Matrix leftMatrix, Matrix rightMatrix);
+    MatrixStorage multiply(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
 
     /**
      * Divides all elements in matrix by a value
@@ -84,7 +84,7 @@ public interface MatrixOperation {
      * @param value: value to divide all components of matrix with
      * @return division result
      */
-    Matrix divide(Matrix matrix, double value);
+    MatrixStorage divide(MatrixStorage matrix, double value);
 
     /**
      * Element-wise division of two matrices
@@ -92,5 +92,5 @@ public interface MatrixOperation {
      * @param rightMatrix: Denominator of division
      * @return division result
      */
-    Matrix divide(Matrix leftMatrix, Matrix rightMatrix);
+    MatrixStorage divide(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
 }

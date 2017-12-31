@@ -19,7 +19,7 @@ public interface VectorOperation {
      * @param value: value to add to all components of vector
      * @return sum result
      */
-    Vector add(Vector vector, double value);
+    VectorStorage add(VectorStorage vector, double value);
 
     /**
      * Adds two  vectors
@@ -27,7 +27,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of sum
      * @return sum result
      */
-    Vector add(Vector leftVector, Vector rightVector);
+    VectorStorage add(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Subtracts a  value from all components of  vector.
@@ -35,7 +35,7 @@ public interface VectorOperation {
      * @param value: value to subtract to all components of vector
      * @return subtraction result
      */
-    Vector subtract(Vector vector, double value);
+    VectorStorage subtract(VectorStorage vector, double value);
 
     /**
      * Subtracts two  vectors
@@ -43,7 +43,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of subtraction
      * @return subtraction result
      */
-    Vector subtract(Vector leftVector, Vector rightVector);
+    VectorStorage subtract(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Multiplies a  value to all components of  vector.
@@ -51,7 +51,7 @@ public interface VectorOperation {
      * @param value: value to multiply all components of vector with
      * @return multiplication result
      */
-    Vector multiply(Vector vector, double value);
+    VectorStorage multiply(VectorStorage vector, double value);
 
     /**
      * Element-wise multiplication two  vectors
@@ -59,7 +59,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of multiplication
      * @return multiplication result
      */
-    Vector multiply(Vector leftVector, Vector rightVector);
+    VectorStorage multiply(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Divides a  value to all components of  vector.
@@ -67,7 +67,7 @@ public interface VectorOperation {
      * @param value: value to divide all components of vector with
      * @return division result
      */
-    Vector divide(Vector vector, double value);
+    VectorStorage divide(VectorStorage vector, double value);
 
     /**
      * Element-wise division of two  vectors
@@ -75,7 +75,7 @@ public interface VectorOperation {
      * @param rightVector: Denominator of division
      * @return division result
      */
-    Vector divide(Vector leftVector, Vector rightVector);
+    VectorStorage divide(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Computes the dot product between two vectors.
@@ -83,17 +83,17 @@ public interface VectorOperation {
      * @param rightVector RHS of scalar product
      * @return Dot product result
      */
-    double dot(Vector leftVector, Vector rightVector);
+    double dot(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Computes a vector's norm
      * @param vector: vector to compute norm
      * @return vector's norm
      */
-    double norm(Vector vector);
+    double norm(VectorStorage vector);
 
 
-    boolean equals(Vector vector, double val);
+    boolean equals(VectorStorage vector, double val);
 
     /**
      * Checks whether the corresponding components of the two vectors are equal, up to a tolerance of 1e-10.
@@ -101,7 +101,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of comparison
      * @return is equal or not
      */
-    boolean equals(Vector leftVector, Vector rightVector);
+    boolean equals(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Checks that vector's components are all strictly smaller than value.
@@ -109,7 +109,7 @@ public interface VectorOperation {
      * @param val: value to compare with components
      * @return are all components strictly smaller than value or not
      */
-    boolean isSmallerThan(Vector vector, double val);
+    boolean isSmallerThan(VectorStorage vector, double val);
 
     /**
      * Checks whether the corresponding components of the two vectors are equal, up to a tolerance of 1e-10.
@@ -117,7 +117,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of comparison
      * @return is equal or not
      */
-    boolean isSmallerThan(Vector leftVector, Vector rightVector);
+    boolean isSmallerThan(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Checks vector's components are all smaller than or equal to the  value.
@@ -125,7 +125,7 @@ public interface VectorOperation {
      * @param val: value to compare with components
      * @return are all components smaller or equal than value or not
      */
-    boolean isSmallerOrEqualThan(Vector vector, double val);
+    boolean isSmallerOrEqualThan(VectorStorage vector, double val);
 
     /**
      * Checks whether leftVector is smaller than or equal to rightVector component-wise
@@ -133,7 +133,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of comparison
      * @return is equal or not
      */
-    boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector);
+    boolean isSmallerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Checks vector's components are all strictly larger than value.
@@ -141,7 +141,7 @@ public interface VectorOperation {
      * @param val: value to compare with components
      * @return are all components strictly larger than value or not
      */
-    boolean isLargerThan(Vector vector, double val);
+    boolean isLargerThan(VectorStorage vector, double val);
 
     /**
      * Checks whether leftVector is stricly larger than rightVector component-wise
@@ -149,7 +149,7 @@ public interface VectorOperation {
      * @param rightVector: RHS of comparison
      * @return is equal or not
      */
-    boolean isLargerThan(Vector leftVector, Vector rightVector);
+    boolean isLargerThan(VectorStorage leftVector, VectorStorage rightVector);
 
     /**
      * Checks vector's components are all larger than or equal to value.
@@ -157,7 +157,7 @@ public interface VectorOperation {
      * @param val: value to compare with components
      * @return are all components strictly smaller than value or not
      */
-    boolean isLargerOrEqualThan(Vector vector, double val);
+    boolean isLargerOrEqualThan(VectorStorage vector, double val);
 
     /**
      * Checks whether leftVector is larger than or equal to rightVector component-wise
@@ -165,5 +165,5 @@ public interface VectorOperation {
      * @param rightVector: RHS of comparison
      * @return is equal or not
      */
-    boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector);
+    boolean isLargerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector);
 }

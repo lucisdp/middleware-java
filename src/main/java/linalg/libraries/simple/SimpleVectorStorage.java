@@ -5,7 +5,7 @@ import linalg.VectorStorage;
 public class SimpleVectorStorage implements VectorStorage {
     double[] storage;
 
-    public SimpleVectorStorage(double[] values){
+    SimpleVectorStorage(double[] values){
         storage = values;
     }
 

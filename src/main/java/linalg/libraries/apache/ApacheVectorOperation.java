@@ -1,7 +1,7 @@
 package linalg.libraries.apache;
 
-import linalg.Vector;
 import linalg.VectorOperation;
+import linalg.VectorStorage;
 import org.apache.commons.math3.linear.RealVector;
 
 /**
@@ -13,81 +13,81 @@ import org.apache.commons.math3.linear.RealVector;
  */
 public class ApacheVectorOperation implements VectorOperation {
     
-    static RealVector fromVector(Vector vector){
-        return ((ApacheVectorStorage) vector.getStorage()).getRawStorage();
+    static RealVector fromVector(VectorStorage vector){
+        return ((ApacheVectorStorage) vector).getRawStorage();
     }
 
-    static Vector toVector(RealVector apacheVector){
-        return new Vector(new ApacheVectorStorage(apacheVector));
+    static VectorStorage toVector(RealVector apacheVector){
+        return new ApacheVectorStorage(apacheVector);
     }
 
     @Override
-    public Vector add(Vector vector, double value){
+    public VectorStorage add(VectorStorage vector, double value){
         RealVector apacheVector = fromVector(vector);
         return toVector(apacheVector.mapAdd(value));
     }
 
     @Override
-    public Vector add(Vector leftVector, Vector rightVector){
+    public VectorStorage add(VectorStorage leftVector, VectorStorage rightVector){
         RealVector leftApacheVector = fromVector(leftVector);
         RealVector rightApacheVector = fromVector(rightVector);
         return toVector(leftApacheVector.add(rightApacheVector));
     }
 
     @Override
-    public Vector subtract(Vector vector, double value){
+    public VectorStorage subtract(VectorStorage vector, double value){
         RealVector apacheVector = fromVector(vector);
         return toVector(apacheVector.mapSubtract(value));
     }
 
     @Override
-    public Vector subtract(Vector leftVector, Vector rightVector){
+    public VectorStorage subtract(VectorStorage leftVector, VectorStorage rightVector){
         RealVector leftApacheVector = fromVector(leftVector);
         RealVector rightApacheVector = fromVector(rightVector);
         return toVector(leftApacheVector.subtract(rightApacheVector));
     }
 
     @Override
-    public Vector multiply(Vector vector, double value){
+    public VectorStorage multiply(VectorStorage vector, double value){
         RealVector apacheVector = fromVector(vector);
         return toVector(apacheVector.mapMultiply(value));
     }
 
     @Override
-    public Vector multiply(Vector leftVector, Vector rightVector){
+    public VectorStorage multiply(VectorStorage leftVector, VectorStorage rightVector){
         RealVector leftApacheVector = fromVector(leftVector);
         RealVector rightApacheVector = fromVector(rightVector);
         return toVector(leftApacheVector.ebeMultiply(rightApacheVector));
     }
 
     @Override
-    public Vector divide(Vector vector, double value){
+    public VectorStorage divide(VectorStorage vector, double value){
         RealVector apacheVector = fromVector(vector);
         return toVector(apacheVector.mapDivide(value));
     }
 
     @Override
-    public Vector divide(Vector leftVector, Vector rightVector){
+    public VectorStorage divide(VectorStorage leftVector, VectorStorage rightVector){
         RealVector leftApacheVector = fromVector(leftVector);
         RealVector rightApacheVector = fromVector(rightVector);
         return toVector(leftApacheVector.ebeDivide(rightApacheVector));
     }
 
     @Override
-    public double dot(Vector leftVector, Vector rightVector){
+    public double dot(VectorStorage leftVector, VectorStorage rightVector){
         RealVector leftApacheVector = fromVector(leftVector);
         RealVector rightApacheVector = fromVector(rightVector);
         return leftApacheVector.dotProduct(rightApacheVector);
     }
 
     @Override
-    public double norm(Vector vector) {
+    public double norm(VectorStorage vector) {
         RealVector apacheVector = fromVector(vector);
         return apacheVector.getNorm();
     }
 
     @Override
-    public boolean equals(Vector vector, double val) {
+    public boolean equals(VectorStorage vector, double val) {
         RealVector apacheVector = fromVector(vector);
 
         for (int i=0; i < vector.getDim(); i++){
@@ -97,13 +97,13 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean equals(Vector leftVector, Vector rightVector){
+    public boolean equals(VectorStorage leftVector, VectorStorage rightVector){
         RealVector apacheLeftVector = fromVector(leftVector);
         RealVector apacheRightVector = fromVector(rightVector);
         return apacheLeftVector.equals(apacheRightVector);
     }
 
-    public boolean isSmallerThan(Vector vector, double val){
+    public boolean isSmallerThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         RealVector apacheVector = fromVector(vector);
 
@@ -114,7 +114,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         RealVector apacheLeftVector = fromVector(leftVector);
         RealVector apacheRightVector = fromVector(rightVector);
@@ -126,7 +126,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerOrEqualThan(Vector vector, double val){
+    public boolean isSmallerOrEqualThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         RealVector apacheVector = fromVector(vector);
 
@@ -137,7 +137,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isSmallerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isSmallerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         RealVector apacheLeftVector = fromVector(leftVector);
         RealVector apacheRightVector = fromVector(rightVector);
@@ -149,7 +149,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerThan(Vector vector, double val){
+    public boolean isLargerThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         RealVector apacheVector = fromVector(vector);
 
@@ -160,7 +160,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         RealVector apacheLeftVector = fromVector(leftVector);
         RealVector apacheRightVector = fromVector(rightVector);
@@ -172,7 +172,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerOrEqualThan(Vector vector, double val){
+    public boolean isLargerOrEqualThan(VectorStorage vector, double val){
         int dim = vector.getDim();
         RealVector apacheVector = fromVector(vector);
 
@@ -183,7 +183,7 @@ public class ApacheVectorOperation implements VectorOperation {
         return true;
     }
 
-    public boolean isLargerOrEqualThan(Vector leftVector, Vector rightVector){
+    public boolean isLargerOrEqualThan(VectorStorage leftVector, VectorStorage rightVector){
         int dim = leftVector.getDim();
         RealVector apacheLeftVector = fromVector(leftVector);
         RealVector apacheRightVector = fromVector(rightVector);

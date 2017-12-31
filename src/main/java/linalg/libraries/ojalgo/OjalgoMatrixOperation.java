@@ -1,8 +1,8 @@
 package linalg.libraries.ojalgo;
 
-import linalg.Matrix;
 import linalg.MatrixOperation;
-import linalg.Vector;
+import linalg.MatrixStorage;
+import linalg.VectorStorage;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
 /**
@@ -13,75 +13,72 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  * @author lucianodp
  */
 public class OjalgoMatrixOperation implements MatrixOperation {
-    private PrimitiveMatrix fromMatrix(Matrix matrix){
-        return ((OjalgoMatrixStorage) matrix.getStorage()).getRawStorage();
+    private PrimitiveMatrix fromMatrix(MatrixStorage matrix){
+        return ((OjalgoMatrixStorage) matrix).getRawStorage();
     }
 
-    private Matrix toMatrix(PrimitiveMatrix ojalgoMatrix){
-        return new Matrix(new OjalgoMatrixStorage(ojalgoMatrix));
+    private MatrixStorage toMatrix(PrimitiveMatrix ojalgoMatrix){
+        return new OjalgoMatrixStorage(ojalgoMatrix);
     }
 
     @Override
-    public Matrix add(Matrix matrix, double value){
+    public MatrixStorage add(MatrixStorage matrix, double value){
         PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
         return toMatrix(ojalgoMatrix.add(value));
     }
 
     @Override
-    public Matrix add(Matrix leftMatrix, Matrix rightMatrix){
-        PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
-        PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
-        return toMatrix(leftOjalgoMatrix.add(rightOjalgoMatrix));
+    public MatrixStorage add(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
+        return toMatrix(fromMatrix(leftMatrix).add(fromMatrix(rightMatrix)));
     }
 
     @Override
-    public Matrix subtract(Matrix matrix, double value){
-        PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
-        return toMatrix(ojalgoMatrix.add(-value));
+    public MatrixStorage subtract(MatrixStorage matrix, double value){
+        return toMatrix(fromMatrix(matrix).add(-value));
     }
 
     @Override
-    public Matrix subtract(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage subtract(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.subtract(rightOjalgoMatrix));
     }
 
     @Override
-    public Matrix multiply(Matrix matrix, double value){
+    public MatrixStorage multiply(MatrixStorage matrix, double value){
         PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
         return toMatrix(ojalgoMatrix.multiply(value));
     }
 
     @Override
-    public Vector multiply(Matrix matrix, Vector vector){
+    public VectorStorage multiply(MatrixStorage matrix, VectorStorage vector){
         PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
         PrimitiveMatrix ojalgoVector = OjalgoVectorOperation.fromVector(vector);
         return OjalgoVectorOperation.toVector(ojalgoMatrix.multiply(ojalgoVector));
     }
 
     @Override
-    public Matrix multiply(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage multiply(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.multiply(rightOjalgoMatrix));
     }
 
     @Override
-    public Matrix multiplyElement(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage multiplyElement(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.multiplyElements(rightOjalgoMatrix));
     }
 
     @Override
-    public Matrix divide(Matrix matrix, double value){
+    public MatrixStorage divide(MatrixStorage matrix, double value){
         PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
         return toMatrix(ojalgoMatrix.divide(value));
     }
 
     @Override
-    public Matrix divide(Matrix leftMatrix, Matrix rightMatrix){
+    public MatrixStorage divide(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         PrimitiveMatrix leftOjalgoMatrix = fromMatrix(leftMatrix);
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.divideElements(rightOjalgoMatrix));

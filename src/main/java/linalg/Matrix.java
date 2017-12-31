@@ -64,7 +64,6 @@ public class Matrix {
         this(rows, cols, 0);
     }
 
-
     /**
      * Creates an identity matrix of given dimension.
      * @param dim: dimension of matrix (number of rows = number of cols = dim)
@@ -77,14 +76,10 @@ public class Matrix {
         return new Matrix(LinearAlgebraConfiguration.getMatrixStorageFactory().makeEye(dim));
     }
 
-    public Matrix(MatrixStorage storage){
+    private Matrix(MatrixStorage storage){
         this.storage = storage;
     }
 
-    public MatrixStorage getStorage() {
-        return storage;
-    }
-    
     /**
      * Returns inner matrix storage (not a copy, so be careful when manipulating!)
      * @return inner storage of values
@@ -126,7 +121,7 @@ public class Matrix {
      * @return sum result
      */
     public Matrix add(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().add(this, val);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().add(this.storage, val));
     }
 
     /**
@@ -136,7 +131,7 @@ public class Matrix {
      */
     public Matrix add(Matrix matrix){
         checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().add(this, matrix);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().add(this.storage, matrix.storage));
     }
 
     /**
@@ -145,7 +140,7 @@ public class Matrix {
      * @return subtraction result
      */
     public Matrix subtract(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().subtract(this, val);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().subtract(this.storage, val));
     }
 
     /**
@@ -155,7 +150,7 @@ public class Matrix {
      */
     public Matrix subtract(Matrix matrix){
         checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().subtract(this, matrix);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().subtract(this.storage, matrix.storage));
     }
 
     /**
@@ -164,7 +159,7 @@ public class Matrix {
      * @return multiplication result
      */
     public Matrix multiply(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, val);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().multiply(this.storage, val));
     }
 
     /**
@@ -175,7 +170,7 @@ public class Matrix {
     public Vector multiply(Vector vector){
         if (this.getNumCols() != vector.getDim())
             throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, vector);
+        return new Vector(LinearAlgebraConfiguration.getMatrixOperation().multiply(this.storage, vector.getStorage()));
     }
 
     /**
@@ -186,7 +181,7 @@ public class Matrix {
     public Matrix multiply(Matrix matrix){
         if (this.getNumCols() != matrix.getNumRows())
             throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, matrix);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().multiply(this.storage, matrix.storage));
     }
 
     /**
@@ -196,7 +191,7 @@ public class Matrix {
      */
     public Matrix multiplyElement(Matrix matrix){
         checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().multiplyElement(this, matrix);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().multiplyElement(this.storage, matrix.storage));
     }
 
     /**
@@ -205,7 +200,7 @@ public class Matrix {
      * @return division result
      */
     public Matrix divide(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().divide(this, val);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().divide(this.storage, val));
     }
 
     /**
@@ -215,7 +210,7 @@ public class Matrix {
      */
     public Matrix divide(Matrix matrix){
         checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().divide(this, matrix);
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().divide(this.storage, matrix.storage));
     }
 
     @Override

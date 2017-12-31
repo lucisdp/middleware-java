@@ -3,12 +3,17 @@ package linalg;
 import java.util.Arrays;
 
 public interface VectorStorageFactory {
-    VectorStorage makeVectorStorage(double[] values);
+    VectorStorage make(double[] values);
 
-    default VectorStorage makeVectorStorage(int dim, double fill){
+    default VectorStorage makeFilled(int dim, double fill){
         double[] values = new double[dim];
         Arrays.fill(values, fill);
-        return makeVectorStorage(values);
+        return make(values);
+    }
+
+    default VectorStorage makeZero(int dim){
+        double[] values = new double[dim];
+        return make(values);
     }
 }
 
