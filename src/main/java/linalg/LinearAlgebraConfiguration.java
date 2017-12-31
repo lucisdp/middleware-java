@@ -43,6 +43,9 @@ public class LinearAlgebraConfiguration {
     /**
      * Sets the Linear Algebra library backend. Current options are: simple, ojalgo and apache.
      * Using this function will result in changing which library is used to perform matrix / vector operations.
+     * The library should be set before any Vector/Matrix code is run, or a NullPointerException may be thrown.
+     * The library can be changed during the program's execution, but new Vectors/Matrices cannot communicate with previously
+     * created objects.
      *
      * @param name: library to use
      * @throws LinearAlgebraLibraryNotFound if library backend is not available.

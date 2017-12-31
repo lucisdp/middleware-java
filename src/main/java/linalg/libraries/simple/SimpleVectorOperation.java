@@ -1,5 +1,6 @@
 package linalg.libraries.simple;
 
+import exceptions.IncompatibleLinearAlgebraLibraryException;
 import linalg.VectorStorage;
 import linalg.VectorOperation;
 
@@ -10,7 +11,11 @@ import linalg.VectorOperation;
  */
 public class SimpleVectorOperation implements VectorOperation {
     static double[] fromVector(VectorStorage vector){
-        return ((SimpleVectorStorage) vector).getRawStorage();
+        try {
+            return ((SimpleVectorStorage) vector).getRawStorage();
+        } catch (ClassCastException ex){
+            throw new IncompatibleLinearAlgebraLibraryException();
+        }
     }
 
     static VectorStorage toVector(double[] simpleVector){

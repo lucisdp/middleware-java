@@ -1,6 +1,7 @@
 package linalg.libraries.apache;
 
 
+import exceptions.IncompatibleLinearAlgebraLibraryException;
 import linalg.*;
 import linalg.VectorStorage;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -15,7 +16,11 @@ import org.apache.commons.math3.linear.RealVector;
  */
 public class ApacheMatrixOperation implements MatrixOperation {
     private RealMatrix fromMatrix(MatrixStorage matrix){
-        return ((ApacheMatrixStorage) matrix).getRawStorage();
+        try {
+            return ((ApacheMatrixStorage) matrix).getRawStorage();
+        } catch (ClassCastException ex){
+            throw new IncompatibleLinearAlgebraLibraryException();
+        }
     }
 
     private MatrixStorage toMatrix(RealMatrix apacheMatrix){

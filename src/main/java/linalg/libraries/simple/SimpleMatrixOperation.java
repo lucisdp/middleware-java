@@ -1,5 +1,6 @@
 package linalg.libraries.simple;
 
+import exceptions.IncompatibleLinearAlgebraLibraryException;
 import linalg.MatrixStorage;
 import linalg.MatrixOperation;
 import linalg.VectorStorage;
@@ -11,7 +12,11 @@ import linalg.VectorStorage;
  */
 public class SimpleMatrixOperation implements MatrixOperation {
     private double[][] fromMatrix(MatrixStorage matrix){
-        return ((SimpleMatrixStorage) matrix).getRawStorage();
+        try {
+            return ((SimpleMatrixStorage) matrix).getRawStorage();
+        } catch (ClassCastException ex){
+            throw new IncompatibleLinearAlgebraLibraryException();
+        }
     }
 
     private MatrixStorage toMatrix(double[][] simpleMatrix){

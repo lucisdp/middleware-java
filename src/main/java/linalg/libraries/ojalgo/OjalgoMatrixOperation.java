@@ -1,5 +1,6 @@
 package linalg.libraries.ojalgo;
 
+import exceptions.IncompatibleLinearAlgebraLibraryException;
 import linalg.MatrixOperation;
 import linalg.MatrixStorage;
 import linalg.VectorStorage;
@@ -14,7 +15,11 @@ import org.ojalgo.matrix.PrimitiveMatrix;
  */
 public class OjalgoMatrixOperation implements MatrixOperation {
     private PrimitiveMatrix fromMatrix(MatrixStorage matrix){
-        return ((OjalgoMatrixStorage) matrix).getRawStorage();
+        try {
+            return ((OjalgoMatrixStorage) matrix).getRawStorage();
+        } catch (ClassCastException ex){
+            throw new IncompatibleLinearAlgebraLibraryException();
+        }
     }
 
     private MatrixStorage toMatrix(PrimitiveMatrix ojalgoMatrix){

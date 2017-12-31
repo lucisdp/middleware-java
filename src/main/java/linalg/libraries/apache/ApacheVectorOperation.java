@@ -1,5 +1,6 @@
 package linalg.libraries.apache;
 
+import exceptions.IncompatibleLinearAlgebraLibraryException;
 import linalg.VectorOperation;
 import linalg.VectorStorage;
 import org.apache.commons.math3.linear.RealVector;
@@ -14,7 +15,11 @@ import org.apache.commons.math3.linear.RealVector;
 public class ApacheVectorOperation implements VectorOperation {
     
     static RealVector fromVector(VectorStorage vector){
-        return ((ApacheVectorStorage) vector).getRawStorage();
+        try {
+            return ((ApacheVectorStorage) vector).getRawStorage();
+        } catch (ClassCastException ex){
+            throw new IncompatibleLinearAlgebraLibraryException();
+        }
     }
 
     static VectorStorage toVector(RealVector apacheVector){

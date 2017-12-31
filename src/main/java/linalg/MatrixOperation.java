@@ -2,7 +2,7 @@ package linalg;
 
 /**
  * <p>This interface provides all matrix-related operations needed by our software. For every Linear Algebra third-party library,
- * we create a corresponding object implementing this interface responsible for performing the desired matrix operation.
+ * we create a corresponding object implementing this interface, performing the desired matrix operation using the library of choice.
  * In this way, we can decouple our code from the Linear Algebra library performing the operations. However, this comes with
  * the cost of, for every iteration, converting to and from our Matrix class and the corresponding matrix storage class of
  * these libraries, which may be costly for large matrices. </p>
