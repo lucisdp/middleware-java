@@ -16,6 +16,11 @@ import linalg.libraries.simple.SimpleVectorStorageFactory;
 import utils.Configurations;
 
 
+/**
+ * This class is responsible for storing all necessary information regarding the current Linear Algebra library being used
+ * in our Vector and Matrix class. It provides a single entry point for getting and setting the library configuration,
+ * guaranteeing that both Vector and Matrix classes are always using the same library.
+ */
 public class LinearAlgebraConfiguration {
     private static String libraryName;
     private static VectorOperation vectorOperation;
@@ -44,8 +49,8 @@ public class LinearAlgebraConfiguration {
      * Sets the Linear Algebra library backend. Current options are: simple, ojalgo and apache.
      * Using this function will result in changing which library is used to perform matrix / vector operations.
      * The library should be set before any Vector/Matrix code is run, or a NullPointerException may be thrown.
-     * The library can be changed during the program's execution, but new Vectors/Matrices cannot communicate with previously
-     * created objects.
+     * The library can be changed during the program's execution, but new Vector/Matrix objects cannot communicate with
+     * previously created objects.
      *
      * @param name: library to use
      * @throws LinearAlgebraLibraryNotFound if library backend is not available.
@@ -65,7 +70,6 @@ public class LinearAlgebraConfiguration {
             matrixOperation = new OjalgoMatrixOperation();
             matrixStorageFactory = new OjalgoMatrixStorageFactory();
         }
-
         else if (libraryName.equalsIgnoreCase("simple")) {
             vectorOperation = new SimpleVectorOperation();
             vectorStorageFactory = new SimpleVectorStorageFactory();

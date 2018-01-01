@@ -13,14 +13,7 @@ import exceptions.NormalizingZeroVectorException;
  * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
  * libraries.</p>
  *
- * <p>Our design works as follows: this Vector class stores an array containing the vector values, but it delegates all
- * vector-related operations to a VectorOperation object. For each third-part library, we create a new object
- * implementing the VectorOperation interface, where the vector operations are finally performed using the library's
- * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
- * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
- * before and after every operation, the vector must be converted to the libraries appropriate Vector class, which incurs
- * copying the array to a new position in memory. This overhead may not be negligible for large vectors, which may require a
- * rethink on the current design.</p>
+ * <p></p>
  *
  * @author lucianodp
  *

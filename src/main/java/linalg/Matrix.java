@@ -12,19 +12,21 @@ import exceptions.NegativeDimensionException;
  * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
  * libraries.</p>
  *
- * <p>Our design works as follows: this Matrix class stores an array containing the matrix values, but it delegates all
- * matrix-related operations to a MatrixOperation object. For each third-part library, we create a new object
- * implementing the MatrixOperation interface, where the matrix operations are finally performed using the library's
- * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
- * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
- * before and after every operation, the matrix must be converted to the libraries appropriate Matrix class, which incurs
- * copying the array to a new position in memory. This overhead may not be negligible for large matrices, which may require a
- * rethink on the current design.</p>
+ * <p>Our design works as follows: every Matrix object contains a MatrixStorage object, which is responsible for encapsulating
+ * the underlying matrix storage used by each library (RealMatrix for Apache Commons Math, Primitive Matrix for OjAlgo, etc).
+ * For each library we create a specific MatrixStorage object, but instantiation can only be created through an appropriate
+ * Factory stored in LinearAlgebraConfiguration. In addition, Matrix operations are delegated to a MatrixOperation object,
+ * which is also stored in LinearAlgebraConfiguration. </p>
+ *
+ * <p> We note this design allows for great flexibility in the choice of library, and also hides the API's of each of these
+ * libraries under a common, simpler interface. We note that in order to use the Matrix class, all is need to is </p>
  *
  * @author lucianodp
  *
- * @see Vector
+ * @see LinearAlgebraConfiguration
  * @see MatrixOperation
+ * @see MatrixStorage
+ * @see Vector
  */
 public class Matrix {
     private MatrixStorage storage;

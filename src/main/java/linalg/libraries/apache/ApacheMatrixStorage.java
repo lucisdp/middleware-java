@@ -5,6 +5,9 @@ import linalg.VectorStorage;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 
+/**
+ * Matrix storage in Apache Commons Math library. This class cannot be instantiated directly,
+ */
 public class ApacheMatrixStorage implements MatrixStorage {
     private RealMatrix storage;
 
