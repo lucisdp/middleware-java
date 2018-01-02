@@ -5,7 +5,7 @@ import linalg.MatrixStorage;
 
 public class SimpleMatrixStorageFactory implements MatrixStorageFactory{
     @Override
-    public MatrixStorage makeMatrixStorage(double[][] values) {
+    public MatrixStorage make(double[][] values) {
         return new SimpleMatrixStorage(values);
     }
 }

@@ -5,9 +5,6 @@ package linalg;
  * accessing and manipulating its data.
  */
 public interface MatrixStorage {
-    static MatrixStorage getMatrixFactory(String name){
-        return null;
-    }
 
     /**
      * Returns the number of rows in matrix.

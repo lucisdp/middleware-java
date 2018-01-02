@@ -37,7 +37,7 @@ public class Matrix {
          * @param values: array of values to be composing the matrix
          */
         public static Matrix make(double[][] values){
-            MatrixStorage store = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(values);
+            MatrixStorage store = LinearAlgebraConfiguration.getMatrixStorageFactory().make(values);
             return new Matrix(store);
         }
 
@@ -55,7 +55,7 @@ public class Matrix {
             if (cols <= 0)
                 throw new NegativeDimensionException(cols);
 
-            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, fill);
+            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeFilled(rows, cols, fill);
             return new Matrix(storage);
         }
 
@@ -72,7 +72,7 @@ public class Matrix {
             if (cols <= 0)
                 throw new NegativeDimensionException(cols);
 
-            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, 0.0);
+            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeFilled(rows, cols, 0.0);
             return new Matrix(storage);
         }
 

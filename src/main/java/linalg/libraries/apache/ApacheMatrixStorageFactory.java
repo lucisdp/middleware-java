@@ -7,7 +7,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 
 public class ApacheMatrixStorageFactory implements MatrixStorageFactory{
     @Override
-    public MatrixStorage makeMatrixStorage(double[][] values) {
+    public MatrixStorage make(double[][] values) {
         return new ApacheMatrixStorage(new Array2DRowRealMatrix(values));
     }
 

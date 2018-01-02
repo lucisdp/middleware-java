@@ -86,7 +86,7 @@ public class ApacheMatrixOperation implements MatrixOperation {
             for(int j=0; j < cols; j++)
                 res[i][j] = simpleLeftMatrix[i][j] * simpleRightMatrix[i][j];
 
-        return (new ApacheMatrixStorageFactory()).makeMatrixStorage(res);
+        return (new ApacheMatrixStorageFactory()).make(res);
     }
 
     @Override
@@ -108,6 +108,6 @@ public class ApacheMatrixOperation implements MatrixOperation {
             for(int j=0; j < cols; j++)
                 res[i][j] += simpleLeftMatrix[i][j] / simpleRightMatrix[i][j];
 
-        return (new ApacheMatrixStorageFactory()).makeMatrixStorage(res);
+        return (new ApacheMatrixStorageFactory()).make(res);
     }
 }
