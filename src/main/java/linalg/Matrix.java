@@ -31,6 +31,10 @@ import exceptions.NegativeDimensionException;
 public class Matrix {
     private MatrixStorage storage;
 
+    private Matrix(MatrixStorage storage){
+        this.storage = storage;
+    }
+
     public static class FACTORY{
         /**
          * Create new matrix from double array
@@ -87,14 +91,11 @@ public class Matrix {
 
             return new Matrix(LinearAlgebraConfiguration.getMatrixStorageFactory().makeEye(dim));
         }
-    }
 
-    private Matrix(MatrixStorage storage){
-        this.storage = storage;
     }
 
     /**
-     * Returns inner matrix storage (not a copy, so be careful when manipulating!)
+     * Returns a copy of the inner matrix storage as a double[][] array.
      * @return inner storage of values
      */
     public double[][] asArray() {

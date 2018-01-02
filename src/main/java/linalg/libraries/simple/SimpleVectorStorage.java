@@ -2,8 +2,10 @@ package linalg.libraries.simple;
 
 import linalg.VectorStorage;
 
+import java.util.Arrays;
+
 public class SimpleVectorStorage implements VectorStorage {
-    double[] storage;
+    private double[] storage;
 
     SimpleVectorStorage(double[] values){
         storage = values;
@@ -30,6 +32,6 @@ public class SimpleVectorStorage implements VectorStorage {
 
     @Override
     public double[] asArray() {
-        return storage;
+        return Arrays.copyOf(storage, getDim());
     }
 }

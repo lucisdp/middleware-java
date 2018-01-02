@@ -23,6 +23,14 @@ import exceptions.NormalizingZeroVectorException;
 public class Vector {
     private VectorStorage storage;
 
+    Vector(VectorStorage storage){
+        this.storage = storage;
+    }
+
+    VectorStorage getStorage() {
+        return storage;
+    }
+
     public static class FACTORY{
 
         /**
@@ -60,14 +68,6 @@ public class Vector {
             VectorStorage storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeZero(dim);
             return new Vector(storage);
         }
-    }
-
-    Vector(VectorStorage storage){
-        this.storage = storage;
-    }
-
-    VectorStorage getStorage() {
-        return storage;
     }
 
     /**
