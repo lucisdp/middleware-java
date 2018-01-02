@@ -11,18 +11,18 @@ import static org.junit.Assert.assertEquals;
 public abstract class MatrixTest {
     Matrix mat, mat2;
 
-    protected abstract String getLibraryName();
+    protected abstract LinearAlgebraLibrary getLibrary();
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibrary(getLibraryName());
+        LinearAlgebraConfiguration.setLibrary(getLibrary());
         mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
         mat2 = new Matrix(new double[][] {{-1,0,1},{2,5,-8}});
     }
 
     @Test
     public void testLibraryName() throws Exception {
-        assertEquals(getLibraryName(), LinearAlgebraConfiguration.getLibraryName());
+        assertEquals(getLibrary(), LinearAlgebraConfiguration.getLibraryName());
     }
 
     @Test

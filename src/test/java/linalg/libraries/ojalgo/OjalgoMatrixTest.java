@@ -1,11 +1,12 @@
 package linalg.libraries.ojalgo;
 
+import linalg.LinearAlgebraLibrary;
 import linalg.MatrixTest;
 
 public class OjalgoMatrixTest extends MatrixTest {
 
     @Override
-    public String getLibraryName() {
-        return "ojalgo";
+    public LinearAlgebraLibrary getLibrary() {
+        return LinearAlgebraLibrary.OJALGO;
     }
 }

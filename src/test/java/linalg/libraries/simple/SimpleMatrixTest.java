@@ -1,10 +1,11 @@
 package linalg.libraries.simple;
 
+import linalg.LinearAlgebraLibrary;
 import linalg.MatrixTest;
 
 public class SimpleMatrixTest extends MatrixTest {
     @Override
-    public String getLibraryName(){
-       return "simple";
+    public LinearAlgebraLibrary getLibrary(){
+       return LinearAlgebraLibrary.SIMPLE;
     }
 }

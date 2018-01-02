@@ -1,11 +1,12 @@
 package linalg.libraries.apache;
 
+import linalg.LinearAlgebraLibrary;
 import linalg.VectorTest;
 
 public class ApacheVectorTest extends VectorTest {
 
     @Override
-    public String getLibraryName() {
-        return "apache";
+    public LinearAlgebraLibrary getLibrary() {
+        return LinearAlgebraLibrary.APACHE;
     }
 }

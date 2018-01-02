@@ -11,18 +11,18 @@ import static org.junit.Assert.*;
 public abstract class VectorTest {
     Vector vec, vec2;
 
-    protected abstract String getLibraryName();
+    protected abstract LinearAlgebraLibrary getLibrary();
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibrary(getLibraryName());
+        LinearAlgebraConfiguration.setLibrary(getLibrary());
         vec = new Vector(new double[] {1,2,3});
         vec2 = new Vector(new double[] {-1,0,1});
     }
 
     @Test
     public void testLibraryName() throws Exception {
-        assertEquals(getLibraryName(), LinearAlgebraConfiguration.getLibraryName());
+        assertEquals(getLibrary(), LinearAlgebraConfiguration.getLibraryName());
     }
 
     @Test

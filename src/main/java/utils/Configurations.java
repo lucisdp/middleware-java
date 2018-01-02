@@ -1,5 +1,8 @@
 package utils;
 
+import exceptions.LinearAlgebraLibraryNotFound;
+import linalg.LinearAlgebraLibrary;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,8 +39,16 @@ public class Configurations {
      * It does not check that the library in present in our backend.
      * @return library name
      */
-    public static String getLinearAlgebraLibrary() {
-        return prop.getProperty("LinearAlgebraLibrary");
+    public static LinearAlgebraLibrary getLinearAlgebraLibrary() {
+        String libName = prop.getProperty("LinearAlgebraLibrary");
+        if(libName.equalsIgnoreCase("apache"))
+            return LinearAlgebraLibrary.APACHE;
+        else if(libName.equalsIgnoreCase("ojalgo"))
+            return LinearAlgebraLibrary.OJALGO;
+        else if(libName.equalsIgnoreCase("simple"))
+            return LinearAlgebraLibrary.SIMPLE;
+        else
+            throw new LinearAlgebraLibraryNotFound(libName);
     }
 
     /**

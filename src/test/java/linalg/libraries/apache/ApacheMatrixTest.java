@@ -1,10 +1,11 @@
 package linalg.libraries.apache;
 
+import linalg.LinearAlgebraLibrary;
 import linalg.MatrixTest;
 
 public class ApacheMatrixTest extends MatrixTest {
     @Override
-    public String getLibraryName() {
-        return "apache";
+    public LinearAlgebraLibrary getLibrary() {
+        return LinearAlgebraLibrary.APACHE;
     }
 }

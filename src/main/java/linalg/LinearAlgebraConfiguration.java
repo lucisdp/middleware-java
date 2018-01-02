@@ -22,7 +22,7 @@ import utils.Configurations;
  * guaranteeing that both Vector and Matrix classes are always using the same library.
  */
 public class LinearAlgebraConfiguration {
-    private static String libraryName;
+    private static LinearAlgebraLibrary library;
     private static VectorOperation vectorOperation;
     private static VectorStorageFactory vectorStorageFactory;
     private static MatrixOperation matrixOperation;
@@ -32,8 +32,8 @@ public class LinearAlgebraConfiguration {
      * Get current library name
      * @return library name
      */
-    public static String getLibraryName() {
-        return libraryName;
+    public static LinearAlgebraLibrary getLibraryName() {
+        return library;
     }
 
     /**
@@ -52,32 +52,34 @@ public class LinearAlgebraConfiguration {
      * The library can be changed during the program's execution, but new Vector/Matrix objects cannot communicate with
      * previously created objects.
      *
-     * @param name: library to use
+     * @param lib: library to use
      * @throws LinearAlgebraLibraryNotFound if library backend is not available.
      */
-    public static void setLibrary(String name){
-        libraryName = name;
+    public static void setLibrary(LinearAlgebraLibrary lib){
+        library = lib;
 
-        if(libraryName.equalsIgnoreCase("apache")) {
+        if(lib == LinearAlgebraLibrary.APACHE) {
             vectorOperation = new ApacheVectorOperation();
             vectorStorageFactory = new ApacheVectorStorageFactory();
             matrixOperation = new ApacheMatrixOperation();
             matrixStorageFactory = new ApacheMatrixStorageFactory();
         }
-        else if (libraryName.equalsIgnoreCase("ojalgo")){
+        else if (lib == LinearAlgebraLibrary.OJALGO){
             vectorOperation = new OjalgoVectorOperation();
             vectorStorageFactory = new OjalgoVectorStorageFactory();
             matrixOperation = new OjalgoMatrixOperation();
             matrixStorageFactory = new OjalgoMatrixStorageFactory();
         }
-        else if (libraryName.equalsIgnoreCase("simple")) {
+        else if (lib == LinearAlgebraLibrary.SIMPLE) {
             vectorOperation = new SimpleVectorOperation();
             vectorStorageFactory = new SimpleVectorStorageFactory();
             matrixOperation = new SimpleMatrixOperation();
             matrixStorageFactory = new SimpleMatrixStorageFactory();
         }
+        else if(lib == null)
+            throw new NullPointerException("Library cannot be null.");
         else
-            throw new LinearAlgebraLibraryNotFound(libraryName);
+            throw new RuntimeException("Unknown linear algebra library. Check LinearAlgebraLibrary class for new values.");
     }
 
     static VectorOperation getVectorOperation() {
