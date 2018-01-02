@@ -17,19 +17,19 @@ public class LineTest {
     @Before
     public void setUp(){
         LinearAlgebraConfiguration.setLibraryFromConfig();
-        center = new Vector(new double[] {1,2,3});
-        direction = new Vector(new double[] {-1,0,1});
+        center = Vector.FACTORY.make(new double[] {1,2,3});
+        direction = Vector.FACTORY.make(new double[] {-1,0,1});
         line = new Line(center, direction);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongDimension() {
-        new Line(center, new Vector(new double[] {1,2}));
+        new Line(center, Vector.FACTORY.make(new double[] {1,2}));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testZeroDirection() {
-        new Line(center, new Vector(new double[] {0,0,0}));
+        new Line(center, Vector.FACTORY.make(new double[] {0,0,0}));
     }
 
     @Test

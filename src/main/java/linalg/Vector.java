@@ -22,32 +22,44 @@ import exceptions.NormalizingZeroVectorException;
  */
 public class Vector {
     private VectorStorage storage;
-    
-    /**
-     * Create new vector from double array
-     * @param values: array of values to be composing the vector
-     */
-    public Vector(double[] values){
-        this.storage = LinearAlgebraConfiguration.getVectorStorageFactory().make(values);
-    }
 
-    /**
-     * Construct a vector of specified size, filling it with a given value.
-     * @param dim: vector size
-     * @param fill: value to fill vector
-     */
-    public Vector(int dim, double fill){
-        if (dim <= 0)
-            throw new NegativeDimensionException(dim);
-        this.storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeFilled(dim, fill);
-    }
+    public static class FACTORY{
 
-    /**
-     * Construct a zero vector of given size
-     * @param dim: vector size
-     */
-    public Vector(int dim){
-        this(dim, 0);
+        /**
+         * Create new vector from double array
+         * @param values: array of values to be composing the vector
+         */
+        public static Vector make(double[] values){
+            VectorStorage store = LinearAlgebraConfiguration.getVectorStorageFactory().make(values);
+            return new Vector(store);
+        }
+
+        /**
+         * Construct a vector of specified size, filling it with a given value.
+         * @param dim: vector size
+         * @param fill: value to fill vector
+         * @throws NegativeDimensionException if dimension is not positive
+         */
+        public static Vector makeFilled(int dim, double fill){
+            if (dim <= 0)
+                throw new NegativeDimensionException(dim);
+
+            VectorStorage storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeFilled(dim, fill);
+            return new Vector(storage);
+        }
+
+        /**
+         * Construct a zero vector of given size
+         * @param dim: vector size
+         * @throws NegativeDimensionException if dimension is not positive
+         */
+        public static Vector makeZero(int dim){
+            if (dim <= 0)
+                throw new NegativeDimensionException(dim);
+
+            VectorStorage storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeZero(dim);
+            return new Vector(storage);
+        }
     }
 
     Vector(VectorStorage storage){
@@ -326,7 +338,7 @@ public class Vector {
         newVector[0] = value;
         for(int i=1; i < getDim()+1; i++)
             newVector[i] = this.get(i-1);
-        return new Vector(newVector);
+        return Vector.FACTORY.make(newVector);
     }
 
     /**
@@ -342,7 +354,7 @@ public class Vector {
         double[] newVector = new double[getDim()-1];
         for(int i=1; i < getDim(); i++)
             newVector[i-1] = this.get(i);
-        return new Vector(newVector);
+        return Vector.FACTORY.make(newVector);
     }
 
     @Override

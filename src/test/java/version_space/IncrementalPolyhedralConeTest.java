@@ -30,7 +30,7 @@ public class IncrementalPolyhedralConeTest{
     @Test
     public void testIsNotEmpty() throws Exception {
         pol = new IncrementalPolyhedralCone();
-        pol.addConstrain(new Vector(new double[] {1,1}));
+        pol.addConstrain(Vector.FACTORY.make(new double[] {1,1}));
         assertTrue(!pol.isEmpty());
     }
 
@@ -58,7 +58,7 @@ public class IncrementalPolyhedralConeTest{
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddConstrainWithWrongDim() throws Exception {
-        pol.addConstrain(new Vector(new double[] {1,2,3}));
+        pol.addConstrain(Vector.FACTORY.make(new double[] {1,2,3}));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class IncrementalPolyhedralConeTest{
     @Test
     public void testIntersectionWithEmptyPolytope() throws Exception {
         pol = new IncrementalPolyhedralCone();
-        Line line = Line.sample(new Vector(new double[] {1,1}));
+        Line line = Line.sample(Vector.FACTORY.make(new double[] {1,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(Double.NEGATIVE_INFINITY, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -113,13 +113,13 @@ public class IncrementalPolyhedralConeTest{
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongLineDimension(){
-        Line line = new Line(new Vector(new double[] {5,2,3}), new Vector(new double[] {0,1,3}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {5,2,3}), Vector.FACTORY.make(new double[] {0,1,3}));
         pol.intersect(line);
     }
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(new Vector(new double[] {0,1}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {0,1}), Vector.FACTORY.make(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -127,7 +127,7 @@ public class IncrementalPolyhedralConeTest{
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {0,0}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {0,0}), Vector.FACTORY.make(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -135,7 +135,7 @@ public class IncrementalPolyhedralConeTest{
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(new Vector(new double[] {0,-2}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {0,-2}), Vector.FACTORY.make(new double[] {0,1}));
         LineSegment segment = pol.intersect(line);
         assertEquals(2, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -143,19 +143,19 @@ public class IncrementalPolyhedralConeTest{
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {0,0}), new Vector(new double[] {1,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {0,0}), Vector.FACTORY.make(new double[] {1,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,-1}), new Vector(new double[] {1,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-1,-1}), Vector.FACTORY.make(new double[] {1,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(new Vector(new double[] {-2,0}), new Vector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-2,0}), Vector.FACTORY.make(new double[] {1,0}));
         pol.intersect(line);
     }
 }

@@ -27,7 +27,7 @@ public class Ellipsoid implements ConvexBody {
     }
 
     public Ellipsoid(double[] center, double[] halfAxisLengths){
-        this(new Vector(center), new Vector(halfAxisLengths));
+        this(Vector.FACTORY.make(center), Vector.FACTORY.make(halfAxisLengths));
     }
 
     /**
@@ -41,18 +41,18 @@ public class Ellipsoid implements ConvexBody {
         if (radius <= 0)
             throw new NegativeLengthException("Radius");
 
-        this.halfAxisLengths = new Vector((int) this.center.getDim(), radius);
+        this.halfAxisLengths = Vector.FACTORY.makeFilled(this.center.getDim(), radius);
     }
 
     public Ellipsoid(double[] center, double radius){
-        this(new Vector(center), radius);
+        this(Vector.FACTORY.make(center), radius);
     }
 
     /**
      * Constructs an unit ball (centered at origin, radius 1)
      * @param dim: dimension of underlying euclidean space
      */
-    public Ellipsoid(int dim){ this(new Vector(dim), 1); }
+    public Ellipsoid(int dim){ this(Vector.FACTORY.makeZero(dim), 1); }
 
     @Override
     public int getDim() {

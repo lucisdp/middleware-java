@@ -35,7 +35,7 @@ public class Sampler {
         for(int i=0; i < size; i++)
             direction[i] = random.nextGaussian();
 
-        return new Vector(direction);
+        return Vector.FACTORY.make(direction);
     }
 
     /**

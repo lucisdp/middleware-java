@@ -70,7 +70,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     @Override
     public Vector findInteriorPoint() {
         if(constrains.isEmpty())
-            return new Vector(dim,0);
+            return Vector.FACTORY.makeZero(dim);
 
         Vector solution = solver.findMinimizer();
 
@@ -81,13 +81,13 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     }
 
     private void setSolverObjectiveFunction(){
-        Vector linProgObjective = new Vector(solver.getDim());
+        Vector linProgObjective = Vector.FACTORY.makeZero(solver.getDim());
         linProgObjective.set(0, 1);
         solver.setObjectiveFunction(linProgObjective);
     }
 
     private void setSolverBounds(){
-        solver.setLower(new Vector(solver.getDim(), -1));
-        solver.setUpper(new Vector(solver.getDim(), 1));
+        solver.setLower(Vector.FACTORY.makeFilled(solver.getDim(), -1));
+        solver.setUpper(Vector.FACTORY.makeFilled(solver.getDim(), 1));
     }
 }

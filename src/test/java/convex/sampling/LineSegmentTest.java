@@ -16,7 +16,7 @@ public class LineSegmentTest {
     @Before
     public void setUp() throws Exception {
         LinearAlgebraConfiguration.setLibraryFromConfig();
-        line = new Line(new Vector(new double[] {1,2,3}), new Vector(new double[] {-1,0,1}));
+        line = new Line(Vector.FACTORY.make(new double[] {1,2,3}), Vector.FACTORY.make(new double[] {-1,0,1}));
         segment = new LineSegment(line, -2, 3);
     }
 

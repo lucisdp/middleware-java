@@ -30,52 +30,63 @@ import exceptions.NegativeDimensionException;
  */
 public class Matrix {
     private MatrixStorage storage;
-    
-    /**
-     * Create new matrix from double array
-     * @param values: array of values to be composing the matrix
-     */
-    public Matrix(double[][] values){
-        this.storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(values);
-    }
 
-    /**
-     * Construct a matrix of specified size, filling it with a given value.
-     * @param rows: number of rows
-     * @param cols: number of columns
-     * @param fill: value to fill the new matrix
-     * @throws NegativeDimensionException if rows or cols are not positive numbers
-     */
-    public Matrix(int rows, int cols, double fill){
-        if (rows <= 0)
-            throw new NegativeDimensionException(rows);
+    public static class FACTORY{
+        /**
+         * Create new matrix from double array
+         * @param values: array of values to be composing the matrix
+         */
+        public static Matrix make(double[][] values){
+            MatrixStorage store = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(values);
+            return new Matrix(store);
+        }
 
-        if (cols <= 0)
-            throw new NegativeDimensionException(cols);
-        
-        this.storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, fill);
-    }
+        /**
+         * Construct a matrix of specified size, filling it with a given value.
+         * @param rows: number of rows
+         * @param cols: number of columns
+         * @param fill: value to fill the new matrix
+         * @throws NegativeDimensionException if rows or cols are not positive numbers
+         */
+        public static Matrix makeFilled(int rows, int cols, double fill){
+            if (rows <= 0)
+                throw new NegativeDimensionException(rows);
 
-    /**
-     * Constructs a zero matrix from given size.
-     * @param rows: number of rows
-     * @param cols: number of columns
-     * @throws NegativeDimensionException if rows or cols are not positive numbers
-     */
-    public Matrix(int rows, int cols){
-        this(rows, cols, 0);
-    }
+            if (cols <= 0)
+                throw new NegativeDimensionException(cols);
 
-    /**
-     * Creates an identity matrix of given dimension.
-     * @param dim: dimension of matrix (number of rows = number of cols = dim)
-     * @return identity matrix
-     */
-    public static Matrix getIdentity(int dim){
-        if(dim <= 0)
-            throw new NegativeDimensionException(dim);
+            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, fill);
+            return new Matrix(storage);
+        }
 
-        return new Matrix(LinearAlgebraConfiguration.getMatrixStorageFactory().makeEye(dim));
+        /**
+         * Constructs a zero matrix from given size.
+         * @param rows: number of rows
+         * @param cols: number of columns
+         * @throws NegativeDimensionException if rows or cols are not positive numbers
+         */
+        public static Matrix makeZero(int rows, int cols){
+            if (rows <= 0)
+                throw new NegativeDimensionException(rows);
+
+            if (cols <= 0)
+                throw new NegativeDimensionException(cols);
+
+            MatrixStorage storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, 0.0);
+            return new Matrix(storage);
+        }
+
+        /**
+         * Creates an identity matrix of given dimension.
+         * @param dim: dimension of matrix (number of rows = number of cols = dim)
+         * @return identity matrix
+         */
+        public static Matrix makeEye(int dim){
+            if(dim <= 0)
+                throw new NegativeDimensionException(dim);
+
+            return new Matrix(LinearAlgebraConfiguration.getMatrixStorageFactory().makeEye(dim));
+        }
     }
 
     private Matrix(MatrixStorage storage){

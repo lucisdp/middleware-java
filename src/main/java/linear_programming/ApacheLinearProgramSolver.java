@@ -42,13 +42,13 @@ public class ApacheLinearProgramSolver implements LinearProgramSolver {
     @Override
     public void setLower(Vector vector) {
         checkDim(vector);
-        addLinearConstrain(Matrix.getIdentity(vector.getDim()).multiply(-1), vector.multiply(-1));
+        addLinearConstrain(Matrix.FACTORY.makeEye(vector.getDim()).multiply(-1), vector.multiply(-1));
     }
 
     @Override
     public void setUpper(Vector vector) {
         checkDim(vector);
-        addLinearConstrain(Matrix.getIdentity(vector.getDim()), vector);
+        addLinearConstrain(Matrix.FACTORY.makeEye(vector.getDim()), vector);
     }
 
     @Override
@@ -65,6 +65,6 @@ public class ApacheLinearProgramSolver implements LinearProgramSolver {
             throw new LinearProgramOptimizationFailed();
         }
 
-        return new Vector(solution.getPoint());
+        return Vector.FACTORY.make(solution.getPoint());
     }
 }
