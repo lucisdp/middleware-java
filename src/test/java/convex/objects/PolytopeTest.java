@@ -4,23 +4,29 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraLibrary;
+import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class PolytopeTest{
-    double[][] A;
-    double[] b;
-    Polytope pol;
+    private double[][] A;
+    private double[] b;
+    private Polytope pol;
+
+    private void setLibrary(LinearAlgebraLibrary lib){
+        Vector.FACTORY.setFactory(lib);
+        Matrix.FACTORY.setFactory(lib);
+    }
 
     @Before
     public void setUp() throws Exception {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
+        setLibrary(LinearAlgebraLibrary.OJALGO);
         A = new double[][] {{-1,0}, {0,-1}, {0,1}};
         b = new double[] {1,0,2};
         pol = new Polytope(A,b);
@@ -90,13 +96,13 @@ public class PolytopeTest{
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongLineDimension(){
-        Line line = new Line(new Vector(new double[] {5,2,3}), new Vector(new double[] {0,1,3}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {5,2,3}), Vector.FACTORY.makeVector(new double[] {0,1,3}));
         pol.intersect(line);
     }
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(new Vector(new double[] {0,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {0,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -104,7 +110,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -112,7 +118,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(new Vector(new double[] {-2,1}), new Vector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-2,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -120,19 +126,19 @@ public class PolytopeTest{
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,1}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,1}), Vector.FACTORY.makeVector(new double[] {0,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(new Vector(new double[] {-1,-1}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,-1}), Vector.FACTORY.makeVector(new double[] {0,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(new Vector(new double[] {-2,0}), new Vector(new double[] {1,-1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-2,0}), Vector.FACTORY.makeVector(new double[] {1,-1}));
         pol.intersect(line);
     }
 }

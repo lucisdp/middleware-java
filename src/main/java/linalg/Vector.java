@@ -2,7 +2,7 @@ package linalg;
 
 import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
+import exceptions.LinearAlgebraLibraryNotFound;
 import exceptions.NormalizingZeroVectorException;
 
 /**
@@ -13,75 +13,51 @@ import exceptions.NormalizingZeroVectorException;
  * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
  * libraries.</p>
  *
- * <p>Our design works as follows: this Vector class stores an array containing the vector values, but it delegates all
- * vector-related operations to a VectorOperation object. For each third-part library, we create a new object
- * implementing the VectorOperation interface, where the vector operations are finally performed using the library's
- * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
- * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
- * before and after every operation, the vector must be converted to the libraries appropriate Vector class, which incurs
- * copying the array to a new position in memory. This overhead may not be negligible for large vectors, which may require a
- * rethink on the current design.</p>
- *
  * @author lucianodp
  *
  * @see Matrix
- * @see VectorOperation
  */
-public class Vector {
-    private VectorStorage storage;
-    
-    /**
-     * Create new vector from double array
-     * @param values: array of values to be composing the vector
-     */
-    public Vector(double[] values){
-        this.storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeVectorStorage(values);
-    }
+public abstract class Vector {
 
-    public Vector(VectorStorage storage){
-        this.storage = storage;
-    }
+    public static class FACTORY{
+        static private VectorFactory vectorFactory;
 
-    /**
-     * Construct a vector of specified size, filling it with a given value.
-     * @param dim: vector size
-     * @param fill: value to fill vector
-     */
-    public Vector(int dim, double fill){
-        if (dim <= 0)
-            throw new NegativeDimensionException(dim);
-        this.storage = LinearAlgebraConfiguration.getVectorStorageFactory().makeVectorStorage(dim, fill);
-    }
+        public static void setFactory(LinearAlgebraLibrary library){
+            switch (library){
+                case APACHE:
+                    vectorFactory = null;
+                    break;
+                case OJALGO:
+                    vectorFactory = new OjalgoVectorFactory();
+                    break;
+                case SIMPLE:
+                    vectorFactory = null;
+                    break;
+                default:
+                    throw new LinearAlgebraLibraryNotFound(library.name());
+            }
+        }
 
-    /**
-     * Construct a zero vector of given size
-     * @param dim: vector size
-     */
-    public Vector(int dim){
-        this(dim, 0);
-    }
+        public static Vector makeVector(double[] values){
+            return vectorFactory.makeVector(values);
+        }
 
-    /**
-     * Return reference to Vector's internal array (not a copy!)
-     * @return values attribute
-     */
-    public double[] asArray() {
-        return storage.asArray();
-    }
+        public static Vector makeFilled(int dim, double value){
+            return vectorFactory.makeFilled(dim, value);
+        }
 
-    public VectorStorage getStorage() {
-        return storage;
+        public static Vector makeZero(int dim){
+            return vectorFactory.makeZero(dim);
+        }
     }
 
     /**
      * Vector's dimension
      * @return dim attribute
      */
-    public int getDim() {
-        return storage.getDim();
-    }
-    
-    private void checkDim(Vector vector){
+    public abstract int getDim();
+
+    protected void checkDim(Vector vector){
         if (this.getDim() != vector.getDim())
             throw new IncompatibleDimensionsException(this.getDim(), vector.getDim());
     }
@@ -92,9 +68,7 @@ public class Vector {
      * @return value of component 'index'
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
-    public double get(int index){
-        return this.storage.get(index);
-    }
+    public abstract double get(int index);
 
     /**
      * Sets the component 'index' to a new value.
@@ -102,16 +76,14 @@ public class Vector {
      * @param newValue: new value to set in position
      * @throws ArrayIndexOutOfBoundsException if index is not valid
      */
-    public void set(int index, double newValue){ this.storage.set(index, newValue); }
+    public abstract void set(int index, double newValue);
 
     /**
      * Adds a given value to all components of Vector.
-     * @param val: value to add to all components of vector
+     * @param value: value to add to all components of vector
      * @return new vector with the sum result
      */
-    public Vector add(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().add(this, val);
-    }
+    public abstract Vector add(double value);
 
     /**
      * Performs vector addition.
@@ -119,19 +91,14 @@ public class Vector {
      * @return new vector with the sum result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public Vector add(Vector vector){
-        checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().add(this, vector);
-    }
+    public abstract Vector add(Vector vector);
 
     /**
      * Subtracts a given value to all components of Vector.
-     * @param val: value to subtract to all components of vector
+     * @param value: value to subtract to all components of vector
      * @return new vector with the subtraction result
      */
-    public Vector subtract(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().subtract(this, val);
-    }
+    public abstract Vector subtract(double value);
 
     /**
      * Performs vector subtraction.
@@ -139,19 +106,14 @@ public class Vector {
      * @return new vector with the subtraction result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public Vector subtract(Vector vector){
-        checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().subtract(this, vector);
-    }
+    public abstract Vector subtract(Vector vector);
 
     /**
      * Multiplies a given value to all components of Vector.
-     * @param val: value to multiply all components of vector with
+     * @param value: value to multiply all components of vector with
      * @return new vector with the multiplication result
      */
-    public Vector multiply(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().multiply(this, val);
-    }
+    public abstract Vector multiply(double value);
 
     /**
      * Performs vector element-wise multiplication.
@@ -159,19 +121,14 @@ public class Vector {
      * @return new vector with the multiplication result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public Vector multiply(Vector vector){
-        checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().multiply(this, vector);
-    }
+    public abstract Vector multiply(Vector vector);
 
     /**
      * Divides a given value to all components of Vector.
-     * @param val: value to divide all components of vector with
+     * @param value: value to divide all components of vector with
      * @return new vector with the division result
      */
-    public Vector divide(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().divide(this, val);
-    }
+    public abstract Vector divide(double value);
 
     /**
      * Performs vector element-wise division.
@@ -179,10 +136,7 @@ public class Vector {
      * @return new vector with the division result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public Vector divide(Vector vector){
-        checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().divide(this, vector);
-    }
+    public abstract Vector divide(Vector vector);
 
     /**
      * Computes the dot product between two vectors.
@@ -190,26 +144,21 @@ public class Vector {
      * @return Dot product result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public double dot(Vector vector){
-        checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().dot(this, vector);
-    }
+    public abstract double dot(Vector vector);
 
     /**
      * Computes the scalar product of the vector with itself.
      * @return squared norm of vector
      */
     public double sqNorm(){
-        return LinearAlgebraConfiguration.getVectorOperation().dot(this, this);
+        return this.dot(this);
     }
 
     /**
      * Computes the vector's norm
      * @return vector's norm
      */
-    public double norm(){
-        return LinearAlgebraConfiguration.getVectorOperation().norm(this);
-    }
+    public abstract double norm();
 
     /**
      * Normalizes a vector (divides it by its norm)
@@ -219,7 +168,26 @@ public class Vector {
     public Vector normalize() {
         if(this.equals(0))
             throw new NormalizingZeroVectorException();
-        return LinearAlgebraConfiguration.getVectorOperation().divide(this, norm());
+        return this.divide(norm());
+    }
+
+    /**
+     * Returns a copy of the vector's data in array format.
+     * @return values attribute
+     */
+    public abstract double[] asArray();
+
+    /**
+     * Checks whether all vector's components are equal to a given number, up to a tolerance of 1e-10.
+     * @param value: number to compare components
+     * @return are all components equal to given value or not
+     */
+    public boolean equals(double value) {
+        for (int i=0; i < getDim(); i++){
+            if (Math.abs(this.get(i) - value) > 1e-10)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -230,25 +198,24 @@ public class Vector {
      */
     public boolean equals(Vector vector){
         checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().equals(this, vector);
-    }
-
-    /**
-     * Checks whether all vector's components are equal to a given number, up to a tolerance of 1e-10.
-     * @param val: number to compare components
-     * @return are all components equal to given value or not
-     */
-    public boolean equals(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().equals(this, val);
+        for (int i=0; i < getDim(); i++){
+            if (Math.abs(this.get(i) - vector.get(i)) > 1e-10)
+                return false;
+        }
+        return true;
     }
 
     /**
      * Checks if vector's components are all strictly smaller than value.
-     * @param val: value to compare with components
+     * @param value: value to compare with components
      * @return are all components strictly smaller than given value or not
      */
-    public boolean isSmallerThan(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().isSmallerThan(this, val);
+    public boolean isSmallerThan(double value){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) >= value)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -259,16 +226,24 @@ public class Vector {
      */
     public boolean isSmallerThan(Vector vector){
         checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().isSmallerThan(this, vector);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) >= vector.get(i))
+                return false;
+        }
+        return true;
     }
 
     /**
      * Checks if vector's components are all smaller or equal than given value.
-     * @param val: value to compare with components
+     * @param value: value to compare with components
      * @return are all components smaller than given value or not
      */
-    public boolean isSmallerOrEqualThan(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().isSmallerOrEqualThan(this, val);
+    public boolean isSmallerOrEqualThan(double value){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) > value)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -279,16 +254,24 @@ public class Vector {
      */
     public boolean isSmallerOrEqualThan(Vector vector){
         checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().isSmallerOrEqualThan(this, vector);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) > vector.get(i))
+                return false;
+        }
+        return true;
     }
 
     /**
      * Checks if vector's components are all larger than given value.
-     * @param val: value to compare with components
+     * @param value: value to compare with components
      * @return are all components strictly larger than given value or not
      */
-    public boolean isLargerThan(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().isLargerThan(this, val);
+    public boolean isLargerThan(double value){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) <= value)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -299,16 +282,24 @@ public class Vector {
      */
     public boolean isLargerThan(Vector vector){
         checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().isLargerThan(this, vector);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) <= vector.get(i))
+                return false;
+        }
+        return true;
     }
 
     /**
      * Checks if vector's components are all larger or equal than given value.
-     * @param val: value to compare with components
+     * @param value: value to compare with components
      * @return are all components larger than given value or not
      */
-    public boolean isLargerOrEqualThan(double val){
-        return LinearAlgebraConfiguration.getVectorOperation().isLargerOrEqualThan(this, val);
+    public boolean isLargerOrEqualThan(double value){
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) < value)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -319,25 +310,28 @@ public class Vector {
      */
     public boolean isLargerOrEqualThan(Vector vector){
         checkDim(vector);
-        return LinearAlgebraConfiguration.getVectorOperation().isLargerOrEqualThan(this, vector);
+        for (int i=0; i < getDim(); i++){
+            if (this.get(i) < vector.get(i))
+                return false;
+        }
+        return true;
     }
 
     /**
-     * TODO: move to VectorStorage
      * Append a value to the left of vector. This creates a new copy of the Vector.
      * @param value: value to append
      * @return new vector with 'value' appended to the left
      */
-    public Vector appendLeft(double value){
+
+    public Vector appendLeft(double value) {
         double[] newVector = new double[getDim()+1];
         newVector[0] = value;
         for(int i=1; i < getDim()+1; i++)
             newVector[i] = this.get(i-1);
-        return new Vector(newVector);
+        return FACTORY.makeVector(newVector);
     }
 
     /**
-     * TODO: move to VectorStorage
      * Drops the 0-th component of vector, creating a new copy of Vector. It throws an exception is operation results
      * would result in empty vector.
      * @return new vector with 0-th component excluded
@@ -349,7 +343,7 @@ public class Vector {
         double[] newVector = new double[getDim()-1];
         for(int i=1; i < getDim(); i++)
             newVector[i-1] = this.get(i);
-        return new Vector(newVector);
+        return FACTORY.makeVector(newVector);
     }
 
     @Override

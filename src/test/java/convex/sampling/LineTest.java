@@ -1,35 +1,41 @@
 package convex.sampling;
 
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraLibrary;
+import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class LineTest {
-    public Vector center;
-    public Vector direction;
-    public Line line;
+    private Vector center;
+    private Vector direction;
+    private Line line;
+
+    private void setLibrary(LinearAlgebraLibrary lib){
+        Vector.FACTORY.setFactory(lib);
+        Matrix.FACTORY.setFactory(lib);
+    }
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryFromConfig();
-        center = new Vector(new double[] {1,2,3});
-        direction = new Vector(new double[] {-1,0,1});
+        setLibrary(LinearAlgebraLibrary.OJALGO);
+        center = Vector.FACTORY.makeVector(new double[] {1,2,3});
+        direction = Vector.FACTORY.makeVector(new double[] {-1,0,1});
         line = new Line(center, direction);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongDimension() {
-        new Line(center, new Vector(new double[] {1,2}));
+        new Line(center, Vector.FACTORY.makeVector(new double[] {1,2}));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testZeroDirection() {
-        new Line(center, new Vector(new double[] {0,0,0}));
+        new Line(center, Vector.FACTORY.makeVector(new double[] {0,0,0}));
     }
 
     @Test

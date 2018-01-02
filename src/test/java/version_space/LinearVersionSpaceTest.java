@@ -4,11 +4,11 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
+import linalg.LinearAlgebraLibrary;
 import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -19,9 +19,14 @@ public class LinearVersionSpaceTest {
     private int dim, chainLength, sampleSize;
     private LinearVersionSpace versionSpace;
 
+    private void setLibrary(LinearAlgebraLibrary lib){
+        Vector.FACTORY.setFactory(lib);
+        Matrix.FACTORY.setFactory(lib);
+    }
+
     @Before
     public void setUp() throws Exception {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
+        setLibrary(LinearAlgebraLibrary.OJALGO);
         dim = 2;
         chainLength = 64;
         sampleSize = 8;
@@ -62,7 +67,7 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddConstrainOfWrongDimension() throws Exception {
-        versionSpace.addConstrain(new Vector(new double[] {1,2,3}), -1);
+        versionSpace.addConstrain(Vector.FACTORY.makeVector(new double[] {1,2,3}), -1);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -79,13 +84,13 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testLineWithWrongDimension() throws Exception {
-        Line line = new Line(new Vector(new double[] {0,0,0,0}), new Vector(new double[] {1,0,-1,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(4), Vector.FACTORY.makeVector(new double[] {1,0,-1,0}));
         versionSpace.intersect(line);
     }
 
     @Test
     public void testIntersectionWithEmptyConstrains() throws Exception {
-        Line line = new Line(new Vector(new double[] {0,0,0}), new Vector(new double[] {1,0,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(3), Vector.FACTORY.makeVector(new double[] {1,0,0}));
         LineSegment segment = versionSpace.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(1, segment.getUpper(), 1e-10);
@@ -93,7 +98,7 @@ public class LinearVersionSpaceTest {
 
     @Test
     public void testFindInteriorPoint() throws Exception {
-        versionSpace.addConstrain(new Vector(new double[] {1,1}), -1);
+        versionSpace.addConstrain(Vector.FACTORY.makeFilled(2, 1.0), -1);
         Vector interiorPoint = versionSpace.findInteriorPoint();
         assertTrue(versionSpace.isInside(interiorPoint));
     }

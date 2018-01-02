@@ -78,7 +78,7 @@ public class OjalgoLinearProgramSolver implements LinearProgramSolver {
         double[] res = new double[dim];
         for(int i=0; i < dim; i++)
             res[i] = result.get(i).doubleValue();
-        return new Vector(res);
+        return Vector.FACTORY.makeVector(res);
     }
 
 }

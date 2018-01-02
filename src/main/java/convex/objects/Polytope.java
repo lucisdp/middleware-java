@@ -31,7 +31,7 @@ public class Polytope implements ConvexBody {
     }
 
     public Polytope(double[][] A, double[] b){
-        this(new Matrix(A), new Vector(b));
+        this(Matrix.FACTORY.makeMatrix(A), Vector.FACTORY.makeVector(b));
     }
 
     @Override

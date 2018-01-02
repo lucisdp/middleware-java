@@ -1,9 +1,10 @@
 package linear_programming;
 
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraLibrary;
+import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -11,38 +12,43 @@ public abstract class LinearProgramSolverTest {
     final int dim=2;
     LinearProgramSolver solver = null;
     static {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
+        setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
+
+    private static void setLibrary(LinearAlgebraLibrary lib){
+        Vector.FACTORY.setFactory(lib);
+        Matrix.FACTORY.setFactory(lib);
     }
 
     public void testSolver(double[] objective, double[][] constrainsMatrix, double[] constrainsVector, double[] answer){
-        solver.setObjectiveFunction(new Vector(objective));
+        solver.setObjectiveFunction(Vector.FACTORY.makeVector(objective));
         for(int i=0; i < constrainsMatrix.length; i++)
-            solver.addLinearConstrain(new Vector(constrainsMatrix[i]), constrainsVector[i]);
+            solver.addLinearConstrain(Vector.FACTORY.makeVector(constrainsMatrix[i]), constrainsVector[i]);
         Vector solution = solver.findMinimizer();
         assertArrayEquals(answer, solution.asArray(), 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testSetObjectiveFunctionWithWrongDimension() throws Exception {
-        Vector vec = new Vector(new double[] {1,0,0});
+        Vector vec = Vector.FACTORY.makeVector(new double[] {1,0,0});
         solver.setObjectiveFunction(vec);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddConstrainWithWrongDimension() throws Exception {
-        Vector vec = new Vector(new double[] {1,0,0});
+        Vector vec = Vector.FACTORY.makeVector(new double[] {1,0,0});
         solver.addLinearConstrain(vec, 0);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testSetLowerWithWrongDimension() throws Exception {
-        Vector vec = new Vector(new double[] {1,0,0});
+        Vector vec = Vector.FACTORY.makeVector(new double[] {1,0,0});
         solver.setLower(vec);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testSetUpperWithWrongDimension() throws Exception {
-        Vector vec = new Vector(new double[] {1,0,0});
+        Vector vec = Vector.FACTORY.makeVector(new double[] {1,0,0});
         solver.setUpper(vec);
     }
 

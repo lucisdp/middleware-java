@@ -1,8 +1,7 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
-
+import exceptions.LinearAlgebraLibraryNotFound;
 
 /**
  * <p>This module implements an euclidean Matrix. In other words, a matrix is a bi-dimensional collection of real numbers with
@@ -12,107 +11,82 @@ import exceptions.NegativeDimensionException;
  * the still uncertain nature of our Middleware, we decided to create a wrapper for the most promising Linear Algebra
  * libraries.</p>
  *
- * <p>Our design works as follows: this Matrix class stores an array containing the matrix values, but it delegates all
- * matrix-related operations to a MatrixOperation object. For each third-part library, we create a new object
- * implementing the MatrixOperation interface, where the matrix operations are finally performed using the library's
- * own functions and syntax. We note this design allows for great flexibility in the choice of library, and also hides the
- * API's of each of these libraries under a common, simpler interface. However, the main drawback lies within performance:
- * before and after every operation, the matrix must be converted to the libraries appropriate Matrix class, which incurs
- * copying the array to a new position in memory. This overhead may not be negligible for large matrices, which may require a
- * rethink on the current design.</p>
  *
  * @author lucianodp
  *
  * @see Vector
- * @see MatrixOperation
  */
-public class Matrix {
-    private MatrixStorage storage;
-    
-    /**
-     * Create new matrix from double array
-     * @param values: array of values to be composing the matrix
-     */
-    public Matrix(double[][] values){
-        this.storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(values);
+
+public abstract class Matrix {
+
+    public static class FACTORY{
+        static private MatrixFactory matrixFactory;
+
+        public static void setFactory(LinearAlgebraLibrary library){
+            switch (library){
+                case APACHE:
+                    matrixFactory = null;
+                    break;
+                case OJALGO:
+                    matrixFactory = new OjalgoMatrixFactory();
+                    break;
+                case SIMPLE:
+                    matrixFactory = null;
+                    break;
+                default:
+                    throw new LinearAlgebraLibraryNotFound(library.name());
+            }
+        }
+
+        public static Matrix makeMatrix(double[][] values){
+            return matrixFactory.makeMatrix(values);
+        }
+
+        public static Matrix makeFilled(int rows, int cols, double fill){
+            return matrixFactory.makeFilled(rows, cols, fill);
+        }
+
+        public static Matrix makeZero(int rows, int cols){
+            return matrixFactory.makeZero(rows, cols);
+        }
+
+        public static Matrix makeEye(int dim){
+            return matrixFactory.makeEye(dim);
+        }
     }
 
-    /**
-     * Construct a matrix of specified size, filling it with a given value.
-     * @param rows: number of rows
-     * @param cols: number of columns
-     * @param fill: value to fill the new matrix
-     * @throws NegativeDimensionException if rows or cols are not positive numbers
-     */
-    public Matrix(int rows, int cols, double fill){
-        if (rows <= 0)
-            throw new NegativeDimensionException(rows);
-
-        if (cols <= 0)
-            throw new NegativeDimensionException(cols);
-        
-        this.storage = LinearAlgebraConfiguration.getMatrixStorageFactory().makeMatrixStorage(rows, cols, fill);
-    }
-
-    /**
-     * Constructs a zero matrix from given size.
-     * @param rows: number of rows
-     * @param cols: number of columns
-     * @throws NegativeDimensionException if rows or cols are not positive numbers
-     */
-    public Matrix(int rows, int cols){
-        this(rows, cols, 0);
-    }
-
-
-    /**
-     * Creates an identity matrix of given dimension.
-     * @param dim: dimension of matrix (number of rows = number of cols = dim)
-     * @return identity matrix
-     */
-    public static Matrix getIdentity(int dim){
-        if(dim <= 0)
-            throw new NegativeDimensionException(dim);
-
-        return new Matrix(LinearAlgebraConfiguration.getMatrixStorageFactory().makeEye(dim));
-    }
-
-    public Matrix(MatrixStorage storage){
-        this.storage = storage;
-    }
-
-    public MatrixStorage getStorage() {
-        return storage;
-    }
-    
     /**
      * Returns inner matrix storage (not a copy, so be careful when manipulating!)
      * @return inner storage of values
      */
-    public double[][] asArray() {
-        return storage.asArray();
-    }
-
-    public int getNumRows() {
-        return storage.getNumRows();
-    }
-
-    public int getNumCols() {
-        return storage.getNumCols();
-    }
+    public abstract double[][] asArray();
 
     /**
-     * Returns a line of matrix as Vector instance.
+     * Get number of rows in matrix.
+     * @return number of rows
+     */
+    public abstract int getNumRows();
+
+    /**
+     * Get number of columns in matrix.
+     * @return number of columns
+     */
+    public abstract int getNumCols();
+
+    /**
+     * Get element at row 'row' and column 'col'.
+     * @return matrix element
+     */
+    public abstract double get(int row, int col);
+
+    /**
+     * Returns a line of matrix as Matrix instance.
      * @param row: line to return
      * @return Matrix row
      */
-    public Vector getRow(int row) {
-        if(row < 0 || row >= getNumRows())
-            throw new ArrayIndexOutOfBoundsException();
-        return new Vector(storage.getRow(row));
-    }
+    public abstract Vector getRow(int row);
 
-    private void checkDim(Matrix matrix){
+    protected void checkDim(Matrix matrix){
         if (this.getNumRows() != matrix.getNumRows())
             throw new IncompatibleDimensionsException(this.getNumRows(), matrix.getNumRows());
 
@@ -125,98 +99,70 @@ public class Matrix {
      * @param val: value to add
      * @return sum result
      */
-    public Matrix add(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().add(this, val);
-    }
+    public abstract Matrix add(double val);
 
     /**
      * Sum another matrix to this one.
      * @param matrix: matrix to sum
      * @return sum result
      */
-    public Matrix add(Matrix matrix){
-        checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().add(this, matrix);
-    }
+    public abstract Matrix add(Matrix matrix);
 
     /**
      * Subtracts a value from each matrix element
      * @param val: value to subtract
      * @return subtraction result
      */
-    public Matrix subtract(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().subtract(this, val);
-    }
+    public abstract Matrix subtract(double val);
 
     /**
      * Subtract another matrix from this one.
      * @param matrix: matrix to subtract
      * @return subtraction result
      */
-    public Matrix subtract(Matrix matrix){
-        checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().subtract(this, matrix);
-    }
+    public abstract Matrix subtract(Matrix matrix);
 
     /**
      * Multiplies a value to each matrix element
      * @param val: value to multiply
      * @return multiplication result
      */
-    public Matrix multiply(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, val);
-    }
+    public abstract Matrix multiply(double val);
 
     /**
-     * Matrix-Vector multiplication
+     * Matrix-Matrix multiplication
      * @param vector: vector to multiply
      * @return multiplication result
      */
-    public Vector multiply(Vector vector){
-        if (this.getNumCols() != vector.getDim())
-            throw new IncompatibleDimensionsException(this.getNumRows(), vector.getDim());
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, vector);
-    }
+    public abstract Vector multiply(Vector vector);
 
     /**
      * Matrix-Matrix multiplication
      * @param matrix: matrix to multiply (RHS)
      * @return multiplication result
      */
-    public Matrix multiply(Matrix matrix){
-        if (this.getNumCols() != matrix.getNumRows())
-            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
-        return LinearAlgebraConfiguration.getMatrixOperation().multiply(this, matrix);
-    }
+    public abstract Matrix multiply(Matrix matrix);
 
     /**
      * Element-wise multiplication of matrix with another one
      * @param matrix: matrix to multiply element-by-element
      * @return multiplication result
      */
-    public Matrix multiplyElement(Matrix matrix){
-        checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().multiplyElement(this, matrix);
-    }
+    public abstract Matrix multiplyElement(Matrix matrix);
 
     /**
      * Divide a value to each matrix's element. Division by 0 will result in \(\pm \infty\)
      * @param val: value to divide
      * @return division result
      */
-    public Matrix divide(double val){
-        return LinearAlgebraConfiguration.getMatrixOperation().divide(this, val);
-    }
+    public abstract Matrix divide(double val);
 
     /**
      * Element-wise division of matrix with another one
      * @param matrix: matrix to multiply element-by-element
      * @return multiplication result
      */
-    public Matrix divide(Matrix matrix){
-        checkDim(matrix);
-        return LinearAlgebraConfiguration.getMatrixOperation().divide(this, matrix);
-    }
+    public abstract Matrix divide(Matrix matrix);
 
     @Override
     public String toString() {
@@ -224,7 +170,7 @@ public class Matrix {
         for (int i = 0; i < getNumRows(); i++) {
             builder.append('{');
             for (int j = 0; j < getNumCols(); j++) {
-                builder.append(storage.get(i, j));
+                builder.append(this.get(i, j));
                 builder.append(',');
                 builder.append(' ');
             }

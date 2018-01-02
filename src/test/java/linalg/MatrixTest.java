@@ -9,20 +9,15 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public abstract class MatrixTest {
-    Matrix mat, mat2;
+    private Matrix mat, mat2;
 
-    protected abstract String getLibraryName();
+    protected abstract void setFactory();
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibrary(getLibraryName());
-        mat = new Matrix(new double[][] {{1,2,3},{4,5,6}});
-        mat2 = new Matrix(new double[][] {{-1,0,1},{2,5,-8}});
-    }
-
-    @Test
-    public void testLibraryName() throws Exception {
-        assertEquals(getLibraryName(), LinearAlgebraConfiguration.getLibraryName());
+        setFactory();
+        mat = Matrix.FACTORY.makeMatrix(new double[][] {{1,2,3},{4,5,6}});
+        mat2 = Matrix.FACTORY.makeMatrix(new double[][] {{-1,0,1},{2,5,-8}});
     }
 
     @Test
@@ -58,35 +53,55 @@ public abstract class MatrixTest {
     }
 
     @Test
-    public void testGetIdentity() throws Exception {
-        Matrix mat = Matrix.getIdentity(3);
+    public void testMakeEye() throws Exception {
+        Matrix mat = Matrix.FACTORY.makeEye(3);
         assertArrayEquals(new double[] {1,0,0}, mat.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {0,1,0}, mat.asArray()[1], 1e-10);
         assertArrayEquals(new double[] {0,0,1}, mat.asArray()[2], 1e-10);
     }
 
     @Test(expected = NegativeDimensionException.class)
-    public void testGetIdentityWithNegativeDim() throws Exception {
-        Matrix.getIdentity(0);
+    public void testMakeEyeWithNegativeDim() throws Exception {
+        Matrix.FACTORY.makeEye(0);
     }
 
+    @Test(expected = NegativeDimensionException.class)
+    public void testFillConstructorWithNegativeRows(){
+        Matrix.FACTORY.makeFilled(-1, 2, 1);
+    }
+
+    @Test(expected = NegativeDimensionException.class)
+    public void testFillConstructorWithNegativeCols(){
+        Matrix.FACTORY.makeFilled(1, -2, 1);
+    }
+    
     @Test
     public void testFillConstructor(){
-        mat = new Matrix(2, 3, 1);
+        mat = Matrix.FACTORY.makeFilled(2, 3, 1);
         assertArrayEquals(new double[] {1,1,1}, mat.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {1,1,1}, mat.asArray()[1], 1e-10);
     }
 
+    @Test(expected = NegativeDimensionException.class)
+    public void testZeroConstructorWithNegativeRows(){
+        Matrix.FACTORY.makeZero(-1, 1);
+    }
+
+    @Test(expected = NegativeDimensionException.class)
+    public void testZeroConstructorWithNegativeCols(){
+        Matrix.FACTORY.makeZero(1, -2);
+    }
+    
     @Test
-    public void testDimConstructor(){
-        mat = new Matrix(2, 3);
+    public void testZeroConstructor(){
+        mat = Matrix.FACTORY.makeZero(2, 3);
         assertArrayEquals(new double[] {0,0,0}, mat.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {0,0,0}, mat.asArray()[1], 1e-10);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddMatrixOfWrongDimension(){
-        mat.add(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}}));
+        mat.add(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}}));
     }
 
     @Test
@@ -104,7 +119,7 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testSubtractMatrixOfWrongDimension(){ mat.subtract(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testSubtractMatrixOfWrongDimension(){ mat.subtract(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
     @Test
     public void testSubtractValue(){
@@ -121,13 +136,13 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyElementOfWrongDimension(){ mat.multiplyElement(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testMultiplyElementOfWrongDimension(){ mat.multiplyElement(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByVectorOfWrongDimension(){ mat.multiply(new Vector(new double[] {-1,1,2,3})); }
+    public void testMultiplyByVectorOfWrongDimension(){ mat.multiply(Vector.FACTORY.makeVector(new double[] {-1,1,2,3})); }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(new Matrix(new double[][] {{-1,1}, {1,2}})); }
+    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1}, {1,2}})); }
 
     @Test
     public void testMultiplyByValue(){
@@ -138,13 +153,13 @@ public abstract class MatrixTest {
 
     @Test
     public void testMultiplyByVector(){
-        Vector res = mat.multiply(new Vector(new double[] {-1,0,1}));
+        Vector res = mat.multiply(Vector.FACTORY.makeVector(new double[] {-1,0,1}));
         assertArrayEquals(new double[] {2, 2}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testMultiplyByMatrix(){
-        Matrix res = mat.multiply(new Matrix(new double[][] {{-1,1}, {1,2}, {4,5}}));
+        Matrix res = mat.multiply(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1}, {1,2}, {4,5}}));
         assertArrayEquals(new double[] {13,20}, res.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {25,44}, res.asArray()[1], 1e-10);
     }
@@ -157,7 +172,7 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testDivideByMatrixOfWrongDimension(){ mat.divide(new Matrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testDivideByMatrixOfWrongDimension(){ mat.divide(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
 
     @Test
@@ -169,7 +184,7 @@ public abstract class MatrixTest {
 
     @Test
     public void testDivideByMatrix(){
-        mat2 = new Matrix(new double[][] {{-1,2,4},{4,6,10}});
+        mat2 = Matrix.FACTORY.makeMatrix(new double[][] {{-1,2,4},{4,6,10}});
         Matrix res = mat.divide(mat2);
         assertArrayEquals(new double[] {-1,1,0.75}, res.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {1,0.833333333333,0.6}, res.asArray()[1], 1e-10);

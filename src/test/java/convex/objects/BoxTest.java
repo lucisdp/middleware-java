@@ -3,35 +3,41 @@ package convex.objects;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.*;
+import linalg.LinearAlgebraLibrary;
+import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
 
 public class BoxTest {
-    Vector low, high;
-    Box box;
+    private Vector low, high;
+    private Box box;
+
+    private void setLibrary(LinearAlgebraLibrary lib){
+        Vector.FACTORY.setFactory(lib);
+        Matrix.FACTORY.setFactory(lib);
+    }
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryFromConfig();
-        low = new Vector(new double[] {1,2,3});
-        high =  new Vector(new double[] {4,5,6});
+        setLibrary(LinearAlgebraLibrary.OJALGO);
+        low = Vector.FACTORY.makeVector(new double[] {1,2,3});
+        high =  Vector.FACTORY.makeVector(new double[] {4,5,6});
         box = new Box(low, high);
     }
 
     @Test(expected=IncompatibleDimensionsException.class)
     public void testWrongDimensions() throws Exception {
-        high = new Vector(new double[] {2,3});
+        high = Vector.FACTORY.makeVector(new double[] {2,3});
         new Box(low, high);
     }
 
     @Test(expected= IncompatibleBoundsException.class)
     public void testNegativeAxisLength() throws Exception {
-        high = new Vector(new double[] {0,4,5});
+        high = Vector.FACTORY.makeVector(new double[] {0,4,5});
         Box box = new Box(low, high);
         System.out.println(low);
         System.out.println(high);
@@ -40,13 +46,13 @@ public class BoxTest {
 
     @Test(expected=IncompatibleBoundsException.class)
     public void testZeroAxisLength() throws Exception {
-        high = new Vector(new double[] {2,2,5});
+        high = Vector.FACTORY.makeVector(new double[] {2,2,5});
         new Box(low, high);
     }
 
     @Test(expected=NegativeLengthException.class)
     public void testNegativeLength() throws Exception {
-        new Box(new Vector(new double[] {1,2,3}), -1);
+        new Box(Vector.FACTORY.makeVector(new double[] {1,2,3}), -1);
     }
 
     @Test(expected= NegativeDimensionException.class)
@@ -61,7 +67,7 @@ public class BoxTest {
 
     @Test
     public void testGetHighWithCenterConstructor() throws Exception {
-        box = new Box(new Vector(new double[] {1,2,3}), 2);
+        box = new Box(Vector.FACTORY.makeVector(new double[] {1,2,3}), 2);
         assertArrayEquals(new double[] {2,3,4}, box.getHigh().asArray(), 1e-10);
     }
 
@@ -96,7 +102,7 @@ public class BoxTest {
 
     @Test
     public void testGetDimWithRadiusConstructor() throws Exception {
-        box = new Box(new Vector(new double[] {1,2,3}), 4);
+        box = new Box(Vector.FACTORY.makeVector(new double[] {1,2,3}), 4);
         assertEquals(3, box.getDim());
     }
 
@@ -108,48 +114,48 @@ public class BoxTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testIsInsideWrongDimension() throws Exception{
-        box.isInside(new Vector(new double[] {1,2}));
+        box.isInside(Vector.FACTORY.makeVector(new double[] {1,2}));
     }
 
     @Test
     public void testIsInsideOnInterior() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {2,3,4})));
+        assertTrue(box.isInside(Vector.FACTORY.makeVector(new double[] {2,3,4})));
     }
 
     @Test
     public void testIsInsideOnBoundary() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {1,3,4})));
+        assertFalse(box.isInside(Vector.FACTORY.makeVector(new double[] {1,3,4})));
     }
 
     @Test
     public void testIsInsideNearEdge() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {3.99999,4.99999,5.99999})));
+        assertTrue(box.isInside(Vector.FACTORY.makeVector(new double[] {3.99999,4.99999,5.99999})));
     }
 
     @Test
     public void testIsInsideOnExterior() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {5,6,7})));
+        assertFalse(box.isInside(Vector.FACTORY.makeVector(new double[] {5,6,7})));
     }
 
     @Test
     public void testIsInsideOnInteriorCloseToBoundary() throws Exception{
-        assertTrue(box.isInside(new Vector(new double[] {1.0000001,3,4})));
+        assertTrue(box.isInside(Vector.FACTORY.makeVector(new double[] {1.0000001,3,4})));
     }
 
     @Test
     public void testIsInsideOnExteriorCloseToBoundary() throws Exception{
-        assertFalse(box.isInside(new Vector(new double[] {0.99999999,3,4})));
+        assertFalse(box.isInside(Vector.FACTORY.makeVector(new double[] {0.99999999,3,4})));
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testIntersectionWithWrongDimension(){
-        Line line = new Line(new Vector(new double[] {3,2}), new Vector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {3,2}), Vector.FACTORY.makeVector(new double[] {0,1}));
         box.intersect(line);
     }
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(new Vector(new double[] {2.5, 3.5, 4.5}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {2.5, 3.5, 4.5}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         LineSegment segment = box.intersect(line);
         assertEquals(-1.5, segment.getLower(), 1e-10);
         assertEquals(1.5, segment.getUpper(), 1e-10);
@@ -157,7 +163,7 @@ public class BoxTest {
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {2.5, 3.5, 3}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {2.5, 3.5, 3}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         LineSegment segment = box.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(3, segment.getUpper(), 1e-10);
@@ -165,7 +171,7 @@ public class BoxTest {
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(new Vector(new double[] {2.5, 3.5, 0}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {2.5, 3.5, 0}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         LineSegment segment = box.intersect(line);
         assertEquals(3, segment.getLower(), 1e-10);
         assertEquals(6, segment.getUpper(), 1e-10);
@@ -173,19 +179,19 @@ public class BoxTest {
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(new Vector(new double[] {3,2,3}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {3,2,3}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         box.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(new Vector(new double[] {0,2,3}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {0,2,3}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         box.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(new Vector(new double[] {0,0,0}), new Vector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.makeVector(new double[] {0,0,0}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
         box.intersect(line);
     }
 }

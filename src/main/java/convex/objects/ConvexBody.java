@@ -58,7 +58,7 @@ public interface ConvexBody {
      */
     boolean isInside(Vector point);
     default boolean isInside(double[] point) {
-        return isInside(new Vector(point));
+        return isInside(Vector.FACTORY.makeVector(point));
     }
 
 

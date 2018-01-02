@@ -25,7 +25,7 @@ public class Box implements ConvexBody {
     }
 
     public Box(double[] low, double[] high){
-        this(new Vector(low), new Vector(high));
+        this(Vector.FACTORY.makeVector(low), Vector.FACTORY.makeVector(high));
     }
 
 
@@ -43,7 +43,7 @@ public class Box implements ConvexBody {
     }
 
     public Box(double[] center, double length){
-        this(new Vector(center), length);
+        this(Vector.FACTORY.makeVector(center), length);
     }
 
     /**
@@ -51,8 +51,8 @@ public class Box implements ConvexBody {
      * @param dim: dimension of underlying euclidean space
      */
     public Box(int dim){
-        low = new Vector(dim, -1);
-        high = new Vector(dim, 1);
+        low = Vector.FACTORY.makeFilled(dim, -1.0);
+        high = Vector.FACTORY.makeFilled(dim, 1.0);
     }
 
     private void validateAttributes(){
