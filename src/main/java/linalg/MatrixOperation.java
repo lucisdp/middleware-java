@@ -91,4 +91,11 @@ public interface MatrixOperation {
      * @return division result
      */
     MatrixStorage divide(MatrixStorage leftMatrix, MatrixStorage rightMatrix);
+
+    /**
+     * Returns the transpose of matrix
+     * @param matrix: matrix to transpose
+     * @return transpose result
+     */
+    MatrixStorage transpose(MatrixStorage matrix);
 }

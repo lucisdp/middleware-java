@@ -1,21 +1,23 @@
 package version_space;
 
+import classifier.Classifier;
+import classifier.Label;
+import classifier.LabelCollection;
 import exceptions.IncompatibleDimensionsException;
 import linalg.Matrix;
 import linalg.Vector;
 
 public interface VersionSpace {
-    Matrix sample();
+    //TODO: create sample (only a single classifier) and getMajorityVote(int sampleSize) (for sampling a MajorityVote classifiers)
+    Classifier sample();
 
-    Vector findInteriorPoint();
+    void addConstrain(Vector point, Label label);
 
-    void addConstrain(Vector point, double label);
+    default void addConstrains(Matrix points, LabelCollection labels){
+        if(points.getNumRows() != labels.size())
+            throw new IncompatibleDimensionsException(points.getNumRows(), labels.size());
 
-    default void addConstrains(Matrix points, Vector labels){
-        if(points.getNumRows() != labels.getDim())
-            throw new IncompatibleDimensionsException(points.getNumRows(), labels.getDim());
-
-        for(int i=0; i < labels.getDim(); i++)
+        for(int i=0; i < labels.size(); i++)
             addConstrain(points.getRow(i), labels.get(i));
     }
 }

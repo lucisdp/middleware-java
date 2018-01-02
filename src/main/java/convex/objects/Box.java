@@ -82,7 +82,7 @@ public class Box implements ConvexBody {
      *                    \[ L_i &lt; X_i &lt; U_i, \forall i \]
      *
      * @param point: point in the euclidean space
-     * @return boolean telling whether point is inside polytope
+     * @return boolean
      * @throws IncompatibleDimensionsException if point and box have different dimensions
      */
     @Override
@@ -96,7 +96,7 @@ public class Box implements ConvexBody {
      *                     \[ L_i &lt; c_i + t D_i &lt; U_i, \forall i \]
      *
      * @param line: Line instance
-     * @return Intersection result
+     * @return LineSegment instance
      * @throws IncompatibleDimensionsException if line and box have different dimensions
      * @throws EmptyIntersectionException if line does not intercept box
      */

@@ -27,13 +27,12 @@ public class SimpleMatrixOperation implements MatrixOperation {
     public MatrixStorage add(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
-        
-        double[][] simpleMatrix = fromMatrix(matrix);
+
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-            res[i][j] = simpleMatrix[i][j] + value;
+            res[i][j] = matrix.get(i,j) + value;
 
         return toMatrix(res);
     }
@@ -42,14 +41,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
     public MatrixStorage add(MatrixStorage leftMatrix, MatrixStorage rightMatrix){
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
-        
-        double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
-        double[][] simpleRightMatrix = fromMatrix(rightMatrix);
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] = simpleLeftMatrix[i][j] + simpleRightMatrix[i][j];
+                res[i][j] = leftMatrix.get(i, j) + rightMatrix.get(i, j);
 
         return toMatrix(res);
     }
@@ -59,12 +55,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
 
-        double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] = simpleMatrix[i][j] - value;
+                res[i][j] = matrix.get(i,j) - value;
 
         return toMatrix(res);
     }
@@ -74,13 +69,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
-        double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
-        double[][] simpleRightMatrix = fromMatrix(rightMatrix);
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] = simpleLeftMatrix[i][j] - simpleRightMatrix[i][j];
+                res[i][j] = leftMatrix.get(i, j) - rightMatrix.get(i, j);
 
         return toMatrix(res);
     }
@@ -89,12 +82,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
     public MatrixStorage multiply(MatrixStorage matrix, double value){
         int rows = matrix.getNumRows();
         int cols = matrix.getNumCols();
-        double[][] simpleMatrix = fromMatrix(matrix);
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] = simpleMatrix[i][j] * value;
+                res[i][j] = matrix.get(i,j) * value;
 
         return toMatrix(res);
     }
@@ -104,14 +96,12 @@ public class SimpleMatrixOperation implements MatrixOperation {
         int leftRows = leftMatrix.getNumRows();
         int rightCols = rightMatrix.getNumCols();
 
-        double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
-        double[][] simpleRightMatrix = fromMatrix(rightMatrix);
         double[][] res = new double[leftRows][rightCols];
 
         for(int i=0; i < leftRows; i++)
             for(int j=0; j < rightCols; j++)
                 for(int k = 0; k < leftMatrix.getNumCols(); k++)
-                    res[i][j] += simpleLeftMatrix[i][k] * simpleRightMatrix[k][j];
+                    res[i][j] += leftMatrix.get(i, k) * rightMatrix.get(k, j);
 
         return toMatrix(res);
     }
@@ -119,13 +109,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
     @Override
     public VectorStorage multiply(MatrixStorage matrix, VectorStorage vector){
         int rows = matrix.getNumRows();
-        double[][] simpleMatrix = fromMatrix(matrix);
-        double[] simpleVector = SimpleVectorOperation.fromVector(vector);
         double[] res = new double[rows];
 
         for(int i=0; i < rows; i++)
             for(int k = 0; k < matrix.getNumCols(); k++)
-                res[i] += simpleMatrix[i][k] * simpleVector[k];
+                res[i] += matrix.get(i, k) * vector.get(k);
 
         return SimpleVectorOperation.toVector(res);
     }
@@ -135,13 +123,11 @@ public class SimpleMatrixOperation implements MatrixOperation {
         int rows = leftMatrix.getNumRows();
         int cols = leftMatrix.getNumCols();
 
-        double[][] simpleLeftMatrix = fromMatrix(leftMatrix);
-        double[][] simpleRightMatrix = fromMatrix(rightMatrix);
         double[][] res = new double[rows][cols];
 
         for(int i=0; i < rows; i++)
             for(int j=0; j < cols; j++)
-                res[i][j] += simpleLeftMatrix[i][j] * simpleRightMatrix[i][j];
+                res[i][j] += leftMatrix.get(i, j) * rightMatrix.get(i, j);
 
         return toMatrix(res);
     }
@@ -174,5 +160,14 @@ public class SimpleMatrixOperation implements MatrixOperation {
                 res[i][j] = simpleLeftMatrix[i][j] / simpleRightMatrix[i][j];
 
         return toMatrix(res);
+    }
+
+    @Override
+    public MatrixStorage transpose(MatrixStorage matrix) {
+        double[][] result = new double[matrix.getNumCols()][matrix.getNumRows()];
+        for(int i=0; i < matrix.getNumCols(); i++)
+            for(int j=0; j < matrix.getNumRows(); j++)
+                result[i][j] = matrix.get(j, i);
+        return toMatrix(result);
     }
 }

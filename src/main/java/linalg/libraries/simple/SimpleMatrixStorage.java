@@ -34,6 +34,23 @@ public class SimpleMatrixStorage implements MatrixStorage {
     }
 
     @Override
+    public VectorStorage getColumn(int column) {
+        double[] col = new double[getNumRows()];
+        for(int i=0; i < getNumRows(); i++)
+            col[i] = storage[i][column];
+        return new SimpleVectorStorage(col);
+    }
+
+    @Override
+    public MatrixStorage sliceColumns(int start, int end) {
+        double[][] col = new double[getNumRows()][end-start];
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=start; j < end; j++)
+                col[i][j] = storage[i][j];
+        return new SimpleMatrixStorage(col);
+    }
+
+    @Override
     public double[][] getRawStorage() {
         return storage;
     }

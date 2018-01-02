@@ -4,6 +4,8 @@ import linalg.MatrixStorage;
 import linalg.VectorStorage;
 import org.ojalgo.matrix.PrimitiveMatrix;
 
+import java.util.stream.IntStream;
+
 
 public class OjalgoMatrixStorage implements MatrixStorage {
     private PrimitiveMatrix storage;
@@ -28,8 +30,18 @@ public class OjalgoMatrixStorage implements MatrixStorage {
     }
 
     @Override
-    public VectorStorage getRow(int index) {
-        return new OjalgoVectorStorage(storage.selectRows(index).transpose());
+    public VectorStorage getRow(int row) {
+        return new OjalgoVectorStorage(storage.selectRows(row).transpose());
+    }
+
+    @Override
+    public VectorStorage getColumn(int col) {
+        return new OjalgoVectorStorage(storage.selectColumns(col).transpose());
+    }
+
+    @Override
+    public MatrixStorage sliceColumns(int start, int end) {
+        return new OjalgoMatrixStorage(storage.selectColumns(IntStream.range(start, end).toArray()));
     }
 
     @Override

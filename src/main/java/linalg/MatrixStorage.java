@@ -34,6 +34,16 @@ public interface MatrixStorage {
     VectorStorage getRow(int row);
 
     /**
+     * Get one single column of the matrix.
+     * @param column: column index
+     * @return specified column
+     * @throws ArrayIndexOutOfBoundsException if colum index is out of bounds
+     */
+    VectorStorage getColumn(int column);
+
+    MatrixStorage sliceColumns(int start, int end);
+
+    /**
      * Returns a copy of the matrix in double[][] array format.
      * @return copy of matrix as array
      */

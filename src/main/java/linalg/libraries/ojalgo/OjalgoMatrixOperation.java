@@ -88,4 +88,10 @@ public class OjalgoMatrixOperation implements MatrixOperation {
         PrimitiveMatrix rightOjalgoMatrix = fromMatrix(rightMatrix);
         return toMatrix(leftOjalgoMatrix.divideElements(rightOjalgoMatrix));
     }
+
+    @Override
+    public MatrixStorage transpose(MatrixStorage matrix) {
+        PrimitiveMatrix ojalgoMatrix = fromMatrix(matrix);
+        return toMatrix(ojalgoMatrix.transpose());
+    }
 }

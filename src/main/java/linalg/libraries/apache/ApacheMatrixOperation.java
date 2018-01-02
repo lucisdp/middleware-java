@@ -110,4 +110,10 @@ public class ApacheMatrixOperation implements MatrixOperation {
 
         return (new ApacheMatrixStorageFactory()).make(res);
     }
+
+    @Override
+    public MatrixStorage transpose(MatrixStorage matrix) {
+        RealMatrix apacheMatrix = fromMatrix(matrix);
+        return toMatrix(apacheMatrix.transpose());
+    }
 }

@@ -121,6 +121,23 @@ public class Matrix {
         return new Vector(storage.getRow(row));
     }
 
+    /**
+     * Returns a line of matrix as Vector instance.
+     * @param col: line to return
+     * @return Matrix row
+     */
+    public Vector getColumn(int col) {
+        if(col < 0 || col >= getNumCols())
+            throw new ArrayIndexOutOfBoundsException();
+        return new Vector(storage.getColumn(col));
+    }
+
+    public Matrix sliceColumns(int start, int end) {
+        if(start < 0 || end >= getNumCols() || start >= end)
+            throw new ArrayIndexOutOfBoundsException();
+        return new Matrix(storage.sliceColumns(start, end));
+    }
+
     private void checkDim(Matrix matrix){
         if (this.getNumRows() != matrix.getNumRows())
             throw new IncompatibleDimensionsException(this.getNumRows(), matrix.getNumRows());
@@ -225,6 +242,14 @@ public class Matrix {
     public Matrix divide(Matrix matrix){
         checkDim(matrix);
         return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().divide(this.storage, matrix.storage));
+    }
+
+    /**
+     * Returns the transpose of this matrix
+     * @return transpose result
+     */
+    public Matrix transpose(){
+        return new Matrix(LinearAlgebraConfiguration.getMatrixOperation().transpose(this.storage));
     }
 
     @Override

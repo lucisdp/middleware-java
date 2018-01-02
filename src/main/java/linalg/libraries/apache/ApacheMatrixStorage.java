@@ -2,7 +2,6 @@ package linalg.libraries.apache;
 
 import linalg.MatrixStorage;
 import linalg.VectorStorage;
-import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 
 /**
@@ -31,8 +30,18 @@ public class ApacheMatrixStorage implements MatrixStorage {
     }
 
     @Override
-    public VectorStorage getRow(int index) {
-        return new ApacheVectorStorage(new ArrayRealVector(storage.getRow(index)));
+    public VectorStorage getRow(int row) {
+        return new ApacheVectorStorage(storage.getRowVector(row));
+    }
+
+    @Override
+    public VectorStorage getColumn(int col) {
+        return new ApacheVectorStorage(storage.getColumnVector(col));
+    }
+
+    @Override
+    public MatrixStorage sliceColumns(int start, int end) {
+        return new ApacheMatrixStorage(storage.getSubMatrix(0, getNumRows()-1, start, end-1)); // end is inclusive in Apache
     }
 
     @Override

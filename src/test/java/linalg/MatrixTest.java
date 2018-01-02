@@ -36,6 +36,52 @@ public abstract class MatrixTest {
     }
 
     @Test
+    public void testGetColumn() throws Exception {
+        assertArrayEquals(new double[] {1,4}, mat.getColumn(0).asArray(), 1e-10);
+        assertArrayEquals(new double[] {2,5}, mat.getColumn(1).asArray(), 1e-10);
+        assertArrayEquals(new double[] {3,6}, mat.getColumn(2).asArray(), 1e-10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetColumnNegativeIndex() throws Exception {
+        mat.getColumn(-1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetColumnLargerThanSizeIndex() throws Exception {
+        mat.getColumn(3);
+    }
+
+    @Test
+    public void testGetColumnSliceDimension() throws Exception {
+        Matrix slice = mat.sliceColumns(0,1);
+        assertEquals(2, slice.getNumRows());
+        assertEquals(1, slice.getNumCols());
+    }
+
+    @Test
+    public void testGetColumnSliceValues() throws Exception {
+        double[][] slice = mat.sliceColumns(0,2).asArray();
+        assertArrayEquals(new double[] {1,2}, slice[0], 1e-10);
+        assertArrayEquals(new double[] {4,5}, slice[1], 1e-10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetColumnSliceNegativeIndex() throws Exception {
+        mat.sliceColumns(-1,1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetColumnSliceLargerThanSizeIndex() throws Exception {
+        mat.sliceColumns(0,3);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetColumnSliceStartGreaterThanEnd() throws Exception {
+        mat.sliceColumns(2,1);
+    }
+
+    @Test
     public void testGetRow() throws Exception {
         assertArrayEquals(new double[] {1,2,3}, mat.getRow(0).asArray(), 1e-10);
         assertArrayEquals(new double[] {4,5,6}, mat.getRow(1).asArray(), 1e-10);
@@ -173,6 +219,21 @@ public abstract class MatrixTest {
         Matrix res = mat.divide(mat2);
         assertArrayEquals(new double[] {-1,1,0.75}, res.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {1,0.833333333333,0.6}, res.asArray()[1], 1e-10);
+    }
+
+    @Test
+    public void testTransposeDimensions() throws Exception {
+        Matrix transpose = mat.transpose();
+        assertEquals(3, transpose.getNumRows());
+        assertEquals(2, transpose.getNumCols());
+    }
+
+    @Test
+    public void testTransposeValues() throws Exception {
+        Matrix transpose = mat.transpose();
+        assertArrayEquals(new double[] {1,4}, transpose.getRow(0).asArray(), 1e-10);
+        assertArrayEquals(new double[] {2,5}, transpose.getRow(1).asArray(), 1e-10);
+        assertArrayEquals(new double[] {3,6}, transpose.getRow(2).asArray(), 1e-10);
     }
 
     @Test

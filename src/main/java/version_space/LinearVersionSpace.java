@@ -1,5 +1,8 @@
 package version_space;
 
+import classifier.Classifier;
+import classifier.Label;
+import classifier.LinearMajorityVote;
 import convex.objects.ConvexBody;
 import convex.objects.Ellipsoid;
 import convex.sampling.HitAndRun;
@@ -32,21 +35,22 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
     }
 
     @Override
-    public Matrix sample() {
-        return sampler.uniform(this, findInteriorPoint());
+    public int getDim() {
+        return dim;
     }
 
     @Override
-    public void addConstrain(Vector point, double label) {
-        Vector constrain = point.appendLeft(1).multiply(-label);  // -y_i (1, x_i) * (b, w) <= 0
+    public Classifier sample() {
+        Matrix samples = sampler.uniform(this, findInteriorPoint());
+        return new LinearMajorityVote(samples.getColumn(0), samples.sliceColumns(1,samples.getNumCols()));
+    }
+
+    @Override
+    public void addConstrain(Vector point, Label label) {
+        Vector constrain = point.appendLeft(1).multiply(-label.getValue());  // -y_i (1, x_i) * (b, w) <= 0
         checkDim(constrain);
         constrains.addConstrain(constrain);
         solver.addLinearConstrain(constrain.appendLeft(-1), 0);
-    }
-
-    @Override
-    public int getDim() {
-        return dim;
     }
 
     @Override
@@ -67,8 +71,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         return new LineSegment(line, lower, upper);
     }
 
-    @Override
-    public Vector findInteriorPoint() {
+    private Vector findInteriorPoint() {
         if(constrains.isEmpty())
             return Vector.FACTORY.makeZero(dim);
 
