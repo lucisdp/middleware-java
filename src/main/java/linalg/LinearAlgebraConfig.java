@@ -1,6 +1,8 @@
 package linalg;
 
 import exceptions.LinearAlgebraLibraryNotFound;
+import linalg.libraries.ojalgo.OjalgoMatrixFactory;
+import linalg.libraries.ojalgo.OjalgoVectorFactory;
 
 /**
  * The LinearAlgebraConfig is a single entry point for all operations related to getting or setting of which Linear Algebra

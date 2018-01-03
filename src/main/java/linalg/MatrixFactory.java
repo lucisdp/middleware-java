@@ -4,7 +4,7 @@ package linalg;
  * Interface for creating Matrix objects. Factories shouldn't (but can) be directly instantiated; you can access its methods
  * by requesting one factory from LinearAlgebraConfig.getMatrixLibrary() or by using Matrix.FACTORY.{method of choice}.
  */
-interface MatrixFactory {
+public interface MatrixFactory {
     /**
      * Create Matrix from a double[][] array.
      * @param values: double[][] matrix of values

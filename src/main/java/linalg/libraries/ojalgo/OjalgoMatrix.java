@@ -1,7 +1,9 @@
-package linalg;
+package linalg.libraries.ojalgo;
 
 import exceptions.IncompatibleDimensionsException;
 import exceptions.IncompatibleLinearAlgebraBackendException;
+import linalg.Matrix;
+import linalg.Vector;
 import org.ojalgo.function.BinaryFunction;
 import org.ojalgo.matrix.store.PrimitiveDenseStore;
 

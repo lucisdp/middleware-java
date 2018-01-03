@@ -1,6 +1,8 @@
-package linalg;
+package linalg.libraries.ojalgo;
 
 import exceptions.NegativeDimensionException;
+import linalg.Vector;
+import linalg.VectorFactory;
 import org.ojalgo.matrix.store.PrimitiveDenseStore;
 
 /**
@@ -8,7 +10,7 @@ import org.ojalgo.matrix.store.PrimitiveDenseStore;
  *
  * @see linalg.VectorFactory
  */
-class OjalgoVectorFactory implements VectorFactory {
+public class OjalgoVectorFactory implements VectorFactory {
     @Override
     public Vector makeVector(double[] values) {
         return new OjalgoVector(PrimitiveDenseStore.FACTORY.columns(values));
