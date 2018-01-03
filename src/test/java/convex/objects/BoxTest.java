@@ -3,21 +3,27 @@ package convex.objects;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.*;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
 
 public class BoxTest {
-    Vector low, high;
-    Box box;
+    private Vector low, high;
+    private Box box;
+
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryFromConfig();
         low = Vector.FACTORY.make(new double[] {1,2,3});
         high =  Vector.FACTORY.make(new double[] {4,5,6});
         box = new Box(low, high);

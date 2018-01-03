@@ -4,23 +4,29 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class PolytopeTest{
-    double[][] A;
-    double[] b;
-    Polytope pol;
+    private double[][] A;
+    private double[] b;
+    private Polytope pol;
+
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
 
     @Before
     public void setUp() throws Exception {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
         A = new double[][] {{-1,0}, {0,-1}, {0,1}};
         b = new double[] {1,0,2};
         pol = new Polytope(A,b);

@@ -7,11 +7,11 @@ import org.junit.Test;
 public class ApacheLinearProgramSolverTest extends LinearProgramSolverTest {
     @Before
     public void setUp() throws Exception {
-        solver = LinearProgramSolver.getLinearProgramSolver("apache", dim);
+        solver = LinearProgramSolver.getSolver(LinearProgramSolverLibrary.APACHE, dim);
     }
 
     @Test(expected = NegativeDimensionException.class)
     public void testNegativeDimension() throws Exception {
-        LinearProgramSolver.getLinearProgramSolver("apache", -1);
+        LinearProgramSolver.getSolver(LinearProgramSolverLibrary.APACHE, -1);
     }
 }

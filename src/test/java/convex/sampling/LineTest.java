@@ -1,22 +1,28 @@
 package convex.sampling;
 
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class LineTest {
-    public Vector center;
-    public Vector direction;
-    public Line line;
+    private Vector center;
+    private Vector direction;
+    private Line line;
+
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryFromConfig();
         center = Vector.FACTORY.make(new double[] {1,2,3});
         direction = Vector.FACTORY.make(new double[] {-1,0,1});
         line = new Line(center, direction);

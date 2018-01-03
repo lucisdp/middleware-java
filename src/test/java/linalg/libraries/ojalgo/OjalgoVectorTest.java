@@ -1,11 +1,14 @@
 package linalg.libraries.ojalgo;
 
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.VectorTest;
+import org.junit.BeforeClass;
 
 public class OjalgoVectorTest extends VectorTest {
-    @Override
-    public LinearAlgebraLibrary getLibrary() {
-        return LinearAlgebraLibrary.OJALGO;
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+
     }
 }

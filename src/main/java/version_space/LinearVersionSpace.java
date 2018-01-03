@@ -13,6 +13,7 @@ import exceptions.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.Vector;
 import linear_programming.LinearProgramSolver;
+import utils.Configuration;
 
 
 public class LinearVersionSpace implements VersionSpace, ConvexBody {
@@ -29,7 +30,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         this.sampler = new HitAndRun(chainLength, sampleSize);
         this.constrains = new IncrementalPolyhedralCone();
         this.ball = new Ellipsoid(this.dim);
-        this.solver = LinearProgramSolver.getLinearProgramSolver(this.dim+1);  // add dummy variable
+        this.solver = LinearProgramSolver.getSolver(Configuration.getLinearProgrammingLibrary(), this.dim+1);  // add dummy variable
         setSolverObjectiveFunction();
         setSolverBounds();
     }
@@ -71,7 +72,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
         return new LineSegment(line, lower, upper);
     }
 
-    private Vector findInteriorPoint() {
+    public Vector findInteriorPoint() {
         if(constrains.isEmpty())
             return Vector.FACTORY.makeZero(dim);
 
@@ -85,7 +86,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
 
     private void setSolverObjectiveFunction(){
         Vector linProgObjective = Vector.FACTORY.makeZero(solver.getDim());
-        linProgObjective.set(0, 1);
+        linProgObjective.set(0, 1.0);
         solver.setObjectiveFunction(linProgObjective);
     }
 

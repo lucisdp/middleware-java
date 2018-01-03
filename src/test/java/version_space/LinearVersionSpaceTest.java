@@ -1,14 +1,17 @@
 package version_space;
 
+import classifier.Label;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -19,9 +22,13 @@ public class LinearVersionSpaceTest {
     private int dim, chainLength, sampleSize;
     private LinearVersionSpace versionSpace;
 
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
+
     @Before
     public void setUp() throws Exception {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
         dim = 2;
         chainLength = 64;
         sampleSize = 8;
@@ -48,12 +55,6 @@ public class LinearVersionSpaceTest {
         assertEquals(dim+1, versionSpace.getDim());
     }
 
-    @Test
-    public void testSampleDimensions() throws Exception {
-        Matrix sample = versionSpace.sample();
-        assertEquals(sampleSize, sample.getNumRows());
-        assertEquals(dim+1, sample.getNumCols());
-    }
 
     @Test
     public void testFindInteriorPointWithEmptyConstrains() throws Exception {
@@ -62,7 +63,7 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddConstrainOfWrongDimension() throws Exception {
-        versionSpace.addConstrain(Vector.FACTORY.make(new double[] {1,2,3}), -1);
+        versionSpace.addConstrain(Vector.FACTORY.make(new double[] {1,2,3}), Label.NEGATIVE);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -79,13 +80,13 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testLineWithWrongDimension() throws Exception {
-        Line line = new Line(Vector.FACTORY.make(new double[] {0,0,0,0}), Vector.FACTORY.make(new double[] {1,0,-1,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(4), Vector.FACTORY.make(new double[] {1,0,-1,0}));
         versionSpace.intersect(line);
     }
 
     @Test
     public void testIntersectionWithEmptyConstrains() throws Exception {
-        Line line = new Line(Vector.FACTORY.make(new double[] {0,0,0}), Vector.FACTORY.make(new double[] {1,0,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(3), Vector.FACTORY.make(new double[] {1,0,0}));
         LineSegment segment = versionSpace.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(1, segment.getUpper(), 1e-10);
@@ -93,7 +94,7 @@ public class LinearVersionSpaceTest {
 
     @Test
     public void testFindInteriorPoint() throws Exception {
-        versionSpace.addConstrain(Vector.FACTORY.make(new double[] {1,1}), -1);
+        versionSpace.addConstrain(Vector.FACTORY.makeFilled(2, 1.0), Label.NEGATIVE);
         Vector interiorPoint = versionSpace.findInteriorPoint();
         assertTrue(versionSpace.isInside(interiorPoint));
     }

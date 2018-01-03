@@ -51,8 +51,8 @@ public class Box implements ConvexBody {
      * @param dim: dimension of underlying euclidean space
      */
     public Box(int dim){
-        low = Vector.FACTORY.makeFilled(dim, -1);
-        high = Vector.FACTORY.makeFilled(dim, 1);
+        low = Vector.FACTORY.makeFilled(dim, -1.0);
+        high = Vector.FACTORY.makeFilled(dim, 1.0);
     }
 
     private void validateAttributes(){

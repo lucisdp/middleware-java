@@ -7,11 +7,11 @@ import org.junit.Test;
 public class OjalgoLinearProgramSolverTest extends LinearProgramSolverTest {
     @Before
     public void setUp() throws Exception {
-        solver = LinearProgramSolver.getLinearProgramSolver("ojalgo", dim);
+        solver = LinearProgramSolver.getSolver(LinearProgramSolverLibrary.OJALGO, dim);
     }
 
     @Test(expected = NegativeDimensionException.class)
     public void testNegativeDimension() throws Exception {
-        LinearProgramSolver.getLinearProgramSolver("apache", -1);
+        LinearProgramSolver.getSolver(LinearProgramSolverLibrary.OJALGO, -1);
     }
 }

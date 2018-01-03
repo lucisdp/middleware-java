@@ -61,9 +61,8 @@ public class ApacheLinearProgramSolver implements LinearProgramSolver {
     public Vector findMinimizer() {
         PointValuePair solution = new SimplexSolver().optimize(objective, new LinearConstraintSet(constraints), GoalType.MINIMIZE);
 
-        if(solution == null){
+        if(solution == null)
             throw new LinearProgramOptimizationFailed();
-        }
 
         return Vector.FACTORY.make(solution.getPoint());
     }

@@ -1,17 +1,21 @@
 package linear_programming;
 
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.assertArrayEquals;
 
 public abstract class LinearProgramSolverTest {
     final int dim=2;
     LinearProgramSolver solver = null;
-    static {
-        LinearAlgebraConfiguration.setLibraryFromConfig();
+
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     public void testSolver(double[] objective, double[][] constrainsMatrix, double[] constrainsVector, double[] answer){
@@ -61,5 +65,5 @@ public abstract class LinearProgramSolverTest {
         testSolver(new double[] {0,-1}, new double[][] {{-1,0}, {0,-1}, {1,1}}, new double[] {0,0,1}, new double[] {0,1});
     }
 
-    // TODO: check bahavior on unfeasible problems
+    // TODO: check behavior on unfeasible problems
 }

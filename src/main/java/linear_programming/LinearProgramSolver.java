@@ -4,7 +4,6 @@ import exceptions.IncompatibleDimensionsException;
 import exceptions.LinearProgrammingLibraryNotFound;
 import linalg.Matrix;
 import linalg.Vector;
-import utils.Configurations;
 
 /**
  * Wrapper of most common Linear Programming (LP) solvers available in java. A LP refers to the problem:
@@ -15,36 +14,33 @@ import utils.Configurations;
  *
  * The current interface does not support adding equality constrains. This can be added if needed in the future.
  *
- * We support two solvers: Ojalgo and Apache Commons Math.
- * We can specify which library to use through the LinearProgrammingLibrary parameter in the config.properties file.
+ * We support two solver libraries: Ojalgo and Apache Commons Math. Note that the choice of LP Solver library is independent
+ * from the choice of Linear Algebra library.
+ *
+ * @author lucianodp
  */
 public interface LinearProgramSolver {
 
     /**
-     * Gets the LP solver specified in the config.properties file. This is used
-     * @param dim: expected dimension of each vector constrain
-     * @return LP solver instance
-     */
-    static LinearProgramSolver getLinearProgramSolver(int dim){
-        return getLinearProgramSolver(Configurations.getLinearProgrammingLibrary(), dim);
-    }
-
-    /**
      * Factory method for retrieving a given LP solver through its library name.
-     * @param libraryName: LP solver library
+     * @param library: LP solver library
      * @param dim: expected dimension of each vector constrain
      * @return LP solver instance
      */
-    static LinearProgramSolver getLinearProgramSolver(String libraryName, int dim){
-        if(libraryName.equalsIgnoreCase("apache"))
+    static LinearProgramSolver getSolver(LinearProgramSolverLibrary library, int dim){
+        if(library == LinearProgramSolverLibrary.APACHE)
             return new ApacheLinearProgramSolver(dim);
-        else if(libraryName.equalsIgnoreCase("ojalgo"))
+        else if(library == LinearProgramSolverLibrary.OJALGO)
             return new OjalgoLinearProgramSolver(dim);
         else
             throw new LinearProgrammingLibraryNotFound();
     }
 
+    /**
+     * @return Expected dimension of equality and inequality constrain vectors.
+     */
     int getDim();
+
     default void checkDim(Vector vector){
         if(getDim() != vector.getDim())
             throw new IncompatibleDimensionsException(getDim(), vector.getDim());
@@ -58,14 +54,14 @@ public interface LinearProgramSolver {
     void setObjectiveFunction(Vector vector);
 
     /**
-     * Sets the lower bound L.
+     * Sets the lower bound L for each variable.
      * @param vector: vector whose i-th component specify the constrain \( L_i \leq x_i \)
      * @throws IncompatibleDimensionsException if vector's dimension is different from getDim().
      */
     void setLower(Vector vector);
 
     /**
-     * Sets the upper bound U.
+     * Sets the upper bound U for each variable.
      * @param vector: vector whose i-th component specify the constrain \( x_i \leq U_i \)
      * @throws IncompatibleDimensionsException if vector's dimension is different from getDim().
      */

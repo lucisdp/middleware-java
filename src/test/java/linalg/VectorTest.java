@@ -2,6 +2,7 @@ package linalg;
 
 import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
+import exceptions.NegativeDimensionException;
 import exceptions.NormalizingZeroVectorException;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,20 +10,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public abstract class VectorTest {
-    Vector vec, vec2;
-
-    protected abstract LinearAlgebraLibrary getLibrary();
+    private Vector vec, vec2;
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibrary(getLibrary());
         vec = Vector.FACTORY.make(new double[] {1,2,3});
         vec2 = Vector.FACTORY.make(new double[] {-1,0,1});
-    }
-
-    @Test
-    public void testLibraryName() throws Exception {
-        assertEquals(getLibrary(), LinearAlgebraConfiguration.getLibraryName());
     }
 
     @Test
@@ -31,8 +24,25 @@ public abstract class VectorTest {
     }
 
     @Test
-    public void testGetValues(){
+    public void testAsArray(){
         assertArrayEquals(new double[] {1,2,3}, vec.asArray(), 1e-10);
+    }
+
+    @Test
+    public void testIfAsArrayReturnsCopy(){
+        double[] values = vec.asArray();
+        values[0] += 100;
+        assertEquals(vec.get(0), 1, 1e-10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetValueNegativeIndex() throws Exception {
+        vec.set(-1,10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetValueWithTooLargeIndex() throws Exception {
+        vec.set(3, 10);
     }
 
     @Test
@@ -55,22 +65,27 @@ public abstract class VectorTest {
 
     @Test(expected = EmptyVectorException.class)
     public void testDropLeftUntilEmpty() throws Exception {
-        vec.dropLeft().dropLeft().dropLeft();
+        Vector.FACTORY.makeZero(1).dropLeft();
+    }
+
+    @Test(expected = NegativeDimensionException.class)
+    public void testFillConstructorWithNegativeDim(){
+        Vector.FACTORY.makeFilled(-1, 2);
     }
 
     @Test
     public void testFillConstructor(){
-        assertArrayEquals(new double[] {1,1,1}, (Vector.FACTORY.makeFilled(3, 1)).asArray(), 1e-10);
+        assertArrayEquals(new double[] {1,1,1}, Vector.FACTORY.makeFilled(3, 1).asArray(), 1e-10);
     }
 
     @Test
-    public void testDimConstructor(){
-        assertArrayEquals(new double[] {0,0,0}, (Vector.FACTORY.makeZero(3)).asArray(), 1e-10);
+    public void testZeroConstructor(){
+        assertArrayEquals(new double[] {0,0,0}, Vector.FACTORY.makeZero(3).asArray(), 1e-10);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testAddVectorOfWrongDimension(){
-        vec.add(Vector.FACTORY.make(new double[] {-1,1,2,3}));
+    @Test(expected = NegativeDimensionException.class)
+    public void testZeroConstructorWithNegativeDim(){
+        Vector.FACTORY.makeZero(-1);
     }
 
     @Test
@@ -79,14 +94,16 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {6,7,8}, res.asArray(), 1e-10);
     }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testAddVectorOfWrongDimension(){
+        vec.add(Vector.FACTORY.make(new double[] {-1,1,2,3}));
+    }
+
     @Test
     public void testAddVector(){
         Vector res = vec2.add(vec);
         assertArrayEquals(new double[] {0,2,4}, res.asArray(), 1e-10);
     }
-
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.make(new double[] {-1,1,2,3})); }
 
     @Test
     public void testSubtractValue(){
@@ -94,14 +111,14 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {-4,-3,-2}, res.asArray(), 1e-10);
     }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.make((new double[] {-1,1,2,3}))); }
+
     @Test
     public void testSubtractVector(){
         Vector res = vec.subtract(vec2);
         assertArrayEquals(new double[] {2,2,2}, res.asArray(), 1e-10);
     }
-
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.make(new double[] {1,2,3,4})); }
 
     @Test
     public void testMultiplyByValue(){
@@ -109,21 +126,23 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {2,4,6}, res.asArray(), 1e-10);
     }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
+
     @Test
     public void testMultiplyByVector(){
         Vector res = vec.multiply(vec2);
         assertArrayEquals(new double[] {-1,0,3}, res.asArray(), 1e-10);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.make(new double[] {1,2,3,4})); }
-
-
     @Test
     public void testDivideByValue(){
         Vector res = vec.divide(2);
         assertArrayEquals(new double[] {0.5,1.0,1.5}, res.asArray(), 1e-10);
     }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
 
     @Test
     public void testDivideByVector(){
@@ -137,7 +156,7 @@ public abstract class VectorTest {
 
     @Test(expected = NormalizingZeroVectorException.class)
     public void testNormalizeZeroVector() throws Exception {
-        (Vector.FACTORY.makeZero(3)).normalize();
+        Vector.FACTORY.makeZero(3).normalize();
     }
 
     @Test
@@ -148,11 +167,16 @@ public abstract class VectorTest {
     @Test
     public void testSqNorm(){ assertEquals( 14, vec.sqNorm(), 1e-10); }
 
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testDotWronDimension(){
+        vec.dot(Vector.FACTORY.makeZero(4));
+    }
+
     @Test
     public void testDot(){ assertEquals(2, vec.dot(vec2), 1e-10); }
 
     @Test
-    public void testEqualsVal(){
+    public void testEqualsToValue(){
         Vector vec = Vector.FACTORY.makeZero(3);
         assertTrue(vec.equals(0));
         assertTrue(vec.equals(1e-11));
@@ -160,7 +184,7 @@ public abstract class VectorTest {
     }
 
     @Test
-    public void testEquals(){
+    public void testEqualsToVector(){
         assertTrue(vec.equals(Vector.FACTORY.make(new double[] {1,2,3})));
         assertTrue(vec.equals(Vector.FACTORY.make(new double[] {1+1e-18,2,3})));
         assertFalse(vec.equals(Vector.FACTORY.make(new double[] {1+1e-9,2,3})));

@@ -4,19 +4,25 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
+import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import linalg.LinearAlgebraConfiguration;
 
 import static org.junit.Assert.*;
 
 public class IncrementalPolyhedralConeTest{
-    IncrementalPolyhedralCone pol;
+    private IncrementalPolyhedralCone pol;
+
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
+    }
 
     @Before
     public void setUp(){
-        LinearAlgebraConfiguration.setLibraryFromConfig();
         double[][] A = new double[][] {{-1,-1}, {1,-1}};
         pol = new IncrementalPolyhedralCone(A);
     }
