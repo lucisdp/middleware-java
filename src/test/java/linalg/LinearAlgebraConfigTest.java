@@ -10,11 +10,6 @@ import static org.junit.Assert.assertTrue;
 public class LinearAlgebraConfigTest {
 
     @Test
-    public void testGetLibraryBeforeSettingReturnsNull() throws Exception {
-        assertEquals(null, LinearAlgebraConfig.getLibrary());
-    }
-
-    @Test
     public void testGetLibraryAfterSetting() throws Exception {
         LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.SIMPLE);
         assertEquals(LinearAlgebraLibrary.SIMPLE, LinearAlgebraConfig.getLibrary());
