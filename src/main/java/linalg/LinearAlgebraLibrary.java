@@ -14,6 +14,7 @@ package linalg;
  *
  * @see <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math website</a>
  * @see <a href="http://ojalgo.org">OjAlgo website</a>
+ * @author lucianodp
  */
 public enum LinearAlgebraLibrary {
     APACHE, OJALGO, SIMPLE

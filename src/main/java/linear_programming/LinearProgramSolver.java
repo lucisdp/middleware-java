@@ -14,8 +14,10 @@ import linalg.Vector;
  *
  * The current interface does not support adding equality constrains. This can be added if needed in the future.
  *
- * We support two solvers: Ojalgo and Apache Commons Math.
- * We can specify which library to use through the LinearProgrammingLibrary parameter in the config.properties file.
+ * We support two solver libraries: Ojalgo and Apache Commons Math. Note that the choice of LP Solver library is independent
+ * from the choice of Linear Algebra library.
+ *
+ * @author lucianodp
  */
 public interface LinearProgramSolver {
 

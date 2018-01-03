@@ -3,6 +3,8 @@ package linalg;
 /**
  * Interface for creating Vector objects. Factories shouldn't (but can) be directly instantiated; you can access its methods 
  * by requesting one factory from LinearAlgebraConfig.getVectorLibrary() or by using Vector.FACTORY.{method of choice}.
+ *
+ * @author lucianodp
  */
 public interface VectorFactory {
     /**
