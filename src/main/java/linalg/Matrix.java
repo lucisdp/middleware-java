@@ -59,9 +59,19 @@ public abstract class Matrix {
     public abstract int getNumCols();
 
     /**
+     * @param row: row position
+     * @param col: col position
      * @return matrix element at row 'row' and column 'col'
      */
     public abstract double get(int row, int col);
+
+    /**
+     * Set matrix element at row 'row' and column 'col' to new 'value'
+     * @param row: row position
+     * @param col: col position
+     * @param value: new value
+     */
+    public abstract void set(int row, int col, double value);
 
     /**
      * @param row: line to return
@@ -82,61 +92,143 @@ public abstract class Matrix {
      * @param val: value to add all elements of matrix with
      * @return sum result
      */
-    public abstract Matrix add(double val);
+    public Matrix add(double val){
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) + val);
+        return result;
+    }
 
     /**
      * @param matrix: matrix to perform element-wise addition.
      * @return sum result
      */
-    public abstract Matrix add(Matrix matrix);
+    public Matrix add(Matrix matrix){
+        checkDim(matrix);
+
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) + matrix.get(i,j));
+        return result;
+    }
 
     /**
      * @param val: value to subtract all elements of matrix with
      * @return subtraction result
      */
-    public abstract Matrix subtract(double val);
+    public Matrix subtract(double val){
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,this.get(i,j) - val);
+        return result;
+    }
 
     /**
      * @param matrix: matrix to perform element-wise subtraction.
      * @return subtraction result
      */
-    public abstract Matrix subtract(Matrix matrix);
+    public Matrix subtract(Matrix matrix){
+        checkDim(matrix);
+
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) - matrix.get(i,j));
+        return result;
+    }
 
     /**
      * @param val: value to multiply all elements of matrix with
      * @return multiplication result
      */
-    public abstract Matrix multiply(double val);
+    public Matrix multiply(double val){
+        Matrix result = FACTORY.makeZero(this.getNumRows(), this.getNumCols());
+        for(int i=0; i < this.getNumRows(); i++)
+            for(int j=0; j < this.getNumCols(); j++)
+                result.set(i, j,this.get(i,j) * val);
+        return result;
+    }
 
     /**
      * @param vector: vector to multiply
      * @return Matrix-Vector multiplication result
      */
-    public abstract Vector multiply(Vector vector);
+    public Vector multiply(Vector vector){
+        if(this.getNumCols() != vector.getDim())
+            throw new IncompatibleDimensionsException(this.getNumCols(), vector.getDim());
+
+        Vector result = Vector.FACTORY.makeZero(this.getNumRows());
+        for(int i=0; i < this.getNumRows(); i++) {
+            double sum = 0.0;
+            for (int j = 0; j < this.getNumCols(); j++)
+                sum += this.get(i, j) * vector.get(j);
+            result.set(i, sum);
+        }
+        return result;
+    }
 
     /**
      * @param matrix: matrix to multiply to the right
      * @return Matrix-Matrix multiplication result
      */
-    public abstract Matrix multiply(Matrix matrix);
+    public Matrix multiply(Matrix matrix){
+        if(this.getNumCols() != matrix.getNumRows())
+            throw new IncompatibleDimensionsException(this.getNumCols(), matrix.getNumRows());
+
+        Matrix result = FACTORY.makeZero(this.getNumRows(), matrix.getNumCols());
+        for(int i=0; i < this.getNumRows(); i++) {
+            for (int j = 0; j < matrix.getNumCols(); j++) {
+                double sum = 0.0;
+                for (int k = 0; k < matrix.getNumRows(); k++)
+                    sum += this.get(i, k) * matrix.get(k, j);
+                result.set(i, j, sum);
+            }
+        }
+        return result;
+    }
 
     /**
      * @param matrix: matrix to perform element-wise multiplication.
      * @return multiplication result
      */
-    public abstract Matrix multiplyElement(Matrix matrix);
+    public Matrix multiplyElement(Matrix matrix){
+        checkDim(matrix);
+
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) * matrix.get(i,j));
+        return result;
+    }
 
     /**
      * @param val: value to divide all elements of matrix with
      * @return division result
      */
-    public abstract Matrix divide(double val);
+    public Matrix divide(double val){
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) / val);
+        return result;
+    }
 
     /**
      * @param matrix: matrix to perform element-wise division.
      * @return division result
      */
-    public abstract Matrix divide(Matrix matrix);
+    public Matrix divide(Matrix matrix){
+        checkDim(matrix);
+
+        Matrix result = FACTORY.makeZero(getNumRows(), getNumCols());
+        for(int i=0; i < getNumRows(); i++)
+            for(int j=0; j < getNumCols(); j++)
+                result.set(i, j,get(i,j) / matrix.get(i,j));
+        return result;
+    }
 
     @Override
     public String toString() {

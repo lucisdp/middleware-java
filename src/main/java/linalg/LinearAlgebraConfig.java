@@ -1,8 +1,12 @@
 package linalg;
 
 import exceptions.LinearAlgebraLibraryNotFound;
+import linalg.libraries.apache.ApacheMatrixFactory;
+import linalg.libraries.apache.ApacheVectorFactory;
 import linalg.libraries.ojalgo.OjalgoMatrixFactory;
 import linalg.libraries.ojalgo.OjalgoVectorFactory;
+import linalg.libraries.simple.SimpleMatrixFactory;
+import linalg.libraries.simple.SimpleVectorFactory;
 
 /**
  * The LinearAlgebraConfig is a single entry point for all operations related to getting or setting of which Linear Algebra
@@ -41,16 +45,16 @@ public class LinearAlgebraConfig {
 
         switch (library){
             case APACHE:
-                vectorFactory = null;
-                matrixFactory = null;
+                vectorFactory = new ApacheVectorFactory();
+                matrixFactory = new ApacheMatrixFactory();
                 break;
             case OJALGO:
                 vectorFactory = new OjalgoVectorFactory();
                 matrixFactory = new OjalgoMatrixFactory();
                 break;
             case SIMPLE:
-                vectorFactory = null;
-                matrixFactory = null;
+                vectorFactory = new SimpleVectorFactory();
+                matrixFactory = new SimpleMatrixFactory();
                 break;
             default:
                 throw new LinearAlgebraLibraryNotFound(library.name());

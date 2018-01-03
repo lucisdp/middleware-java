@@ -65,5 +65,5 @@ public abstract class LinearProgramSolverTest {
         testSolver(new double[] {0,-1}, new double[][] {{-1,0}, {0,-1}, {1,1}}, new double[] {0,0,1}, new double[] {0,1});
     }
 
-    // TODO: check bahavior on unfeasible problems
+    // TODO: check behavior on unfeasible problems
 }

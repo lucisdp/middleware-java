@@ -68,60 +68,111 @@ public abstract class Vector {
      * @param value: value to add to each component of vecgor
      * @return sum result
      */
-    public abstract Vector add(double value);
+    public Vector add(double value){
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) + value);
+        return result;
+    }
 
     /**
      * @param vector: vector to perform element-wise addition.
      * @return sum result
      * @throws IncompatibleDimensionsException if vectors have different dimensions
      */
-    public abstract Vector add(Vector vector);
+    public Vector add(Vector vector){
+        checkDim(vector);
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) + vector.get(i));
+        return result;
+    }
 
     /**
      * @param value: value to subtract from each component of vector
      * @return subtraction result
      */
-    public abstract Vector subtract(double value);
+    public Vector subtract(double value){
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) - value);
+        return result;
+    }
 
     /**
      * @param vector: vector to perform element-wise subtraction.
      * @return subtraction result
      * @throws IncompatibleDimensionsException if vectors have different dimensions
      */
-    public abstract Vector subtract(Vector vector);
+    public Vector subtract(Vector vector){
+        checkDim(vector);
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) - vector.get(i));
+        return result;
+    }
 
     /**
      * @param value: value to multiply all components of vector with
      * @return multiplication result
      */
-    public abstract Vector multiply(double value);
+    public Vector multiply(double value){
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) * value);
+        return result;
+    }
 
     /**
      * @param vector: vector to perform element-wise multiplication.
      * @return multiplication result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public abstract Vector multiply(Vector vector);
+    public Vector multiply(Vector vector){
+        checkDim(vector);
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) * vector.get(i));
+        return result;
+    }
 
     /**
      * @param value: value to divide all components of vector with
      * @return division result
      */
-    public abstract Vector divide(double value);
+    public Vector divide(double value){
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) / value);
+        return result;
+    }
 
     /**
      * @param vector: vector to perform element-wise division.
      * @return division result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public abstract Vector divide(Vector vector);
+    public Vector divide(Vector vector){
+        checkDim(vector);
+        Vector result = FACTORY.makeZero(getDim());
+        for(int i=0; i < getDim(); i++)
+            result.set(i, this.get(i) / vector.get(i));
+        return result;
+    }
 
     /**
      * @param vector to perform scalar product
      * @return Dot product between the two vectors.
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
-    public abstract double dot(Vector vector);
+    public double dot(Vector vector){
+        checkDim(vector);
+
+        int sum = 0;
+        for(int i=0; i < getDim(); i++)
+            sum += get(i) * vector.get(i);
+        return sum;
+    }
 
     /**
      * @return scalar product of the vector with itself.
@@ -133,7 +184,9 @@ public abstract class Vector {
     /**
      * @return Vector's norm
      */
-    public abstract double norm();
+    public double norm(){
+        return Math.sqrt(sqNorm());
+    }
 
     /**
      * @return Unit vector parallel to this
@@ -148,7 +201,12 @@ public abstract class Vector {
     /**
      * @return a copy of the vector's data in array format.
      */
-    public abstract double[] asArray();
+    public double[] asArray(){
+        double[] copy = new double[getDim()];
+        for(int i=0; i < getDim(); i++)
+            copy[i] = get(i);
+        return copy;
+    }
 
     /**
      * @param value: number to compare components

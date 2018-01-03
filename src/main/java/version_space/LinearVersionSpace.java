@@ -83,7 +83,7 @@ public class LinearVersionSpace implements VersionSpace, ConvexBody {
 
     private void setSolverObjectiveFunction(){
         Vector linProgObjective = Vector.FACTORY.makeZero(solver.getDim());
-        linProgObjective.set(0, 1);
+        linProgObjective.set(0, 1.0);
         solver.setObjectiveFunction(linProgObjective);
     }
 

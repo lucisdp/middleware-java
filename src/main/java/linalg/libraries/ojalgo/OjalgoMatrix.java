@@ -32,6 +32,11 @@ public class OjalgoMatrix extends Matrix {
     }
 
     @Override
+    public void set(int row, int col, double value) {
+        storage.set(row, col, value);
+    }
+
+    @Override
     public Vector getRow(int row) {
         PrimitiveDenseStore result = PrimitiveDenseStore.FACTORY.makeZero(1, getNumCols());
         storage.logical().row(row).get().supplyTo(result);
