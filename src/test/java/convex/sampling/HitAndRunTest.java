@@ -50,17 +50,17 @@ public class HitAndRunTest {
 
     @Test(expected = PointOutsideConvexBodyException.class)
     public void testSampleChainWithInitialPointOutside() throws Exception {
-        sampler.chain(elp, Vector.FACTORY.makeVector(new double[] {2,0}));
+        sampler.chain(elp, Vector.FACTORY.make(new double[] {2,0}));
     }
 
     @Test(expected = PointOutsideConvexBodyException.class)
     public void testSampleUniformWithInitialPointOutside() throws Exception {
-        sampler.uniform(elp, Vector.FACTORY.makeVector(new double[] {2,0}));
+        sampler.uniform(elp, Vector.FACTORY.make(new double[] {2,0}));
     }
 
     @Test
     public void testStep() throws Exception {
-        Vector sample = Vector.FACTORY.makeVector(new double[] {0,0});
+        Vector sample = Vector.FACTORY.make(new double[] {0,0});
         for(int i=0; i < 1000; i++) {
             sample = sampler.step(elp, sample);
             assertTrue(elp.isInside(sample));

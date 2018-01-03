@@ -26,8 +26,8 @@ public abstract class Matrix {
      * @see LinearAlgebraConfig
      */
     public static class FACTORY{
-        public static Matrix makeMatrix(double[][] values){
-            return LinearAlgebraConfig.getMatrixFactory().makeMatrix(values);
+        public static Matrix make(double[][] values){
+            return LinearAlgebraConfig.getMatrixFactory().make(values);
         }
 
         public static Matrix makeFilled(int rows, int cols, double fill){

@@ -23,7 +23,7 @@ public class LineSegmentTest {
 
     @Before
     public void setUp() throws Exception {
-        line = new Line(Vector.FACTORY.makeVector(new double[] {1,2,3}), Vector.FACTORY.makeVector(new double[] {-1,0,1}));
+        line = new Line(Vector.FACTORY.make(new double[] {1,2,3}), Vector.FACTORY.make(new double[] {-1,0,1}));
         segment = new LineSegment(line, -2, 3);
     }
 

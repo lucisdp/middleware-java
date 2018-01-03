@@ -10,7 +10,7 @@ public interface VectorFactory {
      * @param values: double[] vector of values
      * @return Vector
      */
-    Vector makeVector(double[] values);
+    Vector make(double[] values);
 
     /**
      * Create vector of given size populated with the same value.

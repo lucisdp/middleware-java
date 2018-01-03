@@ -25,7 +25,7 @@ public class IncrementalPolyhedralCone implements ConvexBody {
     }
 
     public IncrementalPolyhedralCone(double[][] A){
-        this(Matrix.FACTORY.makeMatrix(A));
+        this(Matrix.FACTORY.make(A));
     }
 
     @Override

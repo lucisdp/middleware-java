@@ -96,13 +96,13 @@ public class PolytopeTest{
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongLineDimension(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {5,2,3}), Vector.FACTORY.makeVector(new double[] {0,1,3}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {5,2,3}), Vector.FACTORY.make(new double[] {0,1,3}));
         pol.intersect(line);
     }
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {0,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {0,1}), Vector.FACTORY.make(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -110,7 +110,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-1,1}), Vector.FACTORY.make(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -118,7 +118,7 @@ public class PolytopeTest{
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-2,1}), Vector.FACTORY.makeVector(new double[] {1,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-2,1}), Vector.FACTORY.make(new double[] {1,0}));
         LineSegment segment = pol.intersect(line);
         assertEquals(1, segment.getLower(), 1e-10);
         assertEquals(Double.POSITIVE_INFINITY, segment.getUpper(), 1e-10);
@@ -126,19 +126,19 @@ public class PolytopeTest{
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,1}), Vector.FACTORY.makeVector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-1,1}), Vector.FACTORY.make(new double[] {0,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-1,-1}), Vector.FACTORY.makeVector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-1,-1}), Vector.FACTORY.make(new double[] {0,1}));
         pol.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-2,0}), Vector.FACTORY.makeVector(new double[] {1,-1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-2,0}), Vector.FACTORY.make(new double[] {1,-1}));
         pol.intersect(line);
     }
 }

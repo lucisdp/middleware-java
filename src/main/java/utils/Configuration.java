@@ -1,7 +1,9 @@
 package utils;
 
 import exceptions.LinearAlgebraLibraryNotFound;
+import exceptions.LinearProgrammingLibraryNotFound;
 import linalg.LinearAlgebraLibrary;
+import linear_programming.LinearProgramSolverLibrary;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +38,9 @@ public class Configuration {
     }
 
     /**
-     * Reads the LinearAlgebraLibrary property from the config file.
-     * It does not check that the library in present in our backend.
-     * @return library name
+     * Reads the LinearAlgebraLibrary set in the config file.
+     * @return library of choice, should be one of "ojalgo", "apache" or "simple"
+     * @throws LinearAlgebraLibraryNotFound if library name does not match the above options
      */
     public static LinearAlgebraLibrary getLinearAlgebraLibrary() {
         String name = prop.getProperty("LinearProgrammingLibrary");
@@ -58,10 +60,19 @@ public class Configuration {
     }
 
     /**
-     * Gets the LinearProgrammingLibrary property from the config file.
-     * @return library name
+     * Gets the LinearProgrammingLibrary set in the config file.
+     * @return library of choice, should be one of "ojalgo" or "apache"
+     * @throws LinearProgrammingLibraryNotFound if library name does not match the above options
      */
-    public static String getLinearProgrammingLibrary() {
-        return prop.getProperty("LinearProgrammingLibrary");
+    public static LinearProgramSolverLibrary getLinearProgrammingLibrary() {
+
+        String name = prop.getProperty("LinearProgrammingLibrary");
+
+        if(name.equalsIgnoreCase("apache"))
+            return LinearProgramSolverLibrary.APACHE;
+        else if (name.equalsIgnoreCase("ojalgo"))
+            return LinearProgramSolverLibrary.OJALGO;
+        else
+            throw new LinearProgrammingLibraryNotFound();
     }
 }

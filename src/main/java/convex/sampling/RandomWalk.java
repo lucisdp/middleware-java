@@ -64,7 +64,7 @@ abstract class RandomWalk{
             chain[i] = sample.asArray();
         }
 
-        return Matrix.FACTORY.makeMatrix(chain);
+        return Matrix.FACTORY.make(chain);
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class RandomWalk{
         for (int i=0; i < sampleSize; i++)
             sample[i] = sampleSinglePoint(convexBody, initialPoint).asArray();
 
-        return Matrix.FACTORY.makeMatrix(sample);
+        return Matrix.FACTORY.make(sample);
     }
 
     private Vector sampleSinglePoint(ConvexBody convexBody, Vector initialPoint){

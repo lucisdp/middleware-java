@@ -10,7 +10,7 @@ public interface MatrixFactory {
      * @param values: double[][] matrix of values
      * @return Matrix containing values
      */
-    Matrix makeMatrix(double[][] values);
+    Matrix make(double[][] values);
 
     /**
      * Create matrix of given size populated with the same value.

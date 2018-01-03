@@ -12,7 +12,7 @@ import org.ojalgo.matrix.store.PrimitiveDenseStore;
  */
 public class OjalgoVectorFactory implements VectorFactory {
     @Override
-    public Vector makeVector(double[] values) {
+    public Vector make(double[] values) {
         return new OjalgoVector(PrimitiveDenseStore.FACTORY.columns(values));
     }
 

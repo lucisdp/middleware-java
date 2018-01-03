@@ -27,24 +27,24 @@ public class EllipsoidTest {
 
     @Before
     public void setUp(){
-        center = Vector.FACTORY.makeVector(new double[] {1,2,3});
-        axisLengths = Vector.FACTORY.makeVector(new double[] {4,5,6});
+        center = Vector.FACTORY.make(new double[] {1,2,3});
+        axisLengths = Vector.FACTORY.make(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);
     }
 
     @Test(expected= IncompatibleDimensionsException.class)
     public void testWrongDimensions() throws Exception {
-        new Ellipsoid(center, Vector.FACTORY.makeVector(new double[] {1,2}));
+        new Ellipsoid(center, Vector.FACTORY.make(new double[] {1,2}));
     }
 
     @Test(expected= NegativeLengthException.class)
     public void testNegativeAxisLength() throws Exception {
-        new Ellipsoid(center, Vector.FACTORY.makeVector(new double[] {-1,2,3}));
+        new Ellipsoid(center, Vector.FACTORY.make(new double[] {-1,2,3}));
     }
 
     @Test(expected=NegativeLengthException.class)
     public void testZeroAxisLength() throws Exception {
-        new Ellipsoid(center, Vector.FACTORY.makeVector(new double[] {0,2,3}));
+        new Ellipsoid(center, Vector.FACTORY.make(new double[] {0,2,3}));
     }
 
     @Test(expected=NegativeLengthException.class)
@@ -143,13 +143,13 @@ public class EllipsoidTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testWrongLineDimension(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {5,2}), Vector.FACTORY.makeVector(new double[] {0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {5,2}), Vector.FACTORY.make(new double[] {0,1}));
         elp.intersect(line);
     }
 
     @Test
     public void testIntersectionWithCenterOnInterior(){
-        Line line = new Line(center, Vector.FACTORY.makeVector(new double[] {1,0,0}));
+        Line line = new Line(center, Vector.FACTORY.make(new double[] {1,0,0}));
         LineSegment segment = elp.intersect(line);
         assertEquals(-4, segment.getLower(), 1e-10);
         assertEquals(4, segment.getUpper(), 1e-10);
@@ -157,7 +157,7 @@ public class EllipsoidTest {
 
     @Test
     public void testIntersectionWithCenterOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-3,2,3}), Vector.FACTORY.makeVector(new double[] {1,0,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-3,2,3}), Vector.FACTORY.make(new double[] {1,0,0}));
         LineSegment segment = elp.intersect(line);
         assertEquals(0, segment.getLower(), 1e-10);
         assertEquals(8, segment.getUpper(), 1e-10);
@@ -165,7 +165,7 @@ public class EllipsoidTest {
 
     @Test
     public void testIntersectionWithCenterOnExterior(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {-5,2,3}), Vector.FACTORY.makeVector(new double[] {1,0,0}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {-5,2,3}), Vector.FACTORY.make(new double[] {1,0,0}));
         LineSegment segment = elp.intersect(line);
         assertEquals(2, segment.getLower(), 1e-10);
         assertEquals(10, segment.getUpper(), 1e-10);
@@ -173,19 +173,19 @@ public class EllipsoidTest {
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {5,2,3}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {5,2,3}), Vector.FACTORY.make(new double[] {0,0,1}));
         elp.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testTangentIntersectionWithCenterNotOnBoundary(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {5,2,0}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {5,2,0}), Vector.FACTORY.make(new double[] {0,0,1}));
         elp.intersect(line);
     }
 
     @Test(expected = EmptyIntersectionException.class)
     public void testNoIntersection(){
-        Line line = new Line(Vector.FACTORY.makeVector(new double[] {6,2,0}), Vector.FACTORY.makeVector(new double[] {0,0,1}));
+        Line line = new Line(Vector.FACTORY.make(new double[] {6,2,0}), Vector.FACTORY.make(new double[] {0,0,1}));
         elp.intersect(line);
     }
 }

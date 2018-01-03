@@ -68,7 +68,7 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddConstrainOfWrongDimension() throws Exception {
-        versionSpace.addConstrain(Vector.FACTORY.makeVector(new double[] {1,2,3}), -1);
+        versionSpace.addConstrain(Vector.FACTORY.make(new double[] {1,2,3}), -1);
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
@@ -85,13 +85,13 @@ public class LinearVersionSpaceTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testLineWithWrongDimension() throws Exception {
-        Line line = new Line(Vector.FACTORY.makeZero(4), Vector.FACTORY.makeVector(new double[] {1,0,-1,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(4), Vector.FACTORY.make(new double[] {1,0,-1,0}));
         versionSpace.intersect(line);
     }
 
     @Test
     public void testIntersectionWithEmptyConstrains() throws Exception {
-        Line line = new Line(Vector.FACTORY.makeZero(3), Vector.FACTORY.makeVector(new double[] {1,0,0}));
+        Line line = new Line(Vector.FACTORY.makeZero(3), Vector.FACTORY.make(new double[] {1,0,0}));
         LineSegment segment = versionSpace.intersect(line);
         assertEquals(-1, segment.getLower(), 1e-10);
         assertEquals(1, segment.getUpper(), 1e-10);

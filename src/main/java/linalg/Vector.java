@@ -26,8 +26,8 @@ public abstract class Vector {
      * @see LinearAlgebraConfig
      */
     public static class FACTORY {
-        public static Vector makeVector(double[] values){
-            return LinearAlgebraConfig.getVectorFactory().makeVector(values);
+        public static Vector make(double[] values){
+            return LinearAlgebraConfig.getVectorFactory().make(values);
         }
 
         public static Vector makeFilled(int dim, double value){
@@ -291,7 +291,7 @@ public abstract class Vector {
         newVector[0] = value;
         for(int i=1; i < getDim()+1; i++)
             newVector[i] = this.get(i-1);
-        return FACTORY.makeVector(newVector);
+        return FACTORY.make(newVector);
     }
 
     /**
@@ -304,7 +304,7 @@ public abstract class Vector {
         double[] newVector = new double[getDim()-1];
         for(int i=1; i < getDim(); i++)
             newVector[i-1] = this.get(i);
-        return FACTORY.makeVector(newVector);
+        return FACTORY.make(newVector);
     }
 
     @Override

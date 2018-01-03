@@ -14,8 +14,8 @@ public abstract class VectorTest {
 
     @Before
     public void setUp(){
-        vec = Vector.FACTORY.makeVector(new double[] {1,2,3});
-        vec2 = Vector.FACTORY.makeVector(new double[] {-1,0,1});
+        vec = Vector.FACTORY.make(new double[] {1,2,3});
+        vec2 = Vector.FACTORY.make(new double[] {-1,0,1});
     }
 
 
@@ -81,7 +81,7 @@ public abstract class VectorTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddVectorOfWrongDimension(){
-        vec.add(Vector.FACTORY.makeVector(new double[] {-1,1,2,3}));
+        vec.add(Vector.FACTORY.make(new double[] {-1,1,2,3}));
     }
 
     @Test
@@ -97,7 +97,7 @@ public abstract class VectorTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.makeVector((new double[] {-1,1,2,3}))); }
+    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.make((new double[] {-1,1,2,3}))); }
 
     @Test
     public void testSubtractValue(){
@@ -112,7 +112,7 @@ public abstract class VectorTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.makeVector((new double[] {1,2,3,4}))); }
+    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
 
     @Test
     public void testMultiplyByValue(){
@@ -127,7 +127,7 @@ public abstract class VectorTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.makeVector((new double[] {1,2,3,4}))); }
+    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
 
 
     @Test
@@ -138,7 +138,7 @@ public abstract class VectorTest {
 
     @Test
     public void testDivideByVector(){
-        vec2 = Vector.FACTORY.makeVector(new double[] {-1,2,4});
+        vec2 = Vector.FACTORY.make(new double[] {-1,2,4});
         Vector res = vec.divide(vec2);
         assertArrayEquals(new double[] {-1,1,0.75}, res.asArray(), 1e-10);
     }
@@ -172,9 +172,9 @@ public abstract class VectorTest {
 
     @Test
     public void testEqualsToVector(){
-        assertTrue(vec.equals(Vector.FACTORY.makeVector(new double[] {1,2,3})));
-        assertTrue(vec.equals(Vector.FACTORY.makeVector(new double[] {1+1e-18,2,3})));
-        assertFalse(vec.equals(Vector.FACTORY.makeVector(new double[] {1+1e-9,2,3})));
+        assertTrue(vec.equals(Vector.FACTORY.make(new double[] {1,2,3})));
+        assertTrue(vec.equals(Vector.FACTORY.make(new double[] {1+1e-18,2,3})));
+        assertFalse(vec.equals(Vector.FACTORY.make(new double[] {1+1e-9,2,3})));
     }
 
     @Test
@@ -190,12 +190,12 @@ public abstract class VectorTest {
 
     @Test
     public void testIsSmallerOrEqualThanVector(){
-        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1-1e-10,2,3})));
-        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1+1e-10,2,3})));
-        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2-1e-10,3})));
-        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2+1e-10,3})));
-        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2,3-1e-10})));
-        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2,3+1e-10})));
+        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1-1e-10,2,3})));
+        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1+1e-10,2,3})));
+        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1,2-1e-10,3})));
+        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1,2+1e-10,3})));
+        assertFalse(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1,2,3-1e-10})));
+        assertTrue(vec.isSmallerOrEqualThan(Vector.FACTORY.make(new double[] {1,2,3+1e-10})));
     }
 
     @Test
@@ -211,11 +211,11 @@ public abstract class VectorTest {
 
     @Test
     public void testIsSmallerThanVector(){
-        assertFalse(vec.isSmallerThan(Vector.FACTORY.makeVector(new double[] {1,2,3})));
-        assertFalse(vec.isSmallerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10,2-1e-10,3-1e-10})));
-        assertFalse(vec.isSmallerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10,2-1e-10,3+1e-10})));
-        assertFalse(vec.isSmallerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10,2+1e-10,3+1e-10})));
-        assertTrue(vec.isSmallerThan(Vector.FACTORY.makeVector(new double[] {1+1e-10,2+1e-10,3+1e-10})));
+        assertFalse(vec.isSmallerThan(Vector.FACTORY.make(new double[] {1,2,3})));
+        assertFalse(vec.isSmallerThan(Vector.FACTORY.make(new double[] {1-1e-10,2-1e-10,3-1e-10})));
+        assertFalse(vec.isSmallerThan(Vector.FACTORY.make(new double[] {1-1e-10,2-1e-10,3+1e-10})));
+        assertFalse(vec.isSmallerThan(Vector.FACTORY.make(new double[] {1-1e-10,2+1e-10,3+1e-10})));
+        assertTrue(vec.isSmallerThan(Vector.FACTORY.make(new double[] {1+1e-10,2+1e-10,3+1e-10})));
 
     }
 
@@ -232,11 +232,11 @@ public abstract class VectorTest {
 
     @Test
     public void testIsLargerThanVector(){
-        assertTrue(vec.isLargerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10, 2-1e-10, 3-1e-10})));
-        assertFalse(vec.isLargerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10, 2-1e-10, 3})));
-        assertFalse(vec.isLargerThan(Vector.FACTORY.makeVector(new double[] {1-1e-10, 2, 3-1e-10})));
-        assertFalse(vec.isLargerThan(Vector.FACTORY.makeVector(new double[] {1, 2-1e-10, 3-1e-10})));
-        assertFalse(vec.isLargerThan(Vector.FACTORY.makeVector(new double[] {1, 2, 3})));
+        assertTrue(vec.isLargerThan(Vector.FACTORY.make(new double[] {1-1e-10, 2-1e-10, 3-1e-10})));
+        assertFalse(vec.isLargerThan(Vector.FACTORY.make(new double[] {1-1e-10, 2-1e-10, 3})));
+        assertFalse(vec.isLargerThan(Vector.FACTORY.make(new double[] {1-1e-10, 2, 3-1e-10})));
+        assertFalse(vec.isLargerThan(Vector.FACTORY.make(new double[] {1, 2-1e-10, 3-1e-10})));
+        assertFalse(vec.isLargerThan(Vector.FACTORY.make(new double[] {1, 2, 3})));
     }
     
     @Test
@@ -252,12 +252,12 @@ public abstract class VectorTest {
 
     @Test
     public void testIsLargerOrEqualThanVector(){
-        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1-1e-10,2,3})));
-        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1+1e-10,2,3})));
-        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2-1e-10,3})));
-        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2+1e-10,3})));
-        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2,3-1e-10})));
-        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.makeVector(new double[] {1,2,3+1e-10})));
+        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1-1e-10,2,3})));
+        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1+1e-10,2,3})));
+        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1,2-1e-10,3})));
+        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1,2+1e-10,3})));
+        assertTrue(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1,2,3-1e-10})));
+        assertFalse(vec.isLargerOrEqualThan(Vector.FACTORY.make(new double[] {1,2,3+1e-10})));
     }
 
     @Test

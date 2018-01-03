@@ -12,7 +12,7 @@ import org.ojalgo.matrix.store.PrimitiveDenseStore;
  */
 public class OjalgoMatrixFactory implements MatrixFactory {
     @Override
-    public Matrix makeMatrix(double[][] values) {
+    public Matrix make(double[][] values) {
         return new OjalgoMatrix(PrimitiveDenseStore.FACTORY.rows(values));
     }
 

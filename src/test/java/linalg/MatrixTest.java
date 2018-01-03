@@ -13,8 +13,8 @@ public abstract class MatrixTest {
 
     @Before
     public void setUp(){
-        mat = Matrix.FACTORY.makeMatrix(new double[][] {{1,2,3},{4,5,6}});
-        mat2 = Matrix.FACTORY.makeMatrix(new double[][] {{-1,0,1},{2,5,-8}});
+        mat = Matrix.FACTORY.make(new double[][] {{1,2,3},{4,5,6}});
+        mat2 = Matrix.FACTORY.make(new double[][] {{-1,0,1},{2,5,-8}});
     }
 
     @Test
@@ -98,7 +98,7 @@ public abstract class MatrixTest {
 
     @Test(expected = IncompatibleDimensionsException.class)
     public void testAddMatrixOfWrongDimension(){
-        mat.add(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}}));
+        mat.add(Matrix.FACTORY.make(new double[][] {{-1,1,2,3}, {1,2,3,4}}));
     }
 
     @Test
@@ -116,7 +116,7 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testSubtractMatrixOfWrongDimension(){ mat.subtract(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testSubtractMatrixOfWrongDimension(){ mat.subtract(Matrix.FACTORY.make(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
     @Test
     public void testSubtractValue(){
@@ -133,13 +133,13 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyElementOfWrongDimension(){ mat.multiplyElement(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testMultiplyElementOfWrongDimension(){ mat.multiplyElement(Matrix.FACTORY.make(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByVectorOfWrongDimension(){ mat.multiply(Vector.FACTORY.makeVector(new double[] {-1,1,2,3})); }
+    public void testMultiplyByVectorOfWrongDimension(){ mat.multiply(Vector.FACTORY.make(new double[] {-1,1,2,3})); }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1}, {1,2}})); }
+    public void testMultiplyByMatrixOfWrongDimension(){ mat.multiply(Matrix.FACTORY.make(new double[][] {{-1,1}, {1,2}})); }
 
     @Test
     public void testMultiplyByValue(){
@@ -150,13 +150,13 @@ public abstract class MatrixTest {
 
     @Test
     public void testMultiplyByVector(){
-        Vector res = mat.multiply(Vector.FACTORY.makeVector(new double[] {-1,0,1}));
+        Vector res = mat.multiply(Vector.FACTORY.make(new double[] {-1,0,1}));
         assertArrayEquals(new double[] {2, 2}, res.asArray(), 1e-10);
     }
 
     @Test
     public void testMultiplyByMatrix(){
-        Matrix res = mat.multiply(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1}, {1,2}, {4,5}}));
+        Matrix res = mat.multiply(Matrix.FACTORY.make(new double[][] {{-1,1}, {1,2}, {4,5}}));
         assertArrayEquals(new double[] {13,20}, res.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {25,44}, res.asArray()[1], 1e-10);
     }
@@ -169,7 +169,7 @@ public abstract class MatrixTest {
     }
 
     @Test(expected = IncompatibleDimensionsException.class)
-    public void testDivideByMatrixOfWrongDimension(){ mat.divide(Matrix.FACTORY.makeMatrix(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
+    public void testDivideByMatrixOfWrongDimension(){ mat.divide(Matrix.FACTORY.make(new double[][] {{-1,1,2,3}, {1,2,3,4}})); }
 
 
     @Test
@@ -181,7 +181,7 @@ public abstract class MatrixTest {
 
     @Test
     public void testDivideByMatrix(){
-        mat2 = Matrix.FACTORY.makeMatrix(new double[][] {{-1,2,4},{4,6,10}});
+        mat2 = Matrix.FACTORY.make(new double[][] {{-1,2,4},{4,6,10}});
         Matrix res = mat.divide(mat2);
         assertArrayEquals(new double[] {-1,1,0.75}, res.asArray()[0], 1e-10);
         assertArrayEquals(new double[] {1,0.833333333333,0.6}, res.asArray()[1], 1e-10);

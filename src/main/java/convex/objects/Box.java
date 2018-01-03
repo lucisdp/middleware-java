@@ -25,7 +25,7 @@ public class Box implements ConvexBody {
     }
 
     public Box(double[] low, double[] high){
-        this(Vector.FACTORY.makeVector(low), Vector.FACTORY.makeVector(high));
+        this(Vector.FACTORY.make(low), Vector.FACTORY.make(high));
     }
 
 
@@ -43,7 +43,7 @@ public class Box implements ConvexBody {
     }
 
     public Box(double[] center, double length){
-        this(Vector.FACTORY.makeVector(center), length);
+        this(Vector.FACTORY.make(center), length);
     }
 
     /**

@@ -27,7 +27,7 @@ public class Ellipsoid implements ConvexBody {
     }
 
     public Ellipsoid(double[] center, double[] halfAxisLengths){
-        this(Vector.FACTORY.makeVector(center), Vector.FACTORY.makeVector(halfAxisLengths));
+        this(Vector.FACTORY.make(center), Vector.FACTORY.make(halfAxisLengths));
     }
 
     /**
@@ -45,7 +45,7 @@ public class Ellipsoid implements ConvexBody {
     }
 
     public Ellipsoid(double[] center, double radius){
-        this(Vector.FACTORY.makeVector(center), radius);
+        this(Vector.FACTORY.make(center), radius);
     }
 
     /**
