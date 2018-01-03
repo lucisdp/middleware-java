@@ -2,10 +2,10 @@ package convex.objects;
 
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
-import exceptions.EmptyIntersectionException;
+import exceptions.convex.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
-import exceptions.NegativeLengthException;
+import exceptions.linalg.NegativeDimensionException;
+import exceptions.convex.NegativeLengthException;
 import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.Vector;

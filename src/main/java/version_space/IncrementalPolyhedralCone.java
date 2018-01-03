@@ -3,7 +3,7 @@ package version_space;
 import convex.objects.ConvexBody;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
-import exceptions.EmptyIntersectionException;
+import exceptions.convex.EmptyIntersectionException;
 import linalg.Matrix;
 import linalg.Vector;
 

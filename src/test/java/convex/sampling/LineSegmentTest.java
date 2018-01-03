@@ -1,7 +1,7 @@
 package convex.sampling;
 
 import exceptions.IncompatibleBoundsException;
-import exceptions.UnboundedSegmentException;
+import exceptions.convex.UnboundedSegmentException;
 import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.Vector;

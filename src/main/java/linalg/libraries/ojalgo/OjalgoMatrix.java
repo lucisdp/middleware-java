@@ -1,7 +1,8 @@
 package linalg.libraries.ojalgo;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.IncompatibleLinearAlgebraBackendException;
+import exceptions.linalg.IncompatibleLinearAlgebraBackendException;
 import linalg.Matrix;
 import linalg.Vector;
 import org.ojalgo.function.BinaryFunction;
@@ -64,8 +65,11 @@ public class OjalgoMatrix extends Matrix {
 
     @Override
     public Matrix sliceColumns(int start, int end) {
-        if(start < 0 || end >= getNumCols() || start >= end)
+        if(start < 0 || end >= getNumCols())
             throw new ArrayIndexOutOfBoundsException();
+
+        if(start >= end)
+            throw new IncompatibleBoundsException();
 
         PrimitiveDenseStore result = PrimitiveDenseStore.FACTORY.makeZero( getNumRows(), end-start);
         storage.logical().column(IntStream.range(start, end).toArray()).get().supplyTo(result);

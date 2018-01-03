@@ -1,6 +1,6 @@
 package linalg.libraries.apache;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.MatrixFactory;
 import org.apache.commons.math3.linear.MatrixUtils;

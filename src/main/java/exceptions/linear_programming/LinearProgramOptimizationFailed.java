@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.linear_programming;
 
 /**
  * Exception to be thrown when LP solver fails to find a solution.

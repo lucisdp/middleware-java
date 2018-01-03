@@ -2,7 +2,7 @@ package convex.sampling;
 
 import convex.objects.ConvexBody;
 import convex.objects.Polytope;
-import exceptions.PointOutsideConvexBodyException;
+import exceptions.convex.PointOutsideConvexBodyException;
 import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.Vector;

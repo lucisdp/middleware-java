@@ -1,5 +1,6 @@
 package linalg;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.IncompatibleDimensionsException;
 
 /**
@@ -106,6 +107,9 @@ public abstract class Matrix {
      * @return submatrix consisted of all columns between 'start' and 'end'
      */
     public Matrix sliceColumns(int start, int end){
+        if(start >= end)
+            throw new IncompatibleBoundsException();
+
         Matrix result = Matrix.FACTORY.makeZero(getNumRows(), end - start);
         for(int i=0; i < getNumRows(); i++)
             for(int j=start; j < end; j++)

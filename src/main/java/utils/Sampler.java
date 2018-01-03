@@ -1,7 +1,7 @@
 package utils;
 
 import exceptions.IncompatibleBoundsException;
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Vector;
 
 import java.util.Random;

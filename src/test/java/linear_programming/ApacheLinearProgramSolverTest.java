@@ -1,6 +1,6 @@
 package linear_programming;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import org.junit.Before;
 import org.junit.Test;
 

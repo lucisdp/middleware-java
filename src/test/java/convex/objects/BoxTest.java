@@ -3,6 +3,9 @@ package convex.objects;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.*;
+import exceptions.convex.EmptyIntersectionException;
+import exceptions.convex.NegativeLengthException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.Vector;
@@ -38,10 +41,7 @@ public class BoxTest {
     @Test(expected= IncompatibleBoundsException.class)
     public void testNegativeAxisLength() throws Exception {
         high = Vector.FACTORY.make(new double[] {0,4,5});
-        Box box = new Box(low, high);
-        System.out.println(low);
-        System.out.println(high);
-        System.out.println(low.isSmallerOrEqualThan(high));
+        new Box(low, high);
     }
 
     @Test(expected=IncompatibleBoundsException.class)

@@ -1,9 +1,9 @@
 package linalg;
 
-import exceptions.EmptyVectorException;
+import exceptions.linalg.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
-import exceptions.NormalizingZeroVectorException;
+import exceptions.linalg.NegativeDimensionException;
+import exceptions.linalg.NormalizingZeroVectorException;
 import org.junit.Before;
 import org.junit.Test;
 

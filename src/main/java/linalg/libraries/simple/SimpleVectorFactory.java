@@ -1,6 +1,6 @@
 package linalg.libraries.simple;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Vector;
 import linalg.VectorFactory;
 

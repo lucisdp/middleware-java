@@ -1,8 +1,8 @@
 package linalg;
 
-import exceptions.EmptyVectorException;
+import exceptions.linalg.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NormalizingZeroVectorException;
+import exceptions.linalg.NormalizingZeroVectorException;
 
 /**
  * <p>This module implements an euclidean vector. In other words, a vector is a fixed-size collection of real numbers with

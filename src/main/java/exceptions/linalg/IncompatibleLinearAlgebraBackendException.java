@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.linalg;
 
 public class IncompatibleLinearAlgebraBackendException extends RuntimeException {
     public IncompatibleLinearAlgebraBackendException() {

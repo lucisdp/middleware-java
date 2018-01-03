@@ -1,6 +1,6 @@
 package linalg.libraries.apache;
 
-import exceptions.IncompatibleLinearAlgebraBackendException;
+import exceptions.linalg.IncompatibleLinearAlgebraBackendException;
 import linalg.Vector;
 import org.apache.commons.math3.linear.RealVector;
 

@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.convex;
 
 /**
  * Exception to be thrown when trying to sample a point uniformly from an unbounded line segment.

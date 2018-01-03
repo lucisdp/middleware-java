@@ -1,7 +1,7 @@
 package exceptions;
 
 /**
- * Exception to be thrown when an lower bound is not smaller than an upper bound
+ * Exception to be thrown when a lower bound is not smaller than an upper bound
  *
  * @author lucianodp
  */

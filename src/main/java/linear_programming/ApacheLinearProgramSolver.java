@@ -1,7 +1,7 @@
 package linear_programming;
 
-import exceptions.LinearProgramOptimizationFailed;
-import exceptions.NegativeDimensionException;
+import exceptions.linear_programming.LinearProgramOptimizationFailed;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.Vector;
 import org.apache.commons.math3.optim.PointValuePair;

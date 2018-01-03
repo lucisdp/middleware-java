@@ -1,6 +1,7 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
+import exceptions.convex.EmptyIntersectionException;
 import linalg.Vector;
 
 /**
@@ -43,12 +44,11 @@ public class HitAndRun extends RandomWalk {
      *   3) Return \(X_{t+1}\) as a random point on this line segment
      *
      * If the convex body is unbounded in any direction or not full-dimensional, you may obtain a EmptyIntersectionException.
-     * The current implementation cannot handle these cases.
      *
      * @param convexBody: convex body from which we are sampling from
      * @param point: current point in the algorithm (\(X_t\) at iteration t+1)
      * @return next point \(X_{t+1}\) based on the Hit-and-Run rule
-     * @throws exceptions.EmptyIntersectionException may be thrown if the convexbody is unbounded
+     * @throws EmptyIntersectionException may be thrown if the convexbody is unbounded
      */
     Vector step(ConvexBody convexBody, Vector point){
         Line randomLine = Line.sample(point);

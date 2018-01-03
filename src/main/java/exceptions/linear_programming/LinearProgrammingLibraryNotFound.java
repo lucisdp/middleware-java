@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.linear_programming;
 
 /**
  * Exception to be thrown when trying to specify an unknown Linear Programming solver library

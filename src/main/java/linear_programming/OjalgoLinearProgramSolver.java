@@ -1,6 +1,6 @@
 package linear_programming;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Vector;
 import org.ojalgo.optimisation.Expression;
 import org.ojalgo.optimisation.ExpressionsBasedModel;

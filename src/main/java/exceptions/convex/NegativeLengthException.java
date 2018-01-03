@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.convex;
 
 /**
  * Exception to be thrown when trying to set a negative length (in convex body parameters).

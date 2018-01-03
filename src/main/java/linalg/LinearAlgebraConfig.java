@@ -1,6 +1,6 @@
 package linalg;
 
-import exceptions.LinearAlgebraLibraryNotFound;
+import exceptions.linalg.LinearAlgebraLibraryNotFound;
 import linalg.libraries.apache.ApacheMatrixFactory;
 import linalg.libraries.apache.ApacheVectorFactory;
 import linalg.libraries.ojalgo.OjalgoMatrixFactory;

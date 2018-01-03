@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.convex;
 
 /**
  * Exception to be thrown when initial point for RandomWalk algorithms are outside convex body

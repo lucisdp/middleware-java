@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.linalg;
 
 /**
  * Exception to be thrown when trying to create an object of negative dimension.

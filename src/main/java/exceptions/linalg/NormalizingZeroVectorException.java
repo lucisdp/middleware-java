@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.linalg;
 
 public class NormalizingZeroVectorException extends RuntimeException {
     public NormalizingZeroVectorException() {

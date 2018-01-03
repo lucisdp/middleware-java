@@ -1,7 +1,8 @@
 package linear_programming;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.LinearProgrammingLibraryNotFound;
+import exceptions.linear_programming.LinearProgramOptimizationFailed;
+import exceptions.linear_programming.LinearProgrammingLibraryNotFound;
 import linalg.Matrix;
 import linalg.Vector;
 
@@ -70,7 +71,7 @@ public interface LinearProgramSolver {
     /**
      * Computes the solution \( X^* \) of the LP
      * @return solver's solution for the LP
-     * @throws exceptions.LinearProgramOptimizationFailed if LP solver failed to find a solution
+     * @throws LinearProgramOptimizationFailed if LP solver failed to find a solution
      */
     Vector findMinimizer();
 

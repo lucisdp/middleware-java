@@ -1,7 +1,8 @@
 package linalg.libraries.apache;
 
+import exceptions.IncompatibleBoundsException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.IncompatibleLinearAlgebraBackendException;
+import exceptions.linalg.IncompatibleLinearAlgebraBackendException;
 import linalg.Matrix;
 import linalg.Vector;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -55,8 +56,10 @@ public class ApacheMatrix extends Matrix {
 
     @Override
     public Matrix sliceColumns(int start, int end) {
-        if(start < 0 || end >= getNumCols() || start >= end)
+        if(start < 0 || end >= getNumCols())
             throw new ArrayIndexOutOfBoundsException();
+        if(start >= end)
+            throw new IncompatibleBoundsException();
         return new ApacheMatrix(storage.getSubMatrix(0, getNumRows()-1, start, end-1));
     }
 

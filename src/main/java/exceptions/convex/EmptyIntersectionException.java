@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.convex;
 
 /**
  * Exception to be thrown when a line does not intercept convex body.

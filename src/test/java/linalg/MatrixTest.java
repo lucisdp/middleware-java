@@ -1,7 +1,7 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -208,6 +208,7 @@ public abstract class MatrixTest {
     public void testGetColumnLargerThanSizeEnd() throws Exception {
         mat.sliceColumns(1, 3);
     }
+
 
     @Test
     public void testSliceColumnDimension() throws Exception {

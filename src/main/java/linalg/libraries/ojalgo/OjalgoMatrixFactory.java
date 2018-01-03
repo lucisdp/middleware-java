@@ -1,6 +1,6 @@
 package linalg.libraries.ojalgo;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Matrix;
 import linalg.MatrixFactory;
 import org.ojalgo.matrix.store.PrimitiveDenseStore;

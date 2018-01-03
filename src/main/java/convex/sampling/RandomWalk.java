@@ -1,7 +1,7 @@
 package convex.sampling;
 
 import convex.objects.ConvexBody;
-import exceptions.PointOutsideConvexBodyException;
+import exceptions.convex.PointOutsideConvexBodyException;
 import exceptions.IncompatibleDimensionsException;
 import linalg.Matrix;
 import linalg.Vector;
@@ -91,7 +91,7 @@ abstract class RandomWalk{
         Vector sample = initialPoint;
 
         for (int i=0; i < chainLength; i++)
-            sample = step(convexBody, initialPoint);
+            sample = step(convexBody, sample);
 
         return sample;
     }

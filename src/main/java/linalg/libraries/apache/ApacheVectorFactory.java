@@ -1,6 +1,6 @@
 package linalg.libraries.apache;
 
-import exceptions.NegativeDimensionException;
+import exceptions.linalg.NegativeDimensionException;
 import linalg.Vector;
 import linalg.VectorFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;

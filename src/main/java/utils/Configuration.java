@@ -1,7 +1,7 @@
 package utils;
 
-import exceptions.LinearAlgebraLibraryNotFound;
-import exceptions.LinearProgrammingLibraryNotFound;
+import exceptions.linalg.LinearAlgebraLibraryNotFound;
+import exceptions.linear_programming.LinearProgrammingLibraryNotFound;
 import linalg.LinearAlgebraLibrary;
 import linear_programming.LinearProgramSolverLibrary;
 
