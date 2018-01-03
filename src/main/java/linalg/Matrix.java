@@ -74,8 +74,8 @@ public abstract class Matrix {
     public abstract void set(int row, int col, double value);
 
     /**
-     * @param row: line to return
-     * @return a given row of the matrix
+     * @param row: row to return
+     * @return a copy of a given row of the matrix
      * @throws ArrayIndexOutOfBoundsException if row is negative or larger than getNumRows()
      */
     public abstract Vector getRow(int row);

@@ -24,11 +24,15 @@ public class ApacheVector extends Vector {
 
     @Override
     public double get(int index) {
+        if(index < 0 || index >= getDim())
+            throw new ArrayIndexOutOfBoundsException();
         return storage.getEntry(index);
     }
 
     @Override
     public void set(int index, double newValue) {
+        if(index < 0 || index >= getDim())
+            throw new ArrayIndexOutOfBoundsException();
         storage.setEntry(index, newValue);
     }
 

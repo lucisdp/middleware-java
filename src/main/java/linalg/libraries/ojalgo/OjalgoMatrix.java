@@ -28,16 +28,23 @@ public class OjalgoMatrix extends Matrix {
 
     @Override
     public double get(int row, int col) {
+        if(row < 0 || row >= getNumRows() || col < 0 || col >= getNumCols())
+            throw new ArrayIndexOutOfBoundsException();
         return storage.get(row, col);
     }
 
     @Override
     public void set(int row, int col, double value) {
+        if(row < 0 || row >= getNumRows() || col < 0 || col >= getNumCols())
+            throw new ArrayIndexOutOfBoundsException();
         storage.set(row, col, value);
     }
 
     @Override
     public Vector getRow(int row) {
+        if(row < 0 || row >= getNumRows())
+            throw new ArrayIndexOutOfBoundsException();
+
         PrimitiveDenseStore result = PrimitiveDenseStore.FACTORY.makeZero(1, getNumCols());
         storage.logical().row(row).get().supplyTo(result);
         return new OjalgoVector (result);
@@ -71,30 +78,29 @@ public class OjalgoMatrix extends Matrix {
 
     @Override
     public Matrix add(Matrix matrix) {
+        checkDim(matrix);
         return new OjalgoMatrix(performBinaryOperation(ADD, getStorage(matrix)));
     }
 
     @Override
     public Matrix subtract(Matrix matrix) {
+        checkDim(matrix);
         return new OjalgoMatrix(performBinaryOperation(SUBTRACT, getStorage(matrix)));
     }
 
     @Override
     public Matrix multiplyElement(Matrix matrix) {
+        checkDim(matrix);
         return new OjalgoMatrix(performBinaryOperation(MULTIPLY, getStorage(matrix)));
     }
 
     @Override
     public Matrix divide(Matrix matrix) {
+        checkDim(matrix);
         return new OjalgoMatrix(performBinaryOperation(DIVIDE, getStorage(matrix)));
     }
 
     private PrimitiveDenseStore performBinaryOperation(BinaryFunction<Double> function, PrimitiveDenseStore rightHandSide){
-        if (storage.countRows() != rightHandSide.countRows())
-            throw new IncompatibleDimensionsException((int) storage.countRows(), (int) rightHandSide.countRows());
-        if (storage.countColumns() != rightHandSide.countColumns())
-            throw new IncompatibleDimensionsException((int) storage.countColumns(), (int) rightHandSide.countColumns());
-
         PrimitiveDenseStore result = rightHandSide.copy();
         result.modifyMatching(storage, function);
         return result;

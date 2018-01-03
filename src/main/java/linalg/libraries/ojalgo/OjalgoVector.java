@@ -32,11 +32,15 @@ public class OjalgoVector extends Vector {
 
     @Override
     public double get(int index) {
+        if(index < 0 || index >= getDim())
+            throw new ArrayIndexOutOfBoundsException();
         return storage.get(index);
     }
 
     @Override
     public void set(int index, double newValue) {
+        if(index < 0 || index >= getDim())
+            throw new ArrayIndexOutOfBoundsException();
         storage.set(index, newValue);
     }
 
@@ -97,6 +101,7 @@ public class OjalgoVector extends Vector {
 
     @Override
     public double dot(Vector vector) {
+        checkDim(vector);
         return storage.dot(getStorage(vector));
     }
 

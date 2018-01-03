@@ -26,11 +26,15 @@ public class ApacheMatrix extends Matrix {
 
     @Override
     public double get(int row, int col) {
+        if(row < 0 || row >= getNumRows() || col < 0 || col >= getNumCols())
+            throw new ArrayIndexOutOfBoundsException();
         return storage.getEntry(row, col);
     }
 
     @Override
     public void set(int row, int col, double value) {
+        if(row < 0 || row >= getNumRows() || col < 0 || col >= getNumCols())
+            throw new ArrayIndexOutOfBoundsException();
         storage.setEntry(row, col, value);
     }
 

@@ -36,6 +36,16 @@ public abstract class VectorTest {
         assertEquals(vec.get(0), 1, 1e-10);
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetValueNegativeIndex() throws Exception {
+        vec.set(-1,10);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetValueWithTooLargeIndex() throws Exception {
+        vec.set(3, 10);
+    }
+
     @Test
     public void testSetValues() throws Exception {
         vec.set(0,10);
@@ -56,7 +66,7 @@ public abstract class VectorTest {
 
     @Test(expected = EmptyVectorException.class)
     public void testDropLeftUntilEmpty() throws Exception {
-        vec.dropLeft().dropLeft().dropLeft();
+        Vector.FACTORY.makeZero(1).dropLeft();
     }
 
     @Test(expected = NegativeDimensionException.class)
@@ -79,15 +89,15 @@ public abstract class VectorTest {
         Vector.FACTORY.makeZero(-1);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testAddVectorOfWrongDimension(){
-        vec.add(Vector.FACTORY.make(new double[] {-1,1,2,3}));
-    }
-
     @Test
     public void testAddValue(){
         Vector res = vec.add(5);
         assertArrayEquals(new double[] {6,7,8}, res.asArray(), 1e-10);
+    }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testAddVectorOfWrongDimension(){
+        vec.add(Vector.FACTORY.make(new double[] {-1,1,2,3}));
     }
 
     @Test
@@ -96,14 +106,14 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {0,2,4}, res.asArray(), 1e-10);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.make((new double[] {-1,1,2,3}))); }
-
     @Test
     public void testSubtractValue(){
         Vector res = vec.subtract(5);
         assertArrayEquals(new double[] {-4,-3,-2}, res.asArray(), 1e-10);
     }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testSubtractVectorOfWrongDimension(){ vec.subtract(Vector.FACTORY.make((new double[] {-1,1,2,3}))); }
 
     @Test
     public void testSubtractVector(){
@@ -111,14 +121,14 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {2,2,2}, res.asArray(), 1e-10);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
-
     @Test
     public void testMultiplyByValue(){
         Vector res = vec.multiply(2);
         assertArrayEquals(new double[] {2,4,6}, res.asArray(), 1e-10);
     }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testMultiplyByVectorOfWrongDimension(){ vec.multiply(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
 
     @Test
     public void testMultiplyByVector(){
@@ -126,15 +136,14 @@ public abstract class VectorTest {
         assertArrayEquals(new double[] {-1,0,3}, res.asArray(), 1e-10);
     }
 
-    @Test(expected = IncompatibleDimensionsException.class)
-    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
-
-
     @Test
     public void testDivideByValue(){
         Vector res = vec.divide(2);
         assertArrayEquals(new double[] {0.5,1.0,1.5}, res.asArray(), 1e-10);
     }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testDivideByVectorOfWrongDimension(){ vec.divide(Vector.FACTORY.make((new double[] {1,2,3,4}))); }
 
     @Test
     public void testDivideByVector(){
@@ -158,6 +167,11 @@ public abstract class VectorTest {
 
     @Test
     public void testSqNorm(){ assertEquals( 14, vec.sqNorm(), 1e-10); }
+
+    @Test(expected = IncompatibleDimensionsException.class)
+    public void testDotWronDimension(){
+        vec.dot(Vector.FACTORY.makeZero(4));
+    }
 
     @Test
     public void testDot(){ assertEquals(2, vec.dot(vec2), 1e-10); }

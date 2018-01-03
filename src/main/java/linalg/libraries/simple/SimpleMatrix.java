@@ -37,8 +37,7 @@ public class SimpleMatrix extends Matrix {
         if(row < 0 || row >= getNumRows())
             throw new ArrayIndexOutOfBoundsException();
 
-        // TODO: return a copy ?
-        return new SimpleVector(storage[row]);
+        return new SimpleVector(Arrays.copyOf(storage[row], getNumCols()));
     }
 
     @Override
