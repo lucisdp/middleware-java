@@ -11,11 +11,8 @@ import static org.junit.Assert.assertEquals;
 public abstract class MatrixTest {
     private Matrix mat, mat2;
 
-    protected abstract void setFactory();
-
     @Before
     public void setUp(){
-        setFactory();
         mat = Matrix.FACTORY.makeMatrix(new double[][] {{1,2,3},{4,5,6}});
         mat2 = Matrix.FACTORY.makeMatrix(new double[][] {{-1,0,1},{2,5,-8}});
     }

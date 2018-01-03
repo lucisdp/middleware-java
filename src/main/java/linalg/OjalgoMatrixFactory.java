@@ -3,6 +3,11 @@ package linalg;
 import exceptions.NegativeDimensionException;
 import org.ojalgo.matrix.store.PrimitiveDenseStore;
 
+/**
+ * Matrix factory using OjAlgo library as backend.
+ *
+ * @see linalg.MatrixFactory
+ */
 public class OjalgoMatrixFactory implements MatrixFactory {
     @Override
     public Matrix makeMatrix(double[][] values) {
@@ -11,10 +16,6 @@ public class OjalgoMatrixFactory implements MatrixFactory {
 
     @Override
     public Matrix makeFilled(int rows, int cols, double value) {
-        if(rows <= 0)
-            throw new NegativeDimensionException(rows);
-        if(cols <= 0)
-            throw new NegativeDimensionException(cols);
         return makeZero(rows, cols).add(value);
     }
 

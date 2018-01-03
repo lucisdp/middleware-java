@@ -8,10 +8,10 @@ import org.ojalgo.matrix.store.PrimitiveDenseStore;
 import static org.ojalgo.function.PrimitiveFunction.*;
 
 /**
- * OjAlgo implementation of vector interface. We based the implementation of operations on their AbstractMatrix.java file
- * in Github (see link below).
+ * Vector object using the OjAlgo library. The implementation of these operations are based on their AbstractMatrix class,
+ * found <a href="https://github.com/optimatika/ojAlgo/blob/master/src/org/ojalgo/matrix/AbstractMatrix.java">here</a>.
  *
- * @see <a href="https://github.com/optimatika/ojAlgo/blob/master/src/org/ojalgo/matrix/AbstractMatrix.java">Ojalgo AbstractMatrix</a>
+ * @see Vector
  */
 public class OjalgoVector extends Vector {
     private PrimitiveDenseStore storage;

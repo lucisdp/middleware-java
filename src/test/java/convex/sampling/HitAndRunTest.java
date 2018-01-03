@@ -3,10 +3,11 @@ package convex.sampling;
 import convex.objects.ConvexBody;
 import convex.objects.Polytope;
 import exceptions.PointOutsideConvexBodyException;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -16,14 +17,13 @@ public class HitAndRunTest {
     private HitAndRun sampler;
     private ConvexBody elp;
 
-    private void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     @Before
     public void setUp(){
-        setLibrary(LinearAlgebraLibrary.OJALGO);
         sampler = new HitAndRun(64, 8);
         elp = new Polytope(new double[][] {{-1,0}, {0,-1}, {1,0}, {0,1}}, new double[] {1,1,1,1}); //new Box(2); //new Ellipsoid(2);
     }

@@ -3,6 +3,11 @@ package linalg;
 import exceptions.NegativeDimensionException;
 import org.ojalgo.matrix.store.PrimitiveDenseStore;
 
+/**
+ * Vector factory using OjAlgo library as backend.
+ *
+ * @see linalg.VectorFactory
+ */
 class OjalgoVectorFactory implements VectorFactory {
     @Override
     public Vector makeVector(double[] values) {
@@ -10,10 +15,10 @@ class OjalgoVectorFactory implements VectorFactory {
     }
 
     @Override
-    public Vector makeFilled(int dim, double value) {
+    public Vector makeFilled(int dim, double fill) {
         if(dim <= 0)
             throw new NegativeDimensionException(dim);
-        return makeZero(dim).add(value);
+        return makeZero(dim).add(fill);
     }
 
     @Override

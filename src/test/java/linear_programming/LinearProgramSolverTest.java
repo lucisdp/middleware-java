@@ -1,9 +1,10 @@
 package linear_programming;
 
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
-import linalg.Matrix;
 import linalg.Vector;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -11,13 +12,10 @@ import static org.junit.Assert.assertArrayEquals;
 public abstract class LinearProgramSolverTest {
     final int dim=2;
     LinearProgramSolver solver = null;
-    static {
-        setLibrary(LinearAlgebraLibrary.OJALGO);
-    }
 
-    private static void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     public void testSolver(double[] objective, double[][] constrainsMatrix, double[] constrainsVector, double[] answer){

@@ -1,7 +1,6 @@
 package linalg;
 
 import exceptions.IncompatibleDimensionsException;
-import exceptions.LinearAlgebraLibraryNotFound;
 
 /**
  * <p>This module implements an euclidean Matrix. In other words, a matrix is a bi-dimensional collection of real numbers with
@@ -19,70 +18,55 @@ import exceptions.LinearAlgebraLibraryNotFound;
 
 public abstract class Matrix {
 
+    /**
+     * FACTORY, as the name implies, is a simple factory class providing a shortcut for Matrix creation. It instantiates
+     * Matrix objects based on LinearAlgebraConfig configurations, so both APIs always give the same results. However,
+     * we are not able to directly set a new library from here, use LinearAlgebraConfig instead.
+     *
+     * @see LinearAlgebraConfig
+     */
     public static class FACTORY{
-        static private MatrixFactory matrixFactory;
-
-        public static void setFactory(LinearAlgebraLibrary library){
-            switch (library){
-                case APACHE:
-                    matrixFactory = null;
-                    break;
-                case OJALGO:
-                    matrixFactory = new OjalgoMatrixFactory();
-                    break;
-                case SIMPLE:
-                    matrixFactory = null;
-                    break;
-                default:
-                    throw new LinearAlgebraLibraryNotFound(library.name());
-            }
-        }
-
         public static Matrix makeMatrix(double[][] values){
-            return matrixFactory.makeMatrix(values);
+            return LinearAlgebraConfig.getMatrixFactory().makeMatrix(values);
         }
 
         public static Matrix makeFilled(int rows, int cols, double fill){
-            return matrixFactory.makeFilled(rows, cols, fill);
+            return LinearAlgebraConfig.getMatrixFactory().makeFilled(rows, cols, fill);
         }
 
         public static Matrix makeZero(int rows, int cols){
-            return matrixFactory.makeZero(rows, cols);
+            return LinearAlgebraConfig.getMatrixFactory().makeZero(rows, cols);
         }
 
         public static Matrix makeEye(int dim){
-            return matrixFactory.makeEye(dim);
+            return LinearAlgebraConfig.getMatrixFactory().makeEye(dim);
         }
     }
 
     /**
-     * Returns inner matrix storage (not a copy, so be careful when manipulating!)
-     * @return inner storage of values
+     * @return copy of inner matrix storage as double[][] array
      */
     public abstract double[][] asArray();
 
     /**
-     * Get number of rows in matrix.
-     * @return number of rows
+     * @return number of rows in matrix
      */
     public abstract int getNumRows();
 
     /**
-     * Get number of columns in matrix.
-     * @return number of columns
+     * @return number of columns in matrix.
      */
     public abstract int getNumCols();
 
     /**
-     * Get element at row 'row' and column 'col'.
-     * @return matrix element
+     * @return matrix element at row 'row' and column 'col'
      */
     public abstract double get(int row, int col);
 
     /**
-     * Returns a line of matrix as Matrix instance.
      * @param row: line to return
-     * @return Matrix row
+     * @return a given row of the matrix
+     * @throws ArrayIndexOutOfBoundsException if row is negative or larger than getNumRows()
      */
     public abstract Vector getRow(int row);
 
@@ -95,72 +79,62 @@ public abstract class Matrix {
     }
 
     /**
-     * Adds a value to each matrix element
-     * @param val: value to add
+     * @param val: value to add all elements of matrix with
      * @return sum result
      */
     public abstract Matrix add(double val);
 
     /**
-     * Sum another matrix to this one.
-     * @param matrix: matrix to sum
+     * @param matrix: matrix to perform element-wise addition.
      * @return sum result
      */
     public abstract Matrix add(Matrix matrix);
 
     /**
-     * Subtracts a value from each matrix element
-     * @param val: value to subtract
+     * @param val: value to subtract all elements of matrix with
      * @return subtraction result
      */
     public abstract Matrix subtract(double val);
 
     /**
-     * Subtract another matrix from this one.
-     * @param matrix: matrix to subtract
+     * @param matrix: matrix to perform element-wise subtraction.
      * @return subtraction result
      */
     public abstract Matrix subtract(Matrix matrix);
 
     /**
-     * Multiplies a value to each matrix element
-     * @param val: value to multiply
+     * @param val: value to multiply all elements of matrix with
      * @return multiplication result
      */
     public abstract Matrix multiply(double val);
 
     /**
-     * Matrix-Matrix multiplication
      * @param vector: vector to multiply
-     * @return multiplication result
+     * @return Matrix-Vector multiplication result
      */
     public abstract Vector multiply(Vector vector);
 
     /**
-     * Matrix-Matrix multiplication
-     * @param matrix: matrix to multiply (RHS)
-     * @return multiplication result
+     * @param matrix: matrix to multiply to the right
+     * @return Matrix-Matrix multiplication result
      */
     public abstract Matrix multiply(Matrix matrix);
 
     /**
-     * Element-wise multiplication of matrix with another one
-     * @param matrix: matrix to multiply element-by-element
+     * @param matrix: matrix to perform element-wise multiplication.
      * @return multiplication result
      */
     public abstract Matrix multiplyElement(Matrix matrix);
 
     /**
-     * Divide a value to each matrix's element. Division by 0 will result in \(\pm \infty\)
-     * @param val: value to divide
+     * @param val: value to divide all elements of matrix with
      * @return division result
      */
     public abstract Matrix divide(double val);
 
     /**
-     * Element-wise division of matrix with another one
-     * @param matrix: matrix to multiply element-by-element
-     * @return multiplication result
+     * @param matrix: matrix to perform element-wise division.
+     * @return division result
      */
     public abstract Matrix divide(Matrix matrix);
 

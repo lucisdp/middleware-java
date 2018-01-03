@@ -1,9 +1,10 @@
 package linalg;
 
+import org.junit.BeforeClass;
+
 public class OjalgoMatrixTest extends MatrixTest {
-    @Override
-    protected void setFactory() {
-        Vector.FACTORY.setFactory(LinearAlgebraLibrary.OJALGO);
-        Matrix.FACTORY.setFactory(LinearAlgebraLibrary.OJALGO);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 }

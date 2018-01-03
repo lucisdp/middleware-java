@@ -4,10 +4,12 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
 import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
@@ -19,14 +21,13 @@ public class LinearVersionSpaceTest {
     private int dim, chainLength, sampleSize;
     private LinearVersionSpace versionSpace;
 
-    private void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     @Before
     public void setUp() throws Exception {
-        setLibrary(LinearAlgebraLibrary.OJALGO);
         dim = 2;
         chainLength = 64;
         sampleSize = 8;

@@ -12,11 +12,8 @@ import static org.junit.Assert.*;
 public abstract class VectorTest {
     private Vector vec, vec2;
 
-    protected abstract void setFactory();
-
     @Before
     public void setUp(){
-        setFactory();
         vec = Vector.FACTORY.makeVector(new double[] {1,2,3});
         vec2 = Vector.FACTORY.makeVector(new double[] {-1,0,1});
     }

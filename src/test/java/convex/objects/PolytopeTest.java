@@ -4,10 +4,11 @@ import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -19,14 +20,13 @@ public class PolytopeTest{
     private double[] b;
     private Polytope pol;
 
-    private void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     @Before
     public void setUp() throws Exception {
-        setLibrary(LinearAlgebraLibrary.OJALGO);
         A = new double[][] {{-1,0}, {0,-1}, {0,1}};
         b = new double[] {1,0,2};
         pol = new Polytope(A,b);

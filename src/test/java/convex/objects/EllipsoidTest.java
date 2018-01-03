@@ -6,10 +6,11 @@ import exceptions.EmptyIntersectionException;
 import exceptions.IncompatibleDimensionsException;
 import exceptions.NegativeDimensionException;
 import exceptions.NegativeLengthException;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,14 +20,13 @@ public class EllipsoidTest {
     private Vector center, axisLengths;
     private Ellipsoid elp;
 
-    private void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     @Before
     public void setUp(){
-        setLibrary(LinearAlgebraLibrary.OJALGO);
         center = Vector.FACTORY.makeVector(new double[] {1,2,3});
         axisLengths = Vector.FACTORY.makeVector(new double[] {4,5,6});
         elp = new Ellipsoid(center, axisLengths);

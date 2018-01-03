@@ -3,10 +3,11 @@ package convex.objects;
 import convex.sampling.Line;
 import convex.sampling.LineSegment;
 import exceptions.*;
+import linalg.LinearAlgebraConfig;
 import linalg.LinearAlgebraLibrary;
-import linalg.Matrix;
 import linalg.Vector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,14 +17,13 @@ public class BoxTest {
     private Vector low, high;
     private Box box;
 
-    private void setLibrary(LinearAlgebraLibrary lib){
-        Vector.FACTORY.setFactory(lib);
-        Matrix.FACTORY.setFactory(lib);
+    @BeforeClass
+    public static void setLinearAlgebraLibrary(){
+        LinearAlgebraConfig.setLibrary(LinearAlgebraLibrary.OJALGO);
     }
 
     @Before
     public void setUp(){
-        setLibrary(LinearAlgebraLibrary.OJALGO);
         low = Vector.FACTORY.makeVector(new double[] {1,2,3});
         high =  Vector.FACTORY.makeVector(new double[] {4,5,6});
         box = new Box(low, high);

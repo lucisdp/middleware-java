@@ -2,7 +2,6 @@ package linalg;
 
 import exceptions.EmptyVectorException;
 import exceptions.IncompatibleDimensionsException;
-import exceptions.LinearAlgebraLibraryNotFound;
 import exceptions.NormalizingZeroVectorException;
 
 /**
@@ -19,41 +18,29 @@ import exceptions.NormalizingZeroVectorException;
  */
 public abstract class Vector {
 
-    public static class FACTORY{
-        static private VectorFactory vectorFactory;
-
-        public static void setFactory(LinearAlgebraLibrary library){
-            switch (library){
-                case APACHE:
-                    vectorFactory = null;
-                    break;
-                case OJALGO:
-                    vectorFactory = new OjalgoVectorFactory();
-                    break;
-                case SIMPLE:
-                    vectorFactory = null;
-                    break;
-                default:
-                    throw new LinearAlgebraLibraryNotFound(library.name());
-            }
-        }
-
+    /**
+     * FACTORY, as the name implies, is a simple factory class providing a shortcut for Vector creation. It instantiates
+     * Vectors based on LinearAlgebraConfig configurations, so both APIs always give the same results. However,
+     * we are not able to directly set a new library from here, use LinearAlgebraConfig instead.
+     *
+     * @see LinearAlgebraConfig
+     */
+    public static class FACTORY {
         public static Vector makeVector(double[] values){
-            return vectorFactory.makeVector(values);
+            return LinearAlgebraConfig.getVectorFactory().makeVector(values);
         }
 
         public static Vector makeFilled(int dim, double value){
-            return vectorFactory.makeFilled(dim, value);
+            return LinearAlgebraConfig.getVectorFactory().makeFilled(dim, value);
         }
 
         public static Vector makeZero(int dim){
-            return vectorFactory.makeZero(dim);
+            return LinearAlgebraConfig.getVectorFactory().makeZero(dim);
         }
     }
 
     /**
-     * Vector's dimension
-     * @return dim attribute
+     * @return Vector's dimension.
      */
     public abstract int getDim();
 
@@ -63,10 +50,9 @@ public abstract class Vector {
     }
 
     /**
-     * Get value at position 'index'.
      * @param index: index of component to retrieve value
-     * @return value of component 'index'
-     * @throws ArrayIndexOutOfBoundsException if index is not valid
+     * @return Value at position 'index'.
+     * @throws ArrayIndexOutOfBoundsException if index is negative or larger than vector's size
      */
     public abstract double get(int index);
 
@@ -74,95 +60,83 @@ public abstract class Vector {
      * Sets the component 'index' to a new value.
      * @param index: index to set new value
      * @param newValue: new value to set in position
-     * @throws ArrayIndexOutOfBoundsException if index is not valid
+     * @throws ArrayIndexOutOfBoundsException if index is negative or larger than vector's size
      */
     public abstract void set(int index, double newValue);
 
     /**
-     * Adds a given value to all components of Vector.
-     * @param value: value to add to all components of vector
-     * @return new vector with the sum result
+     * @param value: value to add to each component of vecgor
+     * @return sum result
      */
     public abstract Vector add(double value);
 
     /**
-     * Performs vector addition.
-     * @param vector: vector to perform sum
-     * @return new vector with the sum result
-     * @throws IncompatibleDimensionsException if vectors have different sizes
+     * @param vector: vector to perform element-wise addition.
+     * @return sum result
+     * @throws IncompatibleDimensionsException if vectors have different dimensions
      */
     public abstract Vector add(Vector vector);
 
     /**
-     * Subtracts a given value to all components of Vector.
-     * @param value: value to subtract to all components of vector
-     * @return new vector with the subtraction result
+     * @param value: value to subtract from each component of vector
+     * @return subtraction result
      */
     public abstract Vector subtract(double value);
 
     /**
-     * Performs vector subtraction.
-     * @param vector: vector to perform subtraction
-     * @return new vector with the subtraction result
-     * @throws IncompatibleDimensionsException if vectors have different sizes
+     * @param vector: vector to perform element-wise subtraction.
+     * @return subtraction result
+     * @throws IncompatibleDimensionsException if vectors have different dimensions
      */
     public abstract Vector subtract(Vector vector);
 
     /**
-     * Multiplies a given value to all components of Vector.
      * @param value: value to multiply all components of vector with
-     * @return new vector with the multiplication result
+     * @return multiplication result
      */
     public abstract Vector multiply(double value);
 
     /**
-     * Performs vector element-wise multiplication.
      * @param vector: vector to perform element-wise multiplication.
-     * @return new vector with the multiplication result
+     * @return multiplication result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
     public abstract Vector multiply(Vector vector);
 
     /**
-     * Divides a given value to all components of Vector.
      * @param value: value to divide all components of vector with
-     * @return new vector with the division result
+     * @return division result
      */
     public abstract Vector divide(double value);
 
     /**
-     * Performs vector element-wise division.
      * @param vector: vector to perform element-wise division.
-     * @return new vector with the division result
+     * @return division result
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
     public abstract Vector divide(Vector vector);
 
     /**
-     * Computes the dot product between two vectors.
      * @param vector to perform scalar product
-     * @return Dot product result
+     * @return Dot product between the two vectors.
      * @throws IncompatibleDimensionsException if vectors have different sizes
      */
     public abstract double dot(Vector vector);
 
     /**
-     * Computes the scalar product of the vector with itself.
-     * @return squared norm of vector
+     * @return scalar product of the vector with itself.
      */
     public double sqNorm(){
         return this.dot(this);
     }
 
     /**
-     * Computes the vector's norm
-     * @return vector's norm
+     * @return Vector's norm
      */
     public abstract double norm();
 
     /**
-     * Normalizes a vector (divides it by its norm)
-     * @return normalized vector
+     * @return Unit vector parallel to this
      * @throws NormalizingZeroVectorException if vector is zero
      */
     public Vector normalize() {
@@ -172,15 +146,13 @@ public abstract class Vector {
     }
 
     /**
-     * Returns a copy of the vector's data in array format.
-     * @return values attribute
+     * @return a copy of the vector's data in array format.
      */
     public abstract double[] asArray();
 
     /**
-     * Checks whether all vector's components are equal to a given number, up to a tolerance of 1e-10.
      * @param value: number to compare components
-     * @return are all components equal to given value or not
+     * @return True if all components equal to given value or not
      */
     public boolean equals(double value) {
         for (int i=0; i < getDim(); i++){
@@ -191,9 +163,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks whether the corresponding components of the two vectors are equal, up to a tolerance of 1e-10.
      * @param vector: vector to compare with
-     * @return is equal or not
+     * @return True if all corresponding components of the two vectors are equal, up to a tolerance of 1e-10.
      * @throws IncompatibleDimensionsException if vectors have incompatible sizes
      */
     public boolean equals(Vector vector){
@@ -206,9 +177,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks if vector's components are all strictly smaller than value.
      * @param value: value to compare with components
-     * @return are all components strictly smaller than given value or not
+     * @return True if all components are strictly smaller than given value
      */
     public boolean isSmallerThan(double value){
         for (int i=0; i < getDim(); i++){
@@ -219,9 +189,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks whether this.get(i) &lt; vector.get(i), for all i.
      * @param vector: vector to compare with
-     * @return is equal or not
+     * @return Whether this.get(i) &lt; vector.get(i), for all i.
      * @throws IncompatibleDimensionsException if vectors have incompatible sizes
      */
     public boolean isSmallerThan(Vector vector){
@@ -234,9 +203,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks if vector's components are all smaller or equal than given value.
      * @param value: value to compare with components
-     * @return are all components smaller than given value or not
+     * @return True if all components are smaller than given value
      */
     public boolean isSmallerOrEqualThan(double value){
         for (int i=0; i < getDim(); i++){
@@ -247,9 +215,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks whether this.get(i) \(\leq\) vector.get(i), for all i.
      * @param vector: vector to compare with
-     * @return is equal or not
+     * @return Whether this.get(i) \(\leq\) vector.get(i), for all i.
      * @throws IncompatibleDimensionsException if vectors have incompatible sizes
      */
     public boolean isSmallerOrEqualThan(Vector vector){
@@ -262,9 +229,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks if vector's components are all larger than given value.
      * @param value: value to compare with components
-     * @return are all components strictly larger than given value or not
+     * @return True if all components are strictly larger than given value
      */
     public boolean isLargerThan(double value){
         for (int i=0; i < getDim(); i++){
@@ -275,9 +241,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks whether this.get(i) &gt; vector.get(i), for all i.
      * @param vector: vector to compare with
-     * @return is equal or not
+     * @return Whether this.get(i) &gt; vector.get(i), for all i.
      * @throws IncompatibleDimensionsException if vectors have incompatible sizes
      */
     public boolean isLargerThan(Vector vector){
@@ -290,9 +255,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks if vector's components are all larger or equal than given value.
      * @param value: value to compare with components
-     * @return are all components larger than given value or not
+     * @return True if all components larger than given value
      */
     public boolean isLargerOrEqualThan(double value){
         for (int i=0; i < getDim(); i++){
@@ -303,9 +267,8 @@ public abstract class Vector {
     }
 
     /**
-     * Checks whether this.get(i) \(\geq\) vector.get(i), for all i.
      * @param vector: vector to compare with
-     * @return is equal or not
+     * @return True if this.get(i) \(\geq\) vector.get(i), for all i.
      * @throws IncompatibleDimensionsException if vectors have incompatible sizes
      */
     public boolean isLargerOrEqualThan(Vector vector){
@@ -318,9 +281,9 @@ public abstract class Vector {
     }
 
     /**
-     * Append a value to the left of vector. This creates a new copy of the Vector.
+     * Appends a value to the left of vector. This creates a new copy of the Vector.
      * @param value: value to append
-     * @return new vector with 'value' appended to the left
+     * @return new vector
      */
 
     public Vector appendLeft(double value) {
@@ -332,10 +295,8 @@ public abstract class Vector {
     }
 
     /**
-     * Drops the 0-th component of vector, creating a new copy of Vector. It throws an exception is operation results
-     * would result in empty vector.
      * @return new vector with 0-th component excluded
-     * @throws EmptyVectorException if Vector has a single component
+     * @throws EmptyVectorException if resulting Vector would be empty
      */
     public Vector dropLeft(){
         if(getDim() == 1)
